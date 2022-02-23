@@ -42,6 +42,7 @@ const makeSUT = (): SUTTypes => {
 }
 
 describe('SignupController', () => {
+  // params tests
   test('Should return 400 if no email is provided', () => {
     const { sut } = makeSUT()
     const httpRequest = {
@@ -139,6 +140,28 @@ describe('SignupController', () => {
     const { sut, emailValidatorStub } = makeSUT()
 
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpRequest = {
+      body: {
+        name: 'name',
+        email: 'email@email.com',
+        password: 'abcde',
+        passwordConfirmation: 'abcde'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  // add user tests
+  test('Should return 500 if add user throw an error', () => {
+    const { sut, addUserStub } = makeSUT()
+
+    jest.spyOn(addUserStub, 'add').mockImplementationOnce(() => {
       throw new Error()
     })
 
