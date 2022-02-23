@@ -7,5 +7,5 @@ export interface AddUserModel {
 }
 
 export interface AddUser {
-  add (user: AddUserModel): UserModel
+  add (user: AddUserModel): Promise<UserModel>
 }
