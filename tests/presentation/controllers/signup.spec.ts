@@ -1,6 +1,6 @@
 import { SignUpController } from "../../../src/presentation/controllers/signup"
 import { InvalidParamError, MissingParamError } from "../../../src/presentation/errors/param-errors"
-import { ServerError } from "../../../src/presentation/errors/server-error"
+import { ServerError } from "../../../src/presentation/errors/server-errors"
 import { EmailValidator } from "../../../src/presentation/interfaces/email-validator"
 
 interface SUTTypes {
