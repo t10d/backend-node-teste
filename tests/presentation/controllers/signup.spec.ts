@@ -1,3 +1,5 @@
+import { UserModel } from "../../../src/domain/models/user"
+import { AddUser, AddUserModel } from "../../../src/domain/useCases/add-user"
 import { SignUpController } from "../../../src/presentation/controllers/signup"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { EmailValidator } from "../../../src/presentation/interfaces"
@@ -5,6 +7,7 @@ import { EmailValidator } from "../../../src/presentation/interfaces"
 interface SUTTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
+  addUserStub: AddUser
 }
 
 const makeSUT = (): SUTTypes => {
@@ -13,12 +16,28 @@ const makeSUT = (): SUTTypes => {
       return true
     }
   }
+
+  class AddUserStub implements AddUser {
+    add (user: AddUserModel): UserModel {
+      const fakeUser = {
+        id: 'id',
+        name: 'name',
+        email: 'email@email.com',
+        password: 'password'
+      }
+
+      return fakeUser
+    }
+  }
+
   const emailValidatorStub = new EmailValidatorStub()
-  const SUT = new SignUpController(emailValidatorStub)
+  const addUserStub = new AddUserStub()
+  const SUT = new SignUpController(emailValidatorStub, addUserStub)
 
   return {
     sut: SUT,
-    emailValidatorStub: emailValidatorStub
+    emailValidatorStub: emailValidatorStub,
+    addUserStub: addUserStub
   }
 }
 
@@ -135,5 +154,27 @@ describe('SignupController', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Should call AddUser with correct values', () => {
+    const { sut, addUserStub } = makeSUT()
+
+    const addSpy = jest.spyOn(addUserStub, 'add')
+
+    const httpRequest = {
+      body: {
+        name: 'name',
+        email: 'email@email.com',
+        password: 'abcde',
+        passwordConfirmation: 'abcde'
+      }
+    }
+
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'name',
+      email: 'email@email.com',
+      password: 'abcde'
+    })
   })
 })
