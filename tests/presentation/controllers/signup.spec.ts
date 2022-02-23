@@ -1,8 +1,8 @@
 import { UserModel } from "../../../src/domain/models/user"
 import { AddUser, AddUserModel } from "../../../src/domain/useCases/add-user"
-import { SignUpController } from "../../../src/presentation/controllers/signup"
+import { SignUpController } from "../../../src/presentation/controllers/signup/signup"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
-import { EmailValidator } from "../../../src/presentation/interfaces"
+import { EmailValidator } from "../../../src/presentation/interfaces/email-validator"
 
 interface SUTTypes {
   sut: SignUpController
