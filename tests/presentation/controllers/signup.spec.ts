@@ -200,4 +200,27 @@ describe('SignupController', () => {
       password: 'abcde'
     })
   })
+
+  // test correct status (200)
+  test('Should return 200 if all right', () => {
+    const { sut } = makeSUT()
+
+    const httpRequest = {
+      body: {
+        name: 'name',
+        email: 'email@email.com',
+        password: 'password',
+        passwordConfirmation: 'password'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      id: 'id',
+      name: 'name',
+      email: 'email@email.com',
+      password: 'password'
+    })
+  })
 })
