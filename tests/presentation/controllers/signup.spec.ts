@@ -1,5 +1,5 @@
 import { UserModel } from "../../../src/domain/models/user"
-import { AddUser, AddUserModel } from "../../../src/domain/useCases/add-user"
+import { AddUser, AddUserModel } from "../../../src/domain/useCases/addUser"
 import { SignUpController } from "../../../src/presentation/controllers/signup/signUp"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { EmailValidator } from "../../../src/presentation/interfaces/email-validator"
@@ -10,13 +10,16 @@ interface SUTTypes {
   addUserStub: AddUser
 }
 
-const makeSUT = (): SUTTypes => {
+const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
       return true
     }
   }
+  return new EmailValidatorStub()
+}
 
+const makeAddUserStub = (): AddUser => {
   class AddUserStub implements AddUser {
     async add (user: AddUserModel): Promise<UserModel> {
       const fakeUser = {
@@ -29,9 +32,12 @@ const makeSUT = (): SUTTypes => {
       return new Promise(resolve => resolve(fakeUser))
     }
   }
+  return new AddUserStub()
+}
 
-  const emailValidatorStub = new EmailValidatorStub()
-  const addUserStub = new AddUserStub()
+const makeSUT = (): SUTTypes => {
+  const emailValidatorStub = makeEmailValidator()
+  const addUserStub = makeAddUserStub()
   const SUT = new SignUpController(emailValidatorStub, addUserStub)
 
   return {
