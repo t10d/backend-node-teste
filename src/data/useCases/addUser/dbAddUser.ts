@@ -12,7 +12,7 @@ export class DbAddUser implements AddUser {
 
   async add (userData: AddUserModel): Promise<UserModel> {
     const hashedPassword = await this.encrypter.encrypt(userData.password)
-    await this.addUserRepository.add(Object.assign({}, userData, { password: hashedPassword }))
-    return new Promise(resolve => resolve(null))
+    const user = await this.addUserRepository.add(Object.assign({}, userData, { password: hashedPassword }))
+    return new Promise(resolve => resolve(user))
   }
 }
