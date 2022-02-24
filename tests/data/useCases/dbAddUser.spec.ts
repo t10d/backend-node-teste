@@ -61,7 +61,7 @@ describe('DbAddUser UseCase', () => {
     expect(encryptSpy).toHaveBeenCalledWith('any_password')
   })
 
-  test('Should error to be catched by SignUpController', async () => {
+  test('Should Encrypter error to be catched by SignUpController', async () => {
     const { sut, encrypterStub } = makeSUT()
     jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(
       new Promise((resolve, reject) => reject(new Error()))
@@ -93,5 +93,21 @@ describe('DbAddUser UseCase', () => {
       email: 'email@email.com',
       password: 'hashed_password'
     })
+  })
+
+  test('Should AddUserRepository error to be catched by SignUpController', async () => {
+    const { sut, addUserRepositoryStub } = makeSUT()
+    jest.spyOn(addUserRepositoryStub, 'add').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+    const userData = {
+      name: 'any_name',
+      email: 'email@email.com',
+      password: 'any_password'
+    }
+
+    const userPromise = sut.add(userData)
+
+    await expect(userPromise).rejects.toThrow()
   })
 })
