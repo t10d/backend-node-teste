@@ -1,6 +1,6 @@
 import { AddUserRepository } from "../../../src/data/interfaces/addUserRepo"
 import { UserFirestoreRepo } from "../../../src/infra/db/firestore/userFirestoreRepo"
-import { db } from "../../../src/infra/db/firestore/helpers/firestoreHelper"
+import { FirestoreHelper } from "../../../src/infra/db/firestore/helpers/firestoreHelper"
 interface SUTTypes {
   sut: AddUserRepository
 }
@@ -13,6 +13,10 @@ const makeSUT = (): SUTTypes => {
 }
 
 describe('AddUser Repository', () => {
+  beforeEach(async () => {
+    await FirestoreHelper.deleteAll('users')
+  })
+
   test('Should return an user on success', async () => {
     const { sut } = makeSUT()
 
