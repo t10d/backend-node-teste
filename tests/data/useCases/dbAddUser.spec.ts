@@ -110,4 +110,23 @@ describe('DbAddUser UseCase', () => {
 
     await expect(userPromise).rejects.toThrow()
   })
+
+  test('Should AddUserRepository return an user', async () => {
+    const { sut } = makeSUT()
+
+    const userData = {
+      name: 'any_name',
+      email: 'email@email.com',
+      password: 'any_password'
+    }
+
+    const user = await sut.add(userData)
+
+    await expect(user).toEqual({
+      id: 'id',
+      name: 'any_name',
+      email: 'email@email.com',
+      password: 'hashed_password'
+    })
+  })
 })
