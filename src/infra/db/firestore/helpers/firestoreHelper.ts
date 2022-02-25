@@ -14,6 +14,9 @@ export const FirestoreHelper = {
   },
 
   getCollection (name: string): FirebaseFirestore.CollectionReference {
+    if (!this.db) {
+      this.connect()
+    }
     return this.db.collection(name)
   },
 
