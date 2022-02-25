@@ -1,3 +1,4 @@
+import { UserModel } from "../../../src/domain/models"
 import { LogControllerDecorator } from "../../../src/main/decorators/logControllerDecorator"
 import { Controller, HttpRequest, HttpResponse } from "../../../src/presentation/interfaces"
 
@@ -6,18 +7,29 @@ interface SUTTypes {
   controllerStub: Controller
 }
 
+const makeFakeRequest = (): HttpRequest => ({
+  body: {
+    name: 'name',
+    email: 'email@email.com',
+    password: 'password',
+    passwordConfirmation: 'password'
+  }
+})
+
+const makeFakeResponse = (): HttpResponse => ({
+  statusCode: 200,
+  body: {
+    name: 'name',
+    email: 'email@email.com',
+    password: 'password',
+    passwordConfirmation: 'password'
+  }
+})
+
 const makeControllerStub = (): Controller => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-      const httpResponse = {
-        statusCode: 200,
-        body: {
-          name: 'name',
-          email: 'email@email.com',
-          password: 'password',
-          passwordConfirmation: 'password'
-        }
-      }
+      const httpResponse = makeFakeResponse()
       return new Promise(resolve => resolve(httpResponse))
     }
   }
@@ -39,15 +51,7 @@ describe('LogController Decorator', () => {
     const { sut, controllerStub } = makeSUT()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
 
-    const httpRequest = {
-      body: {
-        name: 'name',
-        email: 'email@email.com',
-        password: 'password',
-        passwordConfirmation: 'password'
-      }
-    }
-
+    const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
 
     expect(handleSpy).toHaveBeenCalledWith(httpRequest)
@@ -56,25 +60,9 @@ describe('LogController Decorator', () => {
   test('Should return the same result of the Controller', async () => {
     const { sut } = makeSUT()
 
-    const httpRequest = {
-      body: {
-        name: 'name',
-        email: 'email@email.com',
-        password: 'password',
-        passwordConfirmation: 'password'
-      }
-    }
-
+    const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse).toEqual({
-      statusCode: 200,
-      body: {
-        name: 'name',
-        email: 'email@email.com',
-        password: 'password',
-        passwordConfirmation: 'password'
-      }
-    })
+    expect(httpResponse).toEqual(makeFakeResponse())
   })
 })
