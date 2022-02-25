@@ -1,7 +1,7 @@
 import { Authentication } from "../../../src/domain/useCases/authentication"
 import { LoginController } from "../../../src/presentation/controllers/login/login"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
-import { badRequest, serverError } from "../../../src/presentation/helpers/http-helpers"
+import { badRequest, serverError, unauthorized } from "../../../src/presentation/helpers/http-helpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
 import { EmailValidator } from "../../../src/presentation/interfaces/email-validator"
 
@@ -105,5 +105,18 @@ describe('Login Controller', () => {
     await sut.handle(httpRequest)
 
     expect(authSpy).toHaveBeenCalledWith(httpRequest.body.email, httpRequest.body.password)
+  })
+
+  test('Should return 401 if user not find', async () => {
+    const { sut, authenticationStub } = makeSUT()
+
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
+      new Promise(resolve => resolve(null))
+    ) 
+
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
