@@ -1,6 +1,13 @@
-node_modules
-dist
-coverage
+# config
 .vscode
 keys
 .env
+
+# node
+node_modules
+
+# tests
+coverage
+
+# temp
+*budget*
