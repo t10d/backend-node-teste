@@ -19,7 +19,7 @@ export const FirestoreHelper = {
 
   async deleteAll (name: string): Promise<void> {
     const docs = await this.getCollection(name).listDocuments()
-    docs.forEach(doc => {
+    docs.forEach((doc: FirebaseFirestore.DocumentReference) => {
       doc.delete()
     })
   }
