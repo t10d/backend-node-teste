@@ -36,10 +36,4 @@ describe('AddUser Repository', () => {
     expect(user.email).toBe('email@email.com')
     expect(user.password).toBe('hashed_password')
   })
-
-  test('Should throws error to SignupController then throws', async () => {
-    const { sut } = makeSUT()
-
-    // pass
-  })
 })
