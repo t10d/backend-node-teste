@@ -2,7 +2,7 @@ import { DbAddUser } from "../../data/useCases/addUser/dbAddUser";
 import { UserFirestoreRepo } from "../../infra/db/firestore/userFirestoreRepo";
 import { BcriptAdapter } from "../../infra/security/bcriptAdapter";
 import { SignUpController } from "../../presentation/controllers/signup/signUp";
-import { EmailValidatorAdapter } from "../../utils/email-validator-adapter";
+import { EmailValidatorAdapter } from "../../utils/emailValidatorAdapter";
 
 export const makeSignUpController = (): SignUpController => {
   const salt = 12

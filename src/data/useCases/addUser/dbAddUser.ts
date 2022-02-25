@@ -1,11 +1,11 @@
 import { Encrypter } from "../../interfaces/encripter"
-import { UserModel, AddUser, AddUserModel, AddUserRepository } from "./interfaces"
+import { UserModel, AddUser, AddUserModel, UserRepository } from "./interfaces"
 
 export class DbAddUser implements AddUser {
   private readonly encrypter: Encrypter
-  private readonly addUserRepository: AddUserRepository
+  private readonly addUserRepository: UserRepository
 
-  constructor (encrypter: Encrypter, addUserRepository: AddUserRepository) {
+  constructor (encrypter: Encrypter, addUserRepository: UserRepository) {
     this.encrypter = encrypter
     this.addUserRepository = addUserRepository
   }

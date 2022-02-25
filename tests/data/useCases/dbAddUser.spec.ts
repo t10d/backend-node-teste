@@ -1,4 +1,4 @@
-import { AddUserRepository } from "../../../src/data/interfaces/addUserRepo"
+import { UserRepository } from "../../../src/data/interfaces/userRepo"
 import { Encrypter } from "../../../src/data/interfaces/encripter"
 import { DbAddUser } from "../../../src/data/useCases/addUser/dbAddUser"
 import { UserModel } from "../../../src/domain/models"
@@ -7,7 +7,7 @@ import { AddUserModel } from "../../../src/domain/useCases"
 interface SUTTypes {
   sut: DbAddUser
   encrypterStub: Encrypter
-  addUserRepositoryStub: AddUserRepository
+  userRepositoryStub: UserRepository
 }
 
 const makeEncrypter = (): Encrypter => {
@@ -19,8 +19,8 @@ const makeEncrypter = (): Encrypter => {
   return new EncrypterStub()
 }
 
-const makeAddUserRepository = (): AddUserRepository => {
-  class AddUserRepositoryStub implements AddUserRepository {
+const makeAddUserRepository = (): UserRepository => {
+  class UserRepositoryStub implements UserRepository {
     async add (userData: AddUserModel): Promise<UserModel> {
       const fakeUser = {
         id: 'id',
@@ -31,18 +31,18 @@ const makeAddUserRepository = (): AddUserRepository => {
       return new Promise(resolve => resolve(fakeUser))
     }
   }
-  return new AddUserRepositoryStub()
+  return new UserRepositoryStub()
 }
 
 const makeSUT = (): SUTTypes => {
   const encrypterStub = makeEncrypter()
-  const addUserRepositoryStub = makeAddUserRepository()
-  const sut = new DbAddUser(encrypterStub, addUserRepositoryStub)
+  const userRepositoryStub = makeAddUserRepository()
+  const sut = new DbAddUser(encrypterStub, userRepositoryStub)
 
   return {
     sut,
     encrypterStub,
-    addUserRepositoryStub
+    userRepositoryStub
   }
 }
 
@@ -77,9 +77,9 @@ describe('DbAddUser UseCase', () => {
     await expect(userPromise).rejects.toThrow()
   })
 
-  test('Should call AddUserRepository with correct values', async () => {
-    const { sut, addUserRepositoryStub } = makeSUT()
-    const addUserSpy = jest.spyOn(addUserRepositoryStub, 'add')
+  test('Should call UserRepository with correct values', async () => {
+    const { sut, userRepositoryStub } = makeSUT()
+    const addUserSpy = jest.spyOn(userRepositoryStub, 'add')
     const userData = {
       name: 'any_name',
       email: 'email@email.com',
@@ -95,9 +95,9 @@ describe('DbAddUser UseCase', () => {
     })
   })
 
-  test('Should AddUserRepository error to be catched by SignUpController', async () => {
-    const { sut, addUserRepositoryStub } = makeSUT()
-    jest.spyOn(addUserRepositoryStub, 'add').mockReturnValueOnce(
+  test('Should UserRepository error to be catched by SignUpController', async () => {
+    const { sut, userRepositoryStub } = makeSUT()
+    jest.spyOn(userRepositoryStub, 'add').mockReturnValueOnce(
       new Promise((resolve, reject) => reject(new Error()))
     )
     const userData = {
@@ -111,7 +111,7 @@ describe('DbAddUser UseCase', () => {
     await expect(userPromise).rejects.toThrow()
   })
 
-  test('Should AddUserRepository return an user', async () => {
+  test('Should UserRepository return an user', async () => {
     const { sut } = makeSUT()
 
     const userData = {
