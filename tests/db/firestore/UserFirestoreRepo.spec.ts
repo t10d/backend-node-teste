@@ -13,6 +13,10 @@ const makeSUT = (): SUTTypes => {
 }
 
 describe('AddUser Repository', () => {
+  beforeAll(() => {
+    FirestoreHelper.connect()
+  })
+
   beforeEach(async () => {
     await FirestoreHelper.deleteAll('users')
   })
