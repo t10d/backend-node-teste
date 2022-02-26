@@ -1,4 +1,4 @@
-import { Authentication } from "../../../src/domain/useCases/authentication"
+import { Authentication, AuthModel } from "../../../src/domain/useCases/authentication"
 import { LoginController } from "../../../src/presentation/controllers/login/login"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError, unauthorized } from "../../../src/presentation/helpers/httpHelpers"
@@ -13,7 +13,7 @@ interface SUTTypes {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (email: string, password: string): Promise<string> {
+    async auth (auth: AuthModel): Promise<string> {
       return new Promise(resolve => resolve('token'))
     }
   }
@@ -117,7 +117,9 @@ describe('Login Controller', () => {
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
 
-    expect(authSpy).toHaveBeenCalledWith(httpRequest.body.email, httpRequest.body.password)
+    expect(authSpy).toHaveBeenCalledWith(
+      { email: httpRequest.body.email, password: httpRequest.body.password 
+    })
   })
 
   test('Should return 401 if user not find', async () => {
