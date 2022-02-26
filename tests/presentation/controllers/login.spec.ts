@@ -1,9 +1,9 @@
 import { Authentication } from "../../../src/domain/useCases/authentication"
 import { LoginController } from "../../../src/presentation/controllers/login/login"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
-import { badRequest, ok, serverError, unauthorized } from "../../../src/presentation/helpers/http-helpers"
+import { badRequest, ok, serverError, unauthorized } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
-import { EmailValidator } from "../../../src/presentation/interfaces/email-validator"
+import { EmailValidator } from "../../../src/presentation/interfaces/emailValidator"
 
 interface SUTTypes {
   sut: LoginController

@@ -1,6 +1,6 @@
 import { Authentication } from "../../../domain/useCases/authentication"
 import { InvalidParamError, MissingParamError } from "../../errors"
-import { badRequest, ok, serverError, unauthorized } from "../../helpers/http-helpers"
+import { badRequest, ok, serverError, unauthorized } from "../../helpers/httpHelpers"
 import { Controller, HttpRequest, HttpResponse } from "../../interfaces"
 import { EmailValidator } from "./interfaces"
 

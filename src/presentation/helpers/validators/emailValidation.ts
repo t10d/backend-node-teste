@@ -1,5 +1,5 @@
 import { InvalidParamError } from "../../errors";
-import { EmailValidator } from "../../interfaces/email-validator";
+import { EmailValidator } from "../../interfaces/emailValidator";
 import { Validation } from "./validation";
 
 export class EmailValidation implements Validation {
@@ -9,7 +9,7 @@ export class EmailValidation implements Validation {
   ) {}
 
   validate(input: any): Error {
-    if (this.emailValidator.isValid(input[this.fieldName])) {
+    if (!this.emailValidator.isValid(input[this.fieldName])) {
       return new InvalidParamError(this.fieldName)
     }
   }

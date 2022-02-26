@@ -2,7 +2,7 @@ import { UserModel } from "../../../src/domain/models/user"
 import { AddUser, AddUserModel } from "../../../src/domain/useCases/addUser"
 import { SignUpController } from "../../../src/presentation/controllers/signup/signUp"
 import { MissingParamError, ServerError } from "../../../src/presentation/errors"
-import { badRequest, ok, serverError } from "../../../src/presentation/helpers/http-helpers"
+import { badRequest, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { Validation } from "../../../src/presentation/helpers/validators/validation"
 import { HttpRequest } from "../../../src/presentation/interfaces"
 

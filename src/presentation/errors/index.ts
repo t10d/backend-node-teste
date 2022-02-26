@@ -1,2 +1,2 @@
-export * from './param-errors'
-export * from './server-errors'
+export * from './paramErrors'
+export * from './serverError'

@@ -1,10 +1,10 @@
 import { makeSignUpValidation } from "../../../src/main/factories/makeSignupValidation"
 import { CompareFieldsValidation } from "../../../src/presentation/helpers/validators/compareFieldsValidation";
 import { EmailValidation } from "../../../src/presentation/helpers/validators/emailValidation";
-import { RequiredFieldValidation } from "../../../src/presentation/helpers/validators/requitedFieldValidation";
+import { RequiredFieldValidation } from "../../../src/presentation/helpers/validators/requiredFieldValidation";
 import { Validation } from "../../../src/presentation/helpers/validators/validation";
 import { ValidationComposite } from "../../../src/presentation/helpers/validators/validatorComposite"
-import { EmailValidator } from "../../../src/presentation/interfaces/email-validator";
+import { EmailValidator } from "../../../src/presentation/interfaces/emailValidator";
 
 jest.mock("../../../src/presentation/helpers/validators/validatorComposite")
 
@@ -30,4 +30,13 @@ describe('SignUpValidation Factory', () => {
     validations.push(new EmailValidation('email', makeEmailValidator()))
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   }) 
+
+  test('EmailValidation Should throw invalid email when email is invalid', () => {
+    const emailValidator = makeEmailValidator()
+    const sut = new EmailValidation('email', emailValidator)
+
+    jest.spyOn(emailValidator, 'isValid').mockReturnValueOnce(false)
+
+    expect(sut.validate).toThrow()
+  })
 })
