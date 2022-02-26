@@ -2,7 +2,7 @@ import { makeSignUpValidation } from "../../../src/main/factories/makeSignupVali
 import { CompareFieldsValidation } from "../../../src/presentation/helpers/validators/compareFieldsValidation";
 import { EmailValidation } from "../../../src/presentation/helpers/validators/emailValidation";
 import { RequiredFieldValidation } from "../../../src/presentation/helpers/validators/requiredFieldValidation";
-import { Validation } from "../../../src/presentation/helpers/validators/validation";
+import { Validation } from "../../../src/presentation/interfaces/validation";
 import { ValidationComposite } from "../../../src/presentation/helpers/validators/validatorComposite"
 import { EmailValidator } from "../../../src/presentation/interfaces/emailValidator";
 
