@@ -1,11 +1,10 @@
 import { UserModel } from "../../../src/domain/models/user"
 import { AddUser, AddUserModel } from "../../../src/domain/useCases/addUser"
 import { SignUpController } from "../../../src/presentation/controllers/signup/signUp"
-import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
+import { MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError } from "../../../src/presentation/helpers/http-helpers"
 import { Validation } from "../../../src/presentation/helpers/validators/validation"
 import { HttpRequest } from "../../../src/presentation/interfaces"
-import { EmailValidator } from "../../../src/presentation/interfaces/email-validator"
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -22,15 +21,6 @@ const makeUserModel = (): UserModel => ({
   email: 'email@email.com',
   password: 'password'
 })
-
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid (email: string): boolean {
-      return true
-    }
-  }
-  return new EmailValidatorStub()
-}
 
 const makeAddUserStub = (): AddUser => {
   class AddUserStub implements AddUser {
@@ -54,61 +44,23 @@ const makeValidation = (): Validation => {
 
 interface SUTTypes {
   sut: SignUpController
-  emailValidatorStub: EmailValidator
   addUserStub: AddUser
   validationStub: Validation
 }
 
 const makeSUT = (): SUTTypes => {
-  const emailValidatorStub = makeEmailValidator()
   const addUserStub = makeAddUserStub()
   const validationStub = makeValidation()
-  const SUT = new SignUpController(emailValidatorStub, addUserStub, validationStub)
+  const SUT = new SignUpController(addUserStub, validationStub)
 
   return {
     sut: SUT,
-    emailValidatorStub: emailValidatorStub,
     addUserStub: addUserStub,
     validationStub: validationStub
   }
 }
 
 describe('SignupController', () => {
-  test('Should return 400 if incorrect email is provided', async () => {
-    const { sut, emailValidatorStub } = makeSUT()
-
-    // force emailValidatorStub returns false
-    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-
-    const httpRequest = makeFakeRequest()
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
-  })
-
-  test('Should return 400 passwords dont match', async () => {
-    const { sut } = makeSUT()
-
-    const httpRequest = makeFakeRequest()
-    httpRequest.body.password = 'differentPassword'
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('passwordConfirmation')))
-  })
-
-  test('Should return 500 if email validator throw an error', async () => {
-    const { sut, emailValidatorStub } = makeSUT()
-
-    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error()
-    })
-
-    const httpRequest = makeFakeRequest()
-    const httpResponse = await sut.handle(httpRequest)
-    
-    expect(httpResponse).toEqual(serverError(new ServerError('Something went really wrong')))
-  })
-
   test('Should return 500 if add user throw an error', async () => {
     const { sut, addUserStub } = makeSUT()
 
