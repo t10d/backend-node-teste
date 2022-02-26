@@ -74,42 +74,6 @@ const makeSUT = (): SUTTypes => {
 }
 
 describe('SignupController', () => {
-  test('Should return 400 if no email is provided', async () => {
-    const { sut } = makeSUT()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.email
-    const httpResponse = await sut.handle(httpRequest)
-    
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')))
-  })
-
-  test('Should return 400 if no name is provided', async () => {
-    const { sut } = makeSUT()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.name
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('name')))
-  })
-
-  test('Should return 400 if no password is provided', async () => {
-    const { sut } = makeSUT()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.password
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')))
-  })
-
-  test('Should return 400 if no passwordConfirmation is provided', async () => {
-    const { sut } = makeSUT()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.passwordConfirmation
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('passwordConfirmation')))
-  })
-
   test('Should return 400 if incorrect email is provided', async () => {
     const { sut, emailValidatorStub } = makeSUT()
 
