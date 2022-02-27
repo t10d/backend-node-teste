@@ -42,7 +42,7 @@ describe('Bcript Adapter', () => {
     expect(hashedValue).toBe('hashedValue')
   }) 
 
-  test('Should BcriptAdapter error to be catched by SignUpController', async () => {
+  test('Should throws if BcriptAdapter.hash throws', async () => {
     const { sut } = makeSUT()
 
     // mock bcrypt with a thrown error
@@ -79,4 +79,17 @@ describe('Bcript Adapter', () => {
 
     expect(isValid).toBe(false)
   }) 
+
+  test('Should throws if BcriptAdapter.compare throws', async () => {
+    const { sut } = makeSUT()
+
+    // mock bcrypt with a thrown error
+    jest.spyOn(bcrypt, 'compare')
+      .mockImplementationOnce(
+        () => new Promise((resolve, rejects) => rejects(new Error())))
+
+    const promise = sut.compare('any_value', 'hash')
+
+    await expect(promise).rejects.toThrow()
+  })
 })
