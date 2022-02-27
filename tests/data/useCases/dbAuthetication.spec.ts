@@ -53,7 +53,7 @@ const makeSUT = (): SUTTypes => {
   }
 }
 
-describe('DbLogin UseCase', () => {
+describe('DbAuth UseCase', () => {
   test('Should DbAuth call LoadUserByEmail with correct email', async () => {
     const { sut, loadUserByEmailRepoStub } = makeSUT()
     const getSpy = jest.spyOn(loadUserByEmailRepoStub, 'load')
@@ -62,4 +62,14 @@ describe('DbLogin UseCase', () => {
 
     expect(getSpy).toHaveBeenCalledWith('email@email.com')
   })
-});
+
+  test('Should throw if LoadUserByEmailRepo throw an error', async () => {
+    const { sut, loadUserByEmailRepoStub } = makeSUT()
+    jest.spyOn(loadUserByEmailRepoStub, 'load')
+      .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+
+    const accessTokenPromise = sut.auth(makeFakeUserData()) 
+
+    await expect(accessTokenPromise).rejects.toThrow()
+  })
+})
