@@ -1,4 +1,4 @@
-import { Encrypter } from "../../interfaces/encripter"
+import { Encrypter } from "../../interfaces/security/encripter"
 import { UserModel, AddUser, AddUserModel, AddUserRepo } from "./interfaces"
 
 export class DbAddUser implements AddUser {
