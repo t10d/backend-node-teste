@@ -1,5 +1,5 @@
 import { UserModel } from "../../../src/domain/models"
-import { LoadUserByEmailRepo } from "../../../src/data/interfaces/db/loadUserByEmailRepo"
+import { GetUserByEmailRepo } from "../../../src/data/interfaces/db/getUserByEmailRepo"
 import { DbAuthentication } from "../../../src/data/useCases/authentication/dbAuthentication"
 import { HashComparer } from "../../../src/data/interfaces/security/hashComparer"
 import { TokenGenerator } from "../../../src/data/interfaces/security/tokenGenerator"
@@ -17,14 +17,14 @@ const makeFakeUserData = (): any => ({
   password: 'password'
 })
 
-const makeLoadUserByEmailRepo = (): LoadUserByEmailRepo => {
-  class LoadUserByEmailRepoStub implements LoadUserByEmailRepo {
-    async load (email: string): Promise<UserModel> {
+const makeGetUserByEmailRepo = (): GetUserByEmailRepo => {
+  class GetUserByEmailRepoStub implements GetUserByEmailRepo {
+    async loadByEmail (email: string): Promise<UserModel> {
       const user: UserModel = makeFakeUser()
       return new Promise(resolve => resolve(user))
     }
   }
-  return new LoadUserByEmailRepoStub()
+  return new GetUserByEmailRepoStub()
 }
 
 
@@ -58,18 +58,18 @@ const makeUpdateAccessTokenRepoStub = (): UpdateAccessTokenRepo => {
 interface SUTTypes {
   sut: DbAuthentication
   hashCompareStub: HashComparer
-  loadUserByEmailRepoStub: LoadUserByEmailRepo
+  getUserByEmailRepoStub: GetUserByEmailRepo
   tokenGeneratorStub: TokenGenerator
   updateAccessTokenRepoStub: UpdateAccessTokenRepo
 }
 
 const makeSUT = (): SUTTypes => {
   const hashCompareStub = makeHashCompareStub()
-  const loadUserByEmailRepoStub = makeLoadUserByEmailRepo()
+  const getUserByEmailRepoStub = makeGetUserByEmailRepo()
   const tokenGeneratorStub = makeTokenGeneratorStub()
   const updateAccessTokenRepoStub = makeUpdateAccessTokenRepoStub()
   const sut = new DbAuthentication(
-    loadUserByEmailRepoStub, 
+    getUserByEmailRepoStub, 
     hashCompareStub, 
     tokenGeneratorStub,
     updateAccessTokenRepoStub
@@ -78,25 +78,25 @@ const makeSUT = (): SUTTypes => {
   return {
     sut,
     hashCompareStub,
-    loadUserByEmailRepoStub,
+    getUserByEmailRepoStub,
     tokenGeneratorStub,
     updateAccessTokenRepoStub
   }
 }
 
 describe('DbAuth UseCase', () => {
-  test('Should call LoadUserByEmail with correct email', async () => {
-    const { sut, loadUserByEmailRepoStub } = makeSUT()
-    const getSpy = jest.spyOn(loadUserByEmailRepoStub, 'load')
+  test('Should call GetUserByEmail with correct email', async () => {
+    const { sut, getUserByEmailRepoStub } = makeSUT()
+    const getSpy = jest.spyOn(getUserByEmailRepoStub, 'loadByEmail')
 
     await sut.auth(makeFakeUserData()) 
 
     expect(getSpy).toHaveBeenCalledWith('email@email.com')
   })
 
-  test('Should throw if LoadUserByEmailRepo throw an error', async () => {
-    const { sut, loadUserByEmailRepoStub } = makeSUT()
-    jest.spyOn(loadUserByEmailRepoStub, 'load')
+  test('Should throw if GetUserByEmailRepo throw an error', async () => {
+    const { sut, getUserByEmailRepoStub } = makeSUT()
+    jest.spyOn(getUserByEmailRepoStub, 'loadByEmail')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
 
     const accessTokenPromise = sut.auth(makeFakeUserData()) 
@@ -104,9 +104,9 @@ describe('DbAuth UseCase', () => {
     await expect(accessTokenPromise).rejects.toThrow()
   })
 
-  test('Should return null if loadUserByEmailRepo return null', async () => {
-    const { sut, loadUserByEmailRepoStub } = makeSUT()
-    jest.spyOn(loadUserByEmailRepoStub, 'load').mockReturnValueOnce(null)
+  test('Should return null if getUserByEmailRepo return null', async () => {
+    const { sut, getUserByEmailRepoStub } = makeSUT()
+    jest.spyOn(getUserByEmailRepoStub, 'loadByEmail').mockReturnValueOnce(null)
 
     const accessToken = await sut.auth(makeFakeUserData()) 
 

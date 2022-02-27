@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt'
-import { Hasher } from '../../../src/data/interfaces/security/hasher'
 import { BcriptAdapter } from '../../../src/infra/security/bcriptAdapter'
 
 interface SUTTypes {
-  sut: Hasher
+  sut: BcriptAdapter
   salt: number
 }
 

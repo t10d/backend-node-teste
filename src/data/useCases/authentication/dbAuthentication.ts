@@ -1,16 +1,16 @@
 import { Authentication, AuthModel } from "./interfaces"
-import { LoadUserByEmailRepo, HashComparer, TokenGenerator, UpdateAccessTokenRepo } from "./interfaces"
+import { GetUserByEmailRepo, HashComparer, TokenGenerator, UpdateAccessTokenRepo } from "./interfaces"
 
 export class DbAuthentication implements Authentication {
   constructor(
-    private readonly loadUserByEmailRepo: LoadUserByEmailRepo,
+    private readonly getUserByEmailRepo: GetUserByEmailRepo,
     private readonly hashComparer: HashComparer,
     private readonly tokenGenerator: TokenGenerator,
     private readonly updateAccessTokenRepo: UpdateAccessTokenRepo
   ) {}
 
   async auth(auth: AuthModel): Promise<string> {
-    const user = await this.loadUserByEmailRepo.load(auth.email)
+    const user = await this.getUserByEmailRepo.loadByEmail(auth.email)
     if (user) {
       const comparerResult = await this.hashComparer.compare(auth.password, user.password)
       if (comparerResult) {

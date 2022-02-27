@@ -1,4 +1,4 @@
-export * from "../../interfaces/db/loadUserByEmailRepo"
+export * from "../../interfaces/db/getUserByEmailRepo"
 export * from "../../interfaces/security/hashComparer"
 export * from "../../interfaces/security/tokenGenerator"
 export * from "../../interfaces/db/updateAcessTokenRepo"
