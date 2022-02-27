@@ -1,4 +1,4 @@
-import { makeSignUpValidation } from "../../../src/main/factories/makeSignupValidation"
+import { makeSignUpValidation } from "../../../src/main/factories/signup/makeSignupValidation"
 import { CompareFieldsValidation } from "../../../src/presentation/helpers/validators/compareFieldsValidation";
 import { EmailValidation } from "../../../src/presentation/helpers/validators/emailValidation";
 import { RequiredFieldValidation } from "../../../src/presentation/helpers/validators/requiredFieldValidation";
