@@ -1,4 +1,4 @@
-import { UserModel } from "../../domain/models";
+import { UserModel } from "../../../domain/models";
 
 export interface LoadUserByEmailRepo {
   load (email: string): Promise<UserModel> 

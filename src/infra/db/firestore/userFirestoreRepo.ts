@@ -1,4 +1,4 @@
-import { AddUserRepo } from "../../../data/interfaces/addUserRepo"
+import { AddUserRepo } from "../../../data/interfaces/db/addUserRepo"
 import { UserModel } from "../../../domain/models"
 import { AddUserModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../firestore/helpers/firestoreHelper"

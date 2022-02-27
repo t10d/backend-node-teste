@@ -1,8 +1,5 @@
-import { Authentication, AuthModel } from "../../../domain/useCases/authentication"
-import { LoadUserByEmailRepo } from "../../interfaces/loadUserByEmailRepo";
-import { HashComparer } from "../../interfaces/security/hashComparer";
-import { TokenGenerator } from "../../interfaces/security/tokenGenerator";
-import { UpdateAccessTokenRepo } from "../../interfaces/updateAcessTokenRepo";
+import { Authentication, AuthModel } from "./interfaces"
+import { LoadUserByEmailRepo, HashComparer, TokenGenerator, UpdateAccessTokenRepo } from "./interfaces"
 
 export class DbAuthentication implements Authentication {
   constructor(

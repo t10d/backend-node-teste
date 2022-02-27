@@ -1,4 +1,4 @@
-import { AddUserRepo } from "../../../../src/data/interfaces/addUserRepo"
+import { AddUserRepo } from "../../../../src/data/interfaces/db/addUserRepo"
 import { UserFirestoreRepo } from "../../../../src/infra/db/firestore/userFirestoreRepo"
 import { FirestoreHelper } from "../../../../src/infra/db/firestore/helpers/firestoreHelper"
 

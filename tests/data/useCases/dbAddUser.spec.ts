@@ -1,4 +1,4 @@
-import { AddUserRepo } from "../../../src/data/interfaces/addUserRepo"
+import { AddUserRepo } from "../../../src/data/interfaces/db/addUserRepo"
 import { Encrypter } from "../../../src/data/interfaces/security/encripter"
 import { DbAddUser } from "../../../src/data/useCases/addUser/dbAddUser"
 import { UserModel } from "../../../src/domain/models"

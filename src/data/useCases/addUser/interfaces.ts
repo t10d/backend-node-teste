@@ -1,3 +1,3 @@
 export * from "../../../domain/models"
 export * from "../../../domain/useCases"
-export * from "../../interfaces/addUserRepo"
+export * from "../../interfaces/db/addUserRepo"
