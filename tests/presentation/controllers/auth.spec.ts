@@ -1,5 +1,5 @@
 import { Authentication, AuthModel } from "../../../src/domain/useCases/authentication"
-import { AuthController } from "../../../src/presentation/controllers/auth/auth"
+import { AuthController } from "../../../src/presentation/controllers/auth/authController"
 import { InvalidParamError, MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError, unauthorized } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"

@@ -1,6 +1,6 @@
 import { UserModel } from "../../../src/domain/models/userModel"
 import { AddUser, AddUserModel } from "../../../src/domain/useCases/addUser"
-import { SignUpController } from "../../../src/presentation/controllers/signup/signUp"
+import { SignUpController } from "../../../src/presentation/controllers/signup/signUpController"
 import { MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { Validation } from "../../../src/presentation/interfaces/validation"
