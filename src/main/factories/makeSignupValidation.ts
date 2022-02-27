@@ -3,7 +3,7 @@ import { EmailValidation } from "../../presentation/helpers/validators/emailVali
 import { RequiredFieldValidation } from "../../presentation/helpers/validators/requiredFieldValidation"
 import { Validation } from "../../presentation/interfaces/validation"
 import { ValidationComposite } from "../../presentation/helpers/validators/validatorComposite"
-import { EmailValidatorAdapter } from "../../utils/emailValidatorAdapter"
+import { EmailValidatorAdapter } from "../adapters/emailValidatorAdapter"
 
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: Validation[] = []
