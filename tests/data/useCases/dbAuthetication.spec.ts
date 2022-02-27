@@ -4,6 +4,7 @@ import { DbAuthentication } from "../../../src/data/useCases/authentication/dbAu
 import { HashComparer } from "../../../src/data/interfaces/security/hashComparer"
 import { TokenGenerator } from "../../../src/data/interfaces/security/tokenGenerator"
 import { UpdateAccessTokenRepo } from "../../../src/data/interfaces/db/updateAcessTokenRepo"
+import { Encrypter } from "../../../src/data/interfaces/security/Encrypter"
 
 const makeFakeUser = (): UserModel => ({
   id: 'id',
@@ -37,9 +38,9 @@ const makeHashCompareStub = (): HashComparer => {
   return new HashCompareStub()
 }
 
-const makeTokenGeneratorStub = (): TokenGenerator => {
-  class TokenGeneratorStub implements TokenGenerator {
-    async generate (id: string): Promise<string> {
+const makeTokenGeneratorStub = (): Encrypter => {
+  class TokenGeneratorStub implements Encrypter {
+    async encrypt (id: string): Promise<string> {
       return new Promise(resolve => resolve('token'))
     }
   }
@@ -48,7 +49,7 @@ const makeTokenGeneratorStub = (): TokenGenerator => {
 
 const makeUpdateAccessTokenRepoStub = (): UpdateAccessTokenRepo => {
   class UpdateAccessTokenRepoStub implements UpdateAccessTokenRepo {
-    async update (id: string, token: string): Promise<void> {
+    async updateAccessToken (id: string, token: string): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
@@ -59,7 +60,7 @@ interface SUTTypes {
   sut: DbAuthentication
   hashCompareStub: HashComparer
   getUserByEmailRepoStub: GetUserByEmailRepo
-  tokenGeneratorStub: TokenGenerator
+  tokenGeneratorStub: Encrypter
   updateAccessTokenRepoStub: UpdateAccessTokenRepo
 }
 
@@ -144,16 +145,16 @@ describe('DbAuth UseCase', () => {
 
   test('Should call TokenGenerator with correct id', async () => {
     const { sut, tokenGeneratorStub } = makeSUT()
-    const generateSpy = jest.spyOn(tokenGeneratorStub, 'generate')
+    const encryptSpy = jest.spyOn(tokenGeneratorStub, 'encrypt')
 
     await sut.auth(makeFakeUserData()) 
 
-    expect(generateSpy).toHaveBeenCalledWith('id')
+    expect(encryptSpy).toHaveBeenCalledWith('id')
   })
 
   test('Should throw if TokenGenerator throw an error', async () => {
     const { sut, tokenGeneratorStub } = makeSUT()
-    jest.spyOn(tokenGeneratorStub, 'generate')
+    jest.spyOn(tokenGeneratorStub, 'encrypt')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
 
     const accessTokenPromise = sut.auth(makeFakeUserData()) 
@@ -171,7 +172,7 @@ describe('DbAuth UseCase', () => {
 
   test('Should call UpdateAccessTokenRepo with correct values', async () => {
     const { sut, updateAccessTokenRepoStub } = makeSUT()
-    const updateSpy = jest.spyOn(updateAccessTokenRepoStub, 'update')
+    const updateSpy = jest.spyOn(updateAccessTokenRepoStub, 'updateAccessToken')
 
     await sut.auth(makeFakeUserData()) 
 
@@ -180,7 +181,7 @@ describe('DbAuth UseCase', () => {
 
   test('Should throw if UpdateAccessTokenRepo throw an error', async () => {
     const { sut, updateAccessTokenRepoStub } = makeSUT()
-    jest.spyOn(updateAccessTokenRepoStub, 'update')
+    jest.spyOn(updateAccessTokenRepoStub, 'updateAccessToken')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
 
     const accessTokenPromise = sut.auth(makeFakeUserData()) 

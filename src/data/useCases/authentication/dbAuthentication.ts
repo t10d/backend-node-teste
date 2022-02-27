@@ -1,11 +1,12 @@
+import { Encrypter } from "../../interfaces/security/Encrypter"
 import { Authentication, AuthModel } from "./interfaces"
-import { GetUserByEmailRepo, HashComparer, TokenGenerator, UpdateAccessTokenRepo } from "./interfaces"
+import { GetUserByEmailRepo, HashComparer, UpdateAccessTokenRepo } from "./interfaces"
 
 export class DbAuthentication implements Authentication {
   constructor(
     private readonly getUserByEmailRepo: GetUserByEmailRepo,
     private readonly hashComparer: HashComparer,
-    private readonly tokenGenerator: TokenGenerator,
+    private readonly encrypter: Encrypter,
     private readonly updateAccessTokenRepo: UpdateAccessTokenRepo
   ) {}
 
@@ -14,8 +15,8 @@ export class DbAuthentication implements Authentication {
     if (user) {
       const comparerResult = await this.hashComparer.compare(auth.password, user.password)
       if (comparerResult) {
-        const accessToken = await this.tokenGenerator.generate(user.id)
-        await this.updateAccessTokenRepo.update(user.id, accessToken)
+        const accessToken = await this.encrypter.encrypt(user.id)
+        await this.updateAccessTokenRepo.updateAccessToken(user.id, accessToken)
         return accessToken
       }
     }
