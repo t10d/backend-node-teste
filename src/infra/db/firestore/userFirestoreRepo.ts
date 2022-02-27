@@ -1,10 +1,11 @@
 import { AddUserRepo } from "../../../data/interfaces/db/addUserRepo"
 import { GetUserByEmailRepo } from "../../../data/interfaces/db/getUserByEmailRepo"
+import { UpdateAccessTokenRepo } from "../../../data/interfaces/db/updateAcessTokenRepo"
 import { UserModel } from "../../../domain/models"
 import { AddUserModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../firestore/helpers/firestoreHelper"
 
-export class UserFirestoreRepo implements AddUserRepo, GetUserByEmailRepo {
+export class UserFirestoreRepo implements AddUserRepo, GetUserByEmailRepo, UpdateAccessTokenRepo {
   async add (userData: AddUserModel): Promise<UserModel> {
     const user = FirestoreHelper.getCollection('users').doc()
     const userObject = { id: user.id, ...userData }
