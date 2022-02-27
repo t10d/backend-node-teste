@@ -1,5 +1,5 @@
 export * from '../../interfaces'
 export * from '../../interfaces/emailValidator'
 export * from '../../../domain/useCases/addUser'
-export * from '../../../domain/models/user'
+export * from '../../../domain/models/userModel'
 export * from '../../interfaces/validation'

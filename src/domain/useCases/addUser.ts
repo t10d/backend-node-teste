@@ -1,4 +1,4 @@
-import { UserModel } from "../models/user"
+import { UserModel } from "../models/userModel"
 
 export interface AddUserModel {
   name: string

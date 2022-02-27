@@ -1,4 +1,4 @@
-import { UserModel } from "../../../src/domain/models/user"
+import { UserModel } from "../../../src/domain/models/userModel"
 import { AddUser, AddUserModel } from "../../../src/domain/useCases/addUser"
 import { SignUpController } from "../../../src/presentation/controllers/signup/signUp"
 import { MissingParamError, ServerError } from "../../../src/presentation/errors"
