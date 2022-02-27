@@ -2,7 +2,7 @@ import request from 'supertest'
 import { FirestoreHelper } from '../../../src/infra/db/firestore/helpers/firestoreHelper'
 import app from '../../../src/main/config/app'
 
-describe('SignUp Router', () => {
+describe('POST /signup', () => {
   beforeAll(() => {
     FirestoreHelper.connect()
   })
@@ -11,7 +11,7 @@ describe('SignUp Router', () => {
     await FirestoreHelper.deleteAll('users')
   })
 
-  test('Should return an user on success', async () => {
+  test('Should return 200 and an user on signup success', async () => {
     await request(app)
       .post('/api/signup')
       .send({
@@ -21,5 +21,12 @@ describe('SignUp Router', () => {
         passwordConfirmation: 'password'
       })
       .expect(200)
+  })
+})
+
+
+describe('POST /auth', () => {
+  test('Should return 200 and an user on login success', async () => {
+    return
   })
 })
