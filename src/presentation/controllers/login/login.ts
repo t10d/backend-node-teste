@@ -5,13 +5,10 @@ import { Controller, HttpRequest, HttpResponse } from "../../interfaces"
 import { EmailValidator } from "./interfaces"
 
 export class LoginController implements Controller {
-  private readonly emailValidator: EmailValidator
-  private readonly authentication: Authentication
-
-  constructor (emailValidator: EmailValidator, authentication: Authentication) {
-    this.emailValidator = emailValidator
-    this.authentication = authentication
-  }
+  constructor (
+    private readonly emailValidator: EmailValidator,
+    private readonly authentication: Authentication
+  ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {

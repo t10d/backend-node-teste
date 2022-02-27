@@ -2,13 +2,10 @@ import { Hasher } from "../../interfaces/security/hasher"
 import { UserModel, AddUser, AddUserModel, AddUserRepo } from "./interfaces"
 
 export class DbAddUser implements AddUser {
-  private readonly hasher: Hasher
-  private readonly addUserRepository: AddUserRepo
-
-  constructor (hasher: Hasher, addUserRepository: AddUserRepo) {
-    this.hasher = hasher
-    this.addUserRepository = addUserRepository
-  }
+  constructor (
+    private readonly hasher: Hasher,
+    private readonly addUserRepository: AddUserRepo
+  ) {}
 
   async add (userData: AddUserModel): Promise<UserModel> {
     const hashedPassword = await this.hasher.hash(userData.password)
