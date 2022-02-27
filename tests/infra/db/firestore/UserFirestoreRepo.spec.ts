@@ -1,9 +1,9 @@
-import { UserRepository } from "../../../../src/data/interfaces/userRepo"
+import { AddUserRepo } from "../../../../src/data/interfaces/addUserRepo"
 import { UserFirestoreRepo } from "../../../../src/infra/db/firestore/userFirestoreRepo"
 import { FirestoreHelper } from "../../../../src/infra/db/firestore/helpers/firestoreHelper"
 
 interface SUTTypes {
-  sut: UserRepository
+  sut: AddUserRepo
 }
 
 const makeSUT = (): SUTTypes => {

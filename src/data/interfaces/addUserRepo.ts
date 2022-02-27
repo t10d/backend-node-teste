@@ -1,6 +1,6 @@
 import { UserModel } from "../../domain/models"
 import { AddUserModel } from "../../domain/useCases"
 
-export interface UserRepository {
+export interface AddUserRepo {
   add (userData: AddUserModel): Promise<UserModel>
 }

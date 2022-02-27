@@ -1,9 +1,9 @@
-import { UserRepository } from "../../../data/interfaces/userRepo"
+import { AddUserRepo } from "../../../data/interfaces/addUserRepo"
 import { UserModel } from "../../../domain/models"
 import { AddUserModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../firestore/helpers/firestoreHelper"
 
-export class UserFirestoreRepo implements UserRepository {
+export class UserFirestoreRepo implements AddUserRepo {
   async add (userData: AddUserModel): Promise<UserModel> {
     const user = FirestoreHelper.getCollection('users').doc()
     const userObject = { id: user.id, ...userData }
