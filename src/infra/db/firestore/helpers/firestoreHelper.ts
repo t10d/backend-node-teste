@@ -7,10 +7,12 @@ export const FirestoreHelper = {
   db: null as admin.firestore.Firestore,
 
   async connect (): Promise<void> {
-    admin.initializeApp({
-      credential: admin.credential.cert(firebaseKey)
-    })
-
+    if (!this.db) {
+      admin.initializeApp({
+        credential: admin.credential.cert(firebaseKey)
+      })
+    }
+    
     this.db = admin.firestore()
   },
 
