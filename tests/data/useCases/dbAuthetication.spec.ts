@@ -1,17 +1,7 @@
-import { Encrypter } from "../../../src/data/interfaces/encripter"
-import { AddUserRepo } from "../../../src/data/interfaces/addUserRepo"
 import { UserModel } from "../../../src/domain/models"
 import { LoadUserByEmailRepo } from "../../../src/data/interfaces/loadUserByEmailRepo"
 import { DbAuthentication } from "../../../src/data/useCases/authentication/dbAuthentication"
-
-const makeEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt (password: string): Promise<string> {
-      return new Promise(resolve => resolve('hashed_password'))
-    }
-  }
-  return new EncrypterStub()
-}
+import { HashComparer } from "../../../src/data/interfaces/security/hashComparer"
 
 const makeFakeUser = (): UserModel => ({
   id: 'id',
@@ -35,26 +25,36 @@ const makeLoadUserByEmailRepo = (): LoadUserByEmailRepo => {
   return new LoadUserByEmailRepoStub()
 }
 
+
+const makeHashCompareStub = (): HashComparer => {
+  class HashCompareStub implements HashComparer {
+    async compare (value: string, hash: string): Promise<boolean> {
+      return new Promise(resolve => resolve(true))
+    }
+  }
+  return new HashCompareStub()
+}
+
 interface SUTTypes {
   sut: DbAuthentication
-  encrypterStub: Encrypter
+  hashCompareStub: HashComparer
   loadUserByEmailRepoStub: LoadUserByEmailRepo
 }
 
 const makeSUT = (): SUTTypes => {
-  const encrypterStub = makeEncrypter()
+  const hashCompareStub = makeHashCompareStub()
   const loadUserByEmailRepoStub = makeLoadUserByEmailRepo()
-  const sut = new DbAuthentication(loadUserByEmailRepoStub)
+  const sut = new DbAuthentication(loadUserByEmailRepoStub, hashCompareStub)
 
   return {
     sut,
-    encrypterStub,
+    hashCompareStub,
     loadUserByEmailRepoStub
   }
 }
 
 describe('DbAuth UseCase', () => {
-  test('Should DbAuth call LoadUserByEmail with correct email', async () => {
+  test('Should call LoadUserByEmail with correct email', async () => {
     const { sut, loadUserByEmailRepoStub } = makeSUT()
     const getSpy = jest.spyOn(loadUserByEmailRepoStub, 'load')
 
@@ -80,5 +80,14 @@ describe('DbAuth UseCase', () => {
     const accessToken = await sut.auth(makeFakeUserData()) 
 
     expect(accessToken).toBeNull()
+  })
+
+  test('Should call HashComparer with correct password', async () => {
+    const { sut, hashCompareStub } = makeSUT()
+    const compareSpy = jest.spyOn(hashCompareStub, 'compare')
+
+    await sut.auth(makeFakeUserData()) 
+
+    expect(compareSpy).toHaveBeenCalledWith('password', 'hashed_password')
   })
 })
