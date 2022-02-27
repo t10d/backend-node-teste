@@ -19,7 +19,7 @@ const makeFakeUserData = (): any => ({
 
 const makeGetUserByEmailRepo = (): GetUserByEmailRepo => {
   class GetUserByEmailRepoStub implements GetUserByEmailRepo {
-    async loadByEmail (email: string): Promise<UserModel> {
+    async getByEmail (email: string): Promise<UserModel> {
       const user: UserModel = makeFakeUser()
       return new Promise(resolve => resolve(user))
     }
@@ -87,7 +87,7 @@ const makeSUT = (): SUTTypes => {
 describe('DbAuth UseCase', () => {
   test('Should call GetUserByEmail with correct email', async () => {
     const { sut, getUserByEmailRepoStub } = makeSUT()
-    const getSpy = jest.spyOn(getUserByEmailRepoStub, 'loadByEmail')
+    const getSpy = jest.spyOn(getUserByEmailRepoStub, 'getByEmail')
 
     await sut.auth(makeFakeUserData()) 
 
@@ -96,7 +96,7 @@ describe('DbAuth UseCase', () => {
 
   test('Should throw if GetUserByEmailRepo throw an error', async () => {
     const { sut, getUserByEmailRepoStub } = makeSUT()
-    jest.spyOn(getUserByEmailRepoStub, 'loadByEmail')
+    jest.spyOn(getUserByEmailRepoStub, 'getByEmail')
       .mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
 
     const accessTokenPromise = sut.auth(makeFakeUserData()) 
@@ -106,7 +106,7 @@ describe('DbAuth UseCase', () => {
 
   test('Should return null if getUserByEmailRepo return null', async () => {
     const { sut, getUserByEmailRepoStub } = makeSUT()
-    jest.spyOn(getUserByEmailRepoStub, 'loadByEmail').mockReturnValueOnce(null)
+    jest.spyOn(getUserByEmailRepoStub, 'getByEmail').mockReturnValueOnce(null)
 
     const accessToken = await sut.auth(makeFakeUserData()) 
 
