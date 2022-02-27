@@ -4,7 +4,7 @@ import { badRequest, ok, serverError, unauthorized } from "../../helpers/httpHel
 import { Controller, HttpRequest, HttpResponse } from "../../interfaces"
 import { EmailValidator } from "./interfaces"
 
-export class LoginController implements Controller {
+export class AuthController implements Controller {
   constructor (
     private readonly emailValidator: EmailValidator,
     private readonly authentication: Authentication
