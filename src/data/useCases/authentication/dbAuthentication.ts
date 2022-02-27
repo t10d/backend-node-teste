@@ -10,7 +10,7 @@ export class DbAuthentication implements Authentication {
   ) {}
 
   async auth(auth: AuthModel): Promise<string> {
-    const user = await this.getUserByEmailRepo.loadByEmail(auth.email)
+    const user = await this.getUserByEmailRepo.getByEmail(auth.email)
     if (user) {
       const comparerResult = await this.hashComparer.compare(auth.password, user.password)
       if (comparerResult) {
