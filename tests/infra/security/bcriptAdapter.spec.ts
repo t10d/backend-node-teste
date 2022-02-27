@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
-import { Encrypter } from '../../../src/data/interfaces/security/encripter'
+import { Hasher } from '../../../src/data/interfaces/security/hasher'
 import { BcriptAdapter } from '../../../src/infra/security/bcriptAdapter'
 
 interface SUTTypes {
-  sut: Encrypter
+  sut: Hasher
   salt: number
 }
 
@@ -26,14 +26,14 @@ describe('Bcript Adapter', () => {
   test('Should call bcrypt with correct value', async () => {
     const { sut, salt } = makeSUT()
     const hashSpy = jest.spyOn(bcrypt, 'hash')
-    await sut.encrypt('any_value')
+    await sut.hash('any_value')
 
     expect(hashSpy).toHaveBeenCalledWith('any_value', salt)
   })
 
   test('Should return a hash on success', async () => {
     const { sut } = makeSUT()
-    const hashedValue = await sut.encrypt('any_value')
+    const hashedValue = await sut.hash('any_value')
 
     expect(hashedValue).toBe('hashedValue')
   })
@@ -44,7 +44,7 @@ describe('Bcript Adapter', () => {
     // mock bcrypt with a thrown error
     jest.spyOn(bcrypt, 'hash').mockImplementation((pass, salt, cb) => cb(null, ''))
 
-    const promiseHashedValue = sut.encrypt('any_value')
+    const promiseHashedValue = sut.hash('any_value')
 
     await expect(promiseHashedValue).rejects.toThrow()
   })

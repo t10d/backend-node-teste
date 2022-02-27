@@ -1,10 +1,10 @@
-import { Encrypter } from "../../data/interfaces/security/encripter"
+import { Hasher } from "../../data/interfaces/security/hasher"
 import bcrypt from "bcrypt"
 
-export class BcriptAdapter implements Encrypter {
+export class BcriptAdapter implements Hasher {
   constructor (private readonly saltRounds: number) {}
 
-  async encrypt (value: any): Promise<string> {
+  async hash (value: any): Promise<string> {
     const hashedValue = await bcrypt.hash(value, this.saltRounds)
     return hashedValue
   }

@@ -8,9 +8,9 @@ import { makeSignUpValidation } from "./makeSignupValidation";
 
 export const makeSignUpController = (): Controller => {
   const salt = 12
-  const encrypter = new BcriptAdapter(salt)
+  const hasher = new BcriptAdapter(salt)
   const userFirestoreRepo = new UserFirestoreRepo()
-  const dbAddUser = new DbAddUser(encrypter, userFirestoreRepo)
+  const dbAddUser = new DbAddUser(hasher, userFirestoreRepo)
   const signUpController = new SignUpController(dbAddUser, makeSignUpValidation())
   return new LogControllerDecorator(signUpController)
 }

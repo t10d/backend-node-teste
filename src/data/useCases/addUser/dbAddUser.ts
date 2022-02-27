@@ -1,17 +1,17 @@
-import { Encrypter } from "../../interfaces/security/encripter"
+import { Hasher } from "../../interfaces/security/hasher"
 import { UserModel, AddUser, AddUserModel, AddUserRepo } from "./interfaces"
 
 export class DbAddUser implements AddUser {
-  private readonly encrypter: Encrypter
+  private readonly hasher: Hasher
   private readonly addUserRepository: AddUserRepo
 
-  constructor (encrypter: Encrypter, addUserRepository: AddUserRepo) {
-    this.encrypter = encrypter
+  constructor (hasher: Hasher, addUserRepository: AddUserRepo) {
+    this.hasher = hasher
     this.addUserRepository = addUserRepository
   }
 
   async add (userData: AddUserModel): Promise<UserModel> {
-    const hashedPassword = await this.encrypter.encrypt(userData.password)
+    const hashedPassword = await this.hasher.hash(userData.password)
     const user = await this.addUserRepository.add(Object.assign({}, userData, { password: hashedPassword }))
     return new Promise(resolve => resolve(user))
   }
