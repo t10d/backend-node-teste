@@ -3,6 +3,7 @@ import { LoadUserByEmailRepo } from "../../../src/data/interfaces/loadUserByEmai
 import { DbAuthentication } from "../../../src/data/useCases/authentication/dbAuthentication"
 import { HashComparer } from "../../../src/data/interfaces/security/hashComparer"
 import { TokenGenerator } from "../../../src/data/interfaces/security/tokenGenerator"
+import { UpdateAccessTokenRepo } from "../../../src/data/interfaces/updateAcessTokenRepo"
 
 const makeFakeUser = (): UserModel => ({
   id: 'id',
@@ -45,24 +46,41 @@ const makeTokenGeneratorStub = (): TokenGenerator => {
   return new TokenGeneratorStub()
 }
 
+const makeUpdateAccessTokenRepoStub = (): UpdateAccessTokenRepo => {
+  class UpdateAccessTokenRepoStub implements UpdateAccessTokenRepo {
+    async update (id: string, token: string): Promise<void> {
+      return new Promise(resolve => resolve())
+    }
+  }
+  return new UpdateAccessTokenRepoStub()
+}
+
 interface SUTTypes {
   sut: DbAuthentication
   hashCompareStub: HashComparer
   loadUserByEmailRepoStub: LoadUserByEmailRepo
   tokenGeneratorStub: TokenGenerator
+  updateAccessTokenRepoStub: UpdateAccessTokenRepo
 }
 
 const makeSUT = (): SUTTypes => {
   const hashCompareStub = makeHashCompareStub()
   const loadUserByEmailRepoStub = makeLoadUserByEmailRepo()
   const tokenGeneratorStub = makeTokenGeneratorStub()
-  const sut = new DbAuthentication(loadUserByEmailRepoStub, hashCompareStub, tokenGeneratorStub)
+  const updateAccessTokenRepoStub = makeUpdateAccessTokenRepoStub()
+  const sut = new DbAuthentication(
+    loadUserByEmailRepoStub, 
+    hashCompareStub, 
+    tokenGeneratorStub,
+    updateAccessTokenRepoStub
+  )
 
   return {
     sut,
     hashCompareStub,
     loadUserByEmailRepoStub,
-    tokenGeneratorStub
+    tokenGeneratorStub,
+    updateAccessTokenRepoStub
   }
 }
 
@@ -149,5 +167,14 @@ describe('DbAuth UseCase', () => {
     const accessToken = await sut.auth(makeFakeUserData()) 
 
     expect(accessToken).toBe('token')
+  })
+
+  test('Should call UpdateAccessTokenRepo with correct values', async () => {
+    const { sut, updateAccessTokenRepoStub } = makeSUT()
+    const updateSpy = jest.spyOn(updateAccessTokenRepoStub, 'update')
+
+    await sut.auth(makeFakeUserData()) 
+
+    expect(updateSpy).toHaveBeenCalledWith('id', 'token')
   })
 })
