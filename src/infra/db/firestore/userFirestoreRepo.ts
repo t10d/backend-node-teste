@@ -20,7 +20,12 @@ export class UserFirestoreRepo implements AddUserRepo, GetUserByEmailRepo, Updat
     const usersSnapshot = await usersCol.where('email', '==', email).get()
     if (!usersSnapshot.empty) {
       const userDoc = usersSnapshot.docs[0].data()
-      return FirestoreHelper.map(userDoc)
+      return {
+        id: userDoc.id,
+        name: userDoc.name,
+        email: userDoc.email,
+        password: userDoc.password
+      }
     }
     return null
   }
