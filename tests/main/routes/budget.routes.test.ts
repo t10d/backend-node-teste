@@ -41,3 +41,25 @@ describe('POST /budget', () => {
       .expect(400)
   })
 })
+
+describe('DELETE /budget', () => {
+  beforeAll(() => {
+    FirestoreHelper.connect()
+  })
+  
+  beforeEach(async () => {
+    await FirestoreHelper.deleteAll('budgets')
+  })
+
+  test('Should return 200 and an budget on delete success', async () => {
+    await request(app)
+      .delete('/api/budget/budget_id')
+      .expect(200)
+  })
+
+  test('Should return 404 if missing params or incorrect params', async () => {
+    await request(app)
+      .delete('/api/budget')
+      .expect(404)
+  })
+})
