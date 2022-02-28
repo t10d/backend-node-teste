@@ -1,7 +1,7 @@
 import { UserModel } from "../../../src/domain/models"
 import { GetUserByToken } from "../../../src/domain/useCases/getUserByToken"
 import { MissingAuthTokenError } from "../../../src/presentation/errors/missingAuthTokenError"
-import { forbidden } from "../../../src/presentation/helpers/httpHelpers"
+import { forbidden, ok } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
 import { Middleware } from "../../../src/presentation/interfaces/middleware"
 import { AuthMiddleware } from "../../../src/presentation/middlewares/authMiddleware"
@@ -67,5 +67,13 @@ describe('Auth Middleware', () => {
     const httpReponse = await sut.handle({})
 
     expect(httpReponse).toEqual(forbidden(new MissingAuthTokenError()))
+  })
+
+  test('Shoud return 200 if GetUserByToken returns an account', async () => {
+    const { sut, getUserByTokenStub } = makeSUT()
+
+    const httpReponse = await sut.handle(makeFakeRequest())
+
+    expect(httpReponse).toEqual(ok({ userID: 'id' }))
   })
 })
