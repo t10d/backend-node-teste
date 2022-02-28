@@ -65,7 +65,7 @@ describe('DbAddUser UseCase', () => {
     expect(hashSpy).toHaveBeenCalledWith(userData.password)
   })
 
-  test('Should Hasher error to be catched by SignUpController', async () => {
+  test('Should Hasher error to be catched by DbAddUser', async () => {
     const { sut, hasherStub } = makeSUT()
     jest.spyOn(hasherStub, 'hash').mockReturnValueOnce(
       new Promise((resolve, reject) => reject(new Error()))
@@ -90,7 +90,7 @@ describe('DbAddUser UseCase', () => {
     })
   })
 
-  test('Should AddUserRepo error to be catched by SignUpController', async () => {
+  test('Should AddUserRepo error to be catched by DbAddUser', async () => {
     const { sut, addUserRepoStub } = makeSUT()
     jest.spyOn(addUserRepoStub, 'add').mockReturnValueOnce(
       new Promise((resolve, reject) => reject(new Error()))
