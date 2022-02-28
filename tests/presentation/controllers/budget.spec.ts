@@ -59,7 +59,7 @@ const makeSUT = (): SUTTypes => {
   }
 }
 
-describe('SignupController', () => {
+describe('Budget Controller', () => {
   test('Should call AddBudget with correct values', async () => {
     const { sut, addBudgetStub } = makeSUT()
 
