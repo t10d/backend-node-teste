@@ -1,8 +1,8 @@
 import { BudgetModel } from "../../../src/domain/models/budgetModel"
 import { AddBudget, AddBudgetModel } from "../../../src/domain/useCases/addBudget"
 import { BudgetController } from "../../../src/presentation/controllers/budget/budgetController"
-import { MissingParamError } from "../../../src/presentation/errors"
-import { badRequest } from "../../../src/presentation/helpers/httpHelpers"
+import { MissingParamError, ServerError } from "../../../src/presentation/errors"
+import { badRequest, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
 import { Validation } from "../../../src/presentation/interfaces/validation"
 
@@ -94,5 +94,27 @@ describe('SignupController', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_param')))
+  })
+
+  test('Should return 500 if add user throw an error', async () => {
+    const { sut, addBudgetStub } = makeSUT()
+
+    jest.spyOn(addBudgetStub, 'add').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(serverError(new ServerError('Something went really wrong')))
+  })
+
+  test('Should return 200 if all right', async () => {
+    const { sut } = makeSUT()
+
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(ok(makeBudgetModel()))
   })
 })
