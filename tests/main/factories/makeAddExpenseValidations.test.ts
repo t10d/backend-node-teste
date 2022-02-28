@@ -10,7 +10,7 @@ describe('ExpenseValidation Factory', () => {
     makeAddExpenseValidation()
     const validations: Validation[] = []
 
-    for (const field of ["id", "name", "category", "realized", "projected", "type", "budgetId"]) {
+    for (const field of ["name", "category", "realized", "projected", "type", "budgetId"]) {
       validations.push(new RequiredFieldValidation(field))
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
