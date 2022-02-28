@@ -4,8 +4,8 @@ import app from "../../../src/main/config/app"
 
 const makeBudget = (): any => ({
   name: 'budget_name',
-  total_realized: 42,
-  total_projected: 420
+  totalRealized: 42,
+  totalProjected: 420
 })
 
 describe('POST /budget', () => {
@@ -29,14 +29,14 @@ describe('POST /budget', () => {
       .post('/api/budget')
       .send({
         name: 'budget_name',
-        total_realized: 42
+        totalRealized: 42
       })
       .expect(400)
 
     await request(app)
       .post('/api/budget')
       .send({
-        total_projected: 420
+        totalProjected: 420
       })
       .expect(400)
   })

@@ -9,16 +9,16 @@ import { Validation } from "../../../src/presentation/interfaces/validation"
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'budget_name',
-    total_realized: 42,
-    total_projected: 420
+    totalRealized: 42,
+    totalProjected: 420
   }
 })
 
 const makeBudgetModel = (): BudgetModel => ({
   id: 'id',
   name: 'budget_name',
-  total_realized: 42,
-  total_projected: 420
+  totalRealized: 42,
+  totalProjected: 420
 })
 
 const makeAddBudgetStub = (): AddBudget => {

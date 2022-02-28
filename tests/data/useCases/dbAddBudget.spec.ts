@@ -5,15 +5,15 @@ import { AddBudgetModel } from "../../../src/domain/useCases/addBudget"
 
 const makeFakeBudgetData = (): any => ({
   name: 'budget_name',
-  total_realized: 42,
-  total_projected: 420
+  totalRealized: 42,
+  totalProjected: 420
 })
 
 const makeFakeBudget = (): BudgetModel => ({
   id: 'id',
   name: 'budget_name',
-  total_realized: 42,
-  total_projected: 420
+  totalRealized: 42,
+  totalProjected: 420
 })
 
 const makeAddBudgetRepoStub = (): AddBudgetRepo => {

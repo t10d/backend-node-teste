@@ -2,9 +2,9 @@ import { RequiredFieldValidation } from "../../../presentation/helpers/validator
 import { ValidationComposite } from "../../../presentation/helpers/validators/validatorComposite"
 import { Validation } from "../../../presentation/interfaces/validation"
 
-export const makeBudgetValidation = (): ValidationComposite => {
+export const makeAddBudgetValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  for (const field of ['name', 'total_realized', 'total_projected']) {
+  for (const field of ['name', 'totalRealized', 'totalProjected']) {
     validations.push(new RequiredFieldValidation(field))
   }
   return new ValidationComposite(validations)
