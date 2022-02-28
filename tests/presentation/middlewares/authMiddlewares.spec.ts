@@ -28,9 +28,9 @@ interface SUTTypes {
   getUserByTokenStub: GetUserByToken
 }
 
-const makeSUT = (): SUTTypes => {
+const makeSUT = (role?: string): SUTTypes => {
   const getUserByTokenStub = makeGetUserByTokenStub()
-  const sut = new AuthMiddleware(getUserByTokenStub)
+  const sut = new AuthMiddleware(getUserByTokenStub, role)
 
   return {
     sut,
@@ -53,11 +53,11 @@ describe('Auth Middleware', () => {
   })
 
   test('Shoud call GetUserByToken with correct accessToken', async () => {
-    const { sut, getUserByTokenStub } = makeSUT()
+    const { sut, getUserByTokenStub } = makeSUT('any_role')
     const getSpy = jest.spyOn(getUserByTokenStub, 'getByToken')
     await sut.handle(makeFakeRequest())
 
-    expect(getSpy).toHaveBeenCalledWith('token')
+    expect(getSpy).toHaveBeenCalledWith('token', 'any_role')
   })
 
   test('Shoud return 403 if GetUserByToken returns null', async () => {
@@ -84,7 +84,7 @@ describe('Auth Middleware', () => {
     jest.spyOn(getUserByTokenStub, 'getByToken').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
-    
+
     const httpResponse = await sut.handle(makeFakeRequest())
 
     expect(httpResponse).toEqual(serverError(new ServerError('Internal error')))
