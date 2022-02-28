@@ -1,7 +1,8 @@
 import { UserModel } from "../../../src/domain/models"
 import { GetUserByToken } from "../../../src/domain/useCases/getUserByToken"
+import { ServerError } from "../../../src/presentation/errors"
 import { MissingAuthTokenError } from "../../../src/presentation/errors/missingAuthTokenError"
-import { forbidden, ok } from "../../../src/presentation/helpers/httpHelpers"
+import { forbidden, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
 import { Middleware } from "../../../src/presentation/interfaces/middleware"
 import { AuthMiddleware } from "../../../src/presentation/middlewares/authMiddleware"
@@ -68,12 +69,24 @@ describe('Auth Middleware', () => {
 
     expect(httpReponse).toEqual(forbidden(new MissingAuthTokenError()))
   })
-
+ 
   test('Shoud return 200 if GetUserByToken returns an account', async () => {
-    const { sut, getUserByTokenStub } = makeSUT()
+    const { sut } = makeSUT()
 
     const httpReponse = await sut.handle(makeFakeRequest())
 
     expect(httpReponse).toEqual(ok({ userID: 'id' }))
+  })
+
+  test('Should return 500 if GetUserByToken throw an error', async () => {
+    const { sut, getUserByTokenStub } = makeSUT()
+
+    jest.spyOn(getUserByTokenStub, 'getByToken').mockImplementationOnce(async () => {
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
+    
+    const httpResponse = await sut.handle(makeFakeRequest())
+
+    expect(httpResponse).toEqual(serverError(new ServerError('Internal error')))
   })
 })
