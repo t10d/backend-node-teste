@@ -5,4 +5,5 @@ export interface ExpenseModel {
   realized: number
   projected: number
   type: string
+  budgetId: string
 }

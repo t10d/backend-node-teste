@@ -56,7 +56,7 @@ describe('Budget Repository', () => {
   test('Should return null on getById failure', async () => {
     const { sut } = makeSUT()
 
-    const budget = await sut.getById('email@email.com')
+    const budget = await sut.getById('any_not_found_id')
 
     expect(budget).toBeNull()
   })

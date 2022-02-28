@@ -12,7 +12,8 @@ const makeFakeRequest = (): HttpRequest => ({
     category: 'food',
     realized: 420,
     projected: 500,
-    type: 'variable'
+    type: 'variable',
+    budgetId: 'budget_id'
   }
 })
 
@@ -22,7 +23,8 @@ const makeExpenseModel = (): ExpenseModel => ({
   category: 'food',
   realized: 420,
   projected: 500,
-  type: 'variable'
+  type: 'variable',
+  budgetId: 'budget_id'
 })
 
 const makeAddExpenseStub = (): AddExpense => {
