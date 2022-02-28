@@ -1,5 +1,5 @@
-import { DeleteExpenseByIdRepo } from "../../../data/interfaces/db/deleteExpenseById"
-import { GetExpenseByIdRepo } from "../../../data/interfaces/db/getExpenseById"
+import { DeleteExpenseByIdRepo } from "../../../data/interfaces/db/expense/deleteExpenseById"
+import { GetExpenseByIdRepo } from "../../../data/interfaces/db/expense/getExpenseById"
 import { AddExpenseRepo } from "../../../data/useCases/expense/interfaces"
 import { ExpenseModel } from "../../../domain/models"
 import { AddExpenseModel } from "../../../domain/useCases"

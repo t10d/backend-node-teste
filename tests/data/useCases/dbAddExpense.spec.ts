@@ -1,4 +1,4 @@
-import { AddExpenseRepo } from "../../../src/data/interfaces/db/addExpenseRepo"
+import { AddExpenseRepo } from "../../../src/data/interfaces/db/expense/addExpenseRepo"
 import { DbAddExpense } from "../../../src/data/useCases/expense/dbAddExpense"
 import { ExpenseModel } from "../../../src/domain/models"
 import { AddExpenseModel } from "../../../src/domain/useCases"
