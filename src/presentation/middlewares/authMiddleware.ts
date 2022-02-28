@@ -7,14 +7,15 @@ import { Middleware } from "../interfaces/middleware";
 
 export class AuthMiddleware implements Middleware {
   constructor (
-    private readonly getUserByToken: GetUserByToken
+    private readonly getUserByToken: GetUserByToken,
+    private readonly role?: string
   ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const accessToken = httpRequest.headers?.['x-access-token']
       if (accessToken) {
-        const user = await this.getUserByToken.getByToken(accessToken)
+        const user = await this.getUserByToken.getByToken(accessToken, this.role)
         if (user) {
           return ok({ userID: user.id })
         }
