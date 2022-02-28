@@ -1,14 +1,10 @@
 import { AddUserRepo } from "../../../src/data/interfaces/db/addUserRepo"
+import { GetUserByEmailRepo } from "../../../src/data/interfaces/db/getUserByEmailRepo"
 import { Hasher } from "../../../src/data/interfaces/security/hasher"
 import { DbAddUser } from "../../../src/data/useCases/addUser/dbAddUser"
 import { UserModel } from "../../../src/domain/models"
 import { AddUserModel } from "../../../src/domain/useCases"
 
-interface SUTTypes {
-  sut: DbAddUser
-  hasherStub: Hasher
-  addUserRepoStub: AddUserRepo
-}
 
 const makeHasher = (): Hasher => {
   class HasherStub implements Hasher {
@@ -35,22 +31,39 @@ const makeFakeUserData = (): any => ({
 const makeAddUserRepository = (): AddUserRepo => {
   class UserRepositoryStub implements AddUserRepo {
     async add (userData: AddUserModel): Promise<UserModel> {
-      const fakeUser = makeFakeUser()
-      return new Promise(resolve => resolve(fakeUser))
+      return new Promise(resolve => resolve(makeFakeUser()))
     }
   }
   return new UserRepositoryStub()
 }
 
+const makeGetUserByEmailRepo = (): GetUserByEmailRepo => {
+  class GetUserByEmailRepoStub implements GetUserByEmailRepo {
+    async getByEmail (email: string): Promise<UserModel> {
+      return new Promise(resolve => resolve(null))
+    }
+  }
+  return new GetUserByEmailRepoStub()
+}
+
+interface SUTTypes {
+  sut: DbAddUser
+  hasherStub: Hasher
+  addUserRepoStub: AddUserRepo
+  getUserByEmailRepoStub: GetUserByEmailRepo
+}
+
 const makeSUT = (): SUTTypes => {
   const hasherStub = makeHasher()
   const addUserRepoStub = makeAddUserRepository()
-  const sut = new DbAddUser(hasherStub, addUserRepoStub)
+  const getUserByEmailRepoStub = makeGetUserByEmailRepo()
+  const sut = new DbAddUser(hasherStub, addUserRepoStub, getUserByEmailRepoStub)
 
   return {
     sut,
     hasherStub,
-    addUserRepoStub
+    addUserRepoStub,
+    getUserByEmailRepoStub
   }
 }
 
@@ -104,10 +117,30 @@ describe('DbAddUser UseCase', () => {
 
   test('Should AddUserRepo return an user', async () => {
     const { sut } = makeSUT()
-    const userData = makeFakeUserData()
 
-    const user = await sut.add(userData)
+    const user = await sut.add(makeFakeUserData())
+
+    console.log(user)
 
     expect(user).toEqual(makeFakeUser())
+  })
+
+  test('Should return null if getUserByEmail doesnt return null', async () => {
+    const { sut, getUserByEmailRepoStub } = makeSUT()
+
+    jest.spyOn(getUserByEmailRepoStub, 'getByEmail')
+      .mockReturnValueOnce(new Promise(resolve => resolve(makeFakeUser())))
+    const user = await sut.add(makeFakeUserData())
+
+    expect(user).toBeNull()
+  })
+
+  test('Should call GetUserByEmail with correct email', async () => {
+    const { sut, getUserByEmailRepoStub } = makeSUT()
+    const getSpy = jest.spyOn(getUserByEmailRepoStub, 'getByEmail')
+
+    await sut.add(makeFakeUserData())
+
+    expect(getSpy).toHaveBeenCalledWith('email@email.com')
   })
 })
