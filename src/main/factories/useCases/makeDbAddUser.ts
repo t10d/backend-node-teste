@@ -6,5 +6,5 @@ export const makeDbAddUser = (): DbAddUser => {
   const salt = 12
   const hasher = new BcriptAdapter(salt)
   const userFirestoreRepo = new UserFirestoreRepo()
-  return new DbAddUser(hasher, userFirestoreRepo)
+  return new DbAddUser(hasher, userFirestoreRepo, userFirestoreRepo)
 }
