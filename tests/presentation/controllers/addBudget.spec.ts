@@ -1,6 +1,6 @@
 import { BudgetModel } from "../../../src/domain/models/budgetModel"
 import { AddBudget, AddBudgetModel } from "../../../src/domain/useCases/addBudget"
-import { BudgetController } from "../../../src/presentation/controllers/budget/budgetController"
+import { AddBudgetController } from "../../../src/presentation/controllers/budget/addBudgetController"
 import { MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
@@ -42,7 +42,7 @@ const makeValidation = (): Validation => {
 }
 
 interface SUTTypes {
-  sut: BudgetController
+  sut: AddBudgetController
   addBudgetStub: AddBudget
   validationStub: Validation
 }
@@ -50,7 +50,7 @@ interface SUTTypes {
 const makeSUT = (): SUTTypes => {
   const addBudgetStub = makeAddBudgetStub()
   const validationStub = makeValidation()
-  const SUT = new BudgetController(addBudgetStub, validationStub)
+  const SUT = new AddBudgetController(addBudgetStub, validationStub)
 
   return {
     sut: SUT,

@@ -1,4 +1,4 @@
-import { makeBudgetValidation } from "../../../src/main/factories/budget/makeBudgetValidation"
+import { makeBudgetValidation } from "../../../src/main/factories/budget/makeAddBudgetValidation"
 import { RequiredFieldValidation } from "../../../src/presentation/helpers/validators/requiredFieldValidation"
 import { ValidationComposite } from "../../../src/presentation/helpers/validators/validatorComposite"
 import { Validation } from "../../../src/presentation/interfaces/validation"

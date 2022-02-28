@@ -2,7 +2,7 @@ import { AddBudget } from "../../../domain/useCases/addBudget"
 import { badRequest, ok, serverError } from "../../helpers/httpHelpers"
 import { Controller, HttpRequest, HttpResponse, Validation } from "./interfaces"
 
-export class BudgetController implements Controller {
+export class AddBudgetController implements Controller {
   constructor (
     private readonly addBudget: AddBudget, 
     private readonly validation: Validation

@@ -1,5 +1,5 @@
 import { AddBudgetRepo } from "../../../src/data/interfaces/db/addBudgetRepo"
-import { DbAddBudget } from "../../../src/data/useCases/budget/dbBudget"
+import { DbAddBudget } from "../../../src/data/useCases/budget/dbAddBudget"
 import { BudgetModel } from "../../../src/domain/models/budgetModel"
 import { AddBudgetModel } from "../../../src/domain/useCases/addBudget"
 
