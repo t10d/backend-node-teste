@@ -58,4 +58,14 @@ describe('Auth Middleware', () => {
 
     expect(getSpy).toHaveBeenCalledWith('token')
   })
+
+  test('Shoud return 403 if GetUserByToken returns null', async () => {
+    const { sut, getUserByTokenStub } = makeSUT()
+    jest.spyOn(getUserByTokenStub, 'getByToken').mockReturnValueOnce(
+      new Promise(resolve => resolve(null))
+    )
+    const httpReponse = await sut.handle({})
+
+    expect(httpReponse).toEqual(forbidden(new MissingAuthTokenError()))
+  })
 })
