@@ -1,7 +1,7 @@
 {
   "name": "backend-node-teste",
   "version": "1.0.0",
-  "description": "Teste Backend T10",
+  "description": "NodeJS Backend API",
   "main": "index.js",
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
