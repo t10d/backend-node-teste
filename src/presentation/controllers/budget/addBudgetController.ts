@@ -16,10 +16,10 @@ export class AddBudgetController implements Controller {
         return badRequest(error)
       }
 
-      const { name, total_realized, total_projected } = httpRequest.body
+      const { name, totalRealized, totalProjected } = httpRequest.body
 
       const budget = await this.addBudget.add({
-        name, total_realized, total_projected
+        name, totalRealized, totalProjected
       })
 
       return ok(budget)

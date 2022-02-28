@@ -22,8 +22,8 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
       return {
         id: budget.id,
         name: budget.name,
-        total_realized: budget.total_realized,
-        total_projected: budget.total_projected
+        totalRealized: budget.totalRealized,
+        totalProjected: budget.totalProjected
       }
     }
     return null
