@@ -15,8 +15,8 @@ const makeSUT = (): SUTTypes => {
 
 const makeAddBudget = (): AddBudgetModel => ({
   name: 'budget_name',
-  total_realized: 42,
-  total_projected: 420.42
+  totalRealized: 42,
+  totalProjected: 420.42
 })
 
 describe('Budget Repository', () => {
@@ -36,8 +36,8 @@ describe('Budget Repository', () => {
     expect(budget).toBeTruthy()
     expect(budget.id).toBeTruthy()
     expect(budget.name).toBe('budget_name')
-    expect(budget.total_realized).toBe(42)
-    expect(budget.total_projected).toBe(420.42)
+    expect(budget.totalRealized).toBe(42)
+    expect(budget.totalProjected).toBe(420.42)
   })
 
   test('Should return an budget on getById success', async () => {
@@ -49,8 +49,8 @@ describe('Budget Repository', () => {
     expect(budget).toBeTruthy()
     expect(budget.id).toBeTruthy()
     expect(budget.name).toBe('budget_name')
-    expect(budget.total_realized).toBe(42)
-    expect(budget.total_projected).toBe(420.42)
+    expect(budget.totalRealized).toBe(42)
+    expect(budget.totalProjected).toBe(420.42)
   })
 
   test('Should return null on getById failure', async () => {
