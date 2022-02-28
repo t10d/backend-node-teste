@@ -1,8 +1,9 @@
 import { AddBudgetRepo } from "../../../data/interfaces/db/addBudgetRepo"
 import { DeleteBudgetByIdRepo } from "../../../data/interfaces/db/deleteBudgetById"
 import { GetBudgetByIdRepo } from "../../../data/interfaces/db/getBudgetById"
-import { BudgetModel } from "../../../domain/models"
+import { BudgetModel, ExpenseModel } from "../../../domain/models"
 import { AddBudgetModel } from "../../../domain/useCases"
+import budgetRoutes from "../../../main/routes/budget.routes"
 import { FirestoreHelper } from "./helpers/firestoreHelper"
 
 export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, DeleteBudgetByIdRepo {
@@ -18,12 +19,17 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
   async getById(id: string): Promise<BudgetModel> {
     const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
     const budget = (await budgetDoc.get()).data()
+    const expensesPromise = budget.expenses.map(
+      (async (expense: FirebaseFirestore.DocumentReference) => (await expense.get()).data()))
+    const expenses = await Promise.all(expensesPromise)
+    
     if (budget) {
       return {
         id: budget.id,
         name: budget.name,
         totalRealized: budget.totalRealized,
-        totalProjected: budget.totalProjected
+        totalProjected: budget.totalProjected,
+        expenses: expenses || []
       }
     }
     return null
@@ -33,6 +39,8 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
     const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
     const budget = (await budgetDoc.get()).data()
     if (budget) {
+      // TODO: test for this
+      for (const expense of budget.expenses) await expense.delete()
       await budgetDoc.delete()
       return budgetDoc.id
     }
