@@ -1,5 +1,4 @@
 import * as admin from 'firebase-admin'
-import { UserModel } from '../../../../domain/models'
 
 const firebaseKey = require('../../../../../keys/auth-api-342301-firebase-adminsdk-y8u6y-857a7a96b2.json')
 
@@ -28,14 +27,5 @@ export const FirestoreHelper = {
     docs.forEach((doc: FirebaseFirestore.DocumentReference) => {
       doc.delete()
     })
-  },
-
-  map (docData: FirebaseFirestore.DocumentData): UserModel {
-    return {
-      id: docData.id,
-      name: docData.name,
-      email: docData.email,
-      password: docData.password
-    }
   }
 }
