@@ -19,17 +19,19 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
   async getById(id: string): Promise<BudgetModel> {
     const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
     const budget = (await budgetDoc.get()).data()
-    const expensesPromise = budget.expenses.map(
-      (async (expense: FirebaseFirestore.DocumentReference) => (await expense.get()).data()))
-    const expenses = await Promise.all(expensesPromise)
-    
+    let expenses = []
     if (budget) {
+      if (budget.expenses) {
+        const expensesPromise = budget.expenses.map(
+          (async (expense: FirebaseFirestore.DocumentReference) => (await expense.get()).data()))
+        expenses = await Promise.all(expensesPromise)
+      }
       return {
         id: budget.id,
         name: budget.name,
         totalRealized: budget.totalRealized,
         totalProjected: budget.totalProjected,
-        expenses: expenses || []
+        expenses: expenses
       }
     }
     return null
@@ -40,7 +42,9 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
     const budget = (await budgetDoc.get()).data()
     if (budget) {
       // TODO: test for this
-      for (const expense of budget.expenses) await expense.delete()
+      if (budget.expenses) {
+        for (const expense of budget.expenses) await expense.delete()
+      }
       await budgetDoc.delete()
       return budgetDoc.id
     }
