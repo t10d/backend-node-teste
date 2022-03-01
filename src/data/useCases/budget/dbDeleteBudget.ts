@@ -1,5 +1,5 @@
 import { DeleteBudget } from "../../../domain/useCases/deleteBudget"
-import { DeleteBudgetByIdRepo } from "../../interfaces/db/budget/deleteBudgetById"
+import { DeleteBudgetByIdRepo } from "../../interfaces/db/budget/deleteBudgetByIdRepo"
 
 export class DbDeleteBudget implements DeleteBudget {
   constructor (

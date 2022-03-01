@@ -1,6 +1,6 @@
 import { AddBudgetRepo } from "../../../data/interfaces/db/budget/addBudgetRepo"
-import { DeleteBudgetByIdRepo } from "../../../data/interfaces/db/budget/deleteBudgetById"
-import { GetBudgetByIdRepo } from "../../../data/interfaces/db/budget/getBudgetById"
+import { DeleteBudgetByIdRepo } from "../../../data/interfaces/db/budget/deleteBudgetByIdRepo"
+import { GetBudgetByIdRepo } from "../../../data/interfaces/db/budget/getBudgetByIdRepo"
 import { BudgetModel, ExpenseModel } from "../../../domain/models"
 import { AddBudgetModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../../helpers/firestoreHelper"
