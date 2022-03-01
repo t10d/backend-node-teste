@@ -16,32 +16,35 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 
 ## 🔎 Casos de Uso
 
-- [x] Autenticação e acesso à plataforma.
-- [x] Criação de orçamento mensal.
-- [x] Registro de gastos.
-- [ ] Visualização de gastos.
-- [ ] Atualização de gasto.
+- ✅ Autenticação e acesso à plataforma.
+- ✅ Criação de orçamento mensal.
+- ✅ Registro de gastos.
+- ⬜ Visualização de gastos.
+- ⬜ Atualização de gasto.
 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
 
-- [x] Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
-- [ ] Cancelar um convite.
-- [ ] Aprovar uma solicitação de convite.
-- [ ] Rejeitar um solicitação de convite.
-- [ ] Visualizar convites recebidos.
-- [ ] Visualizar convites enviados.
+- ✅ Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
+- ⬜ Cancelar um convite.
+- ⬜ Aprovar uma solicitação de convite.
+- ⬜ Rejeitar um solicitação de convite.
+- ⬜ Visualizar convites recebidos.
+- ⬜ Visualizar convites enviados.
 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
 
 ---
 
-## 🧱 Tecnologias
+## ✅ Extras Task List
 
-O backend da aplicação deve ser implementado com os seguintes requisitos:
+- ✅ Documentação em Swagger.
+- ✅ Docker.
+
+## 🧱 Tecnologias utilizadas
 
 - Node.js com Typescript.
 - Firestore para persistência de dados.
-- Testes automatizados.
+- Testes automatizados com Jest.
 - Arquitetura REST.
 
 ## 💻 Setup de Desenvolvimento
