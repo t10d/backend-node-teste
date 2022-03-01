@@ -100,4 +100,26 @@ describe('DbGetUserByYoken UseCase', () => {
 
     expect(user).toEqual(makeFakeUser())
   })
+
+  test('Should throws if getUserByToken throws', async () => {
+    const { sut, getUserByTokenRepoStub } = makeSUT()
+    jest.spyOn(getUserByTokenRepoStub, 'getByToken').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+  
+    const promise = sut.getByToken('token', 'role')
+
+    await expect(promise).rejects.toThrow()
+  })
+
+  test('Should throws if decrypter throws', async () => {
+    const { sut, decrypterStub } = makeSUT()
+    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(
+      new Promise((resolve, reject) => reject(new Error()))
+    )
+  
+    const promise = sut.getByToken('token', 'role')
+
+    await expect(promise).rejects.toThrow()
+  })
 })
