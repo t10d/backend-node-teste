@@ -92,4 +92,12 @@ describe('DbGetUserByYoken UseCase', () => {
 
     expect(user).toBeNull()
   })
+
+  test('Should return an user on success', async () => {
+    const { sut } = makeSUT()
+
+    const user = await sut.getByToken('token', 'role')
+
+    expect(user).toEqual(makeFakeUser())
+  })
 })
