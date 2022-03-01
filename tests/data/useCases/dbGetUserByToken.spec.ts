@@ -73,12 +73,23 @@ describe('DbGetUserByYoken UseCase', () => {
     expect(user).toBeNull()
   })
 
-  test('Should return null if decrypter returns null', async () => {
+  test('Should call getUserByToken with correct values', async () => {
     const { sut, getUserByTokenRepoStub } = makeSUT()
     const getUserByTokenSpy = jest.spyOn(getUserByTokenRepoStub, 'getByToken')
     
     await sut.getByToken('token', 'role')
 
     expect(getUserByTokenSpy).toHaveBeenCalledWith('token', 'role')
+  })
+
+  test('Should return null if getUserByToken returns null', async () => {
+    const { sut, getUserByTokenRepoStub } = makeSUT()
+    jest.spyOn(getUserByTokenRepoStub, 'getByToken').mockReturnValueOnce(
+      new Promise(resolve => resolve(null))
+    )
+    
+    const user = await sut.getByToken('token', 'role')
+
+    expect(user).toBeNull()
   })
 })
