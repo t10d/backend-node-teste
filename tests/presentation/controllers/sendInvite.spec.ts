@@ -1,6 +1,6 @@
 import { InviteModel } from "../../../src/domain/models/inviteModel"
 import { AddInvite, AddInviteModel } from "../../../src/domain/useCases/addInvite"
-import { AddInviteController } from "../../../src/presentation/controllers/invite/addExpenseController"
+import { AddInviteController } from "../../../src/presentation/controllers/invite/addInviteController"
 import { MissingParamError, ServerError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
