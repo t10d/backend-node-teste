@@ -30,7 +30,7 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
         name: budget.name,
         totalRealized: budget.totalRealized,
         totalProjected: budget.totalProjected,
-        userID: budget.userID,
+        userId: budget.userId,
         expenses: expenses
       }
     }
