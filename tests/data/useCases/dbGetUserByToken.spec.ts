@@ -1,10 +1,8 @@
+import { GetUserByTokenRepo } from "../../../src/data/interfaces/db/user/getUserByTokenRepo"
 import { Decrypter } from "../../../src/data/interfaces/security/decrypter"
 import { DbGetUserByToken } from "../../../src/data/useCases/addUser/dbGetUserByToken"
+import { UserModel } from "../../../src/domain/models"
 
-interface SUTTypes {
-  sut: DbGetUserByToken
-  decrypterStub: Decrypter
-}
 
 const makeDecrypterStub = (): Decrypter => {
   class DecrypterStub implements Decrypter {
@@ -16,15 +14,41 @@ const makeDecrypterStub = (): Decrypter => {
   return new DecrypterStub()
 }
 
+const makeFakeUser = (): UserModel => ({
+  id: 'id',
+  name: 'any_name',
+  email: 'email@email.com',
+  password: 'hashed_password'
+})
+
+const makeGetUserByTokenRepoStub = (): GetUserByTokenRepo => {
+  class GetUserByTokenRepoStub implements GetUserByTokenRepo {
+    async getByToken (token: string, role?: string): Promise<UserModel> {
+      return new Promise(resolve => resolve(makeFakeUser()))
+    }
+  }
+
+  return new GetUserByTokenRepoStub()
+}
+
+interface SUTTypes {
+  sut: DbGetUserByToken
+  decrypterStub: Decrypter
+  getUserByTokenRepoStub: GetUserByTokenRepo
+}
+
 const makeSUT = (): SUTTypes => {
   const decrypterStub = makeDecrypterStub()
+  const getUserByTokenRepoStub = makeGetUserByTokenRepoStub()
   const sut = new DbGetUserByToken(
-    decrypterStub
+    decrypterStub,
+    getUserByTokenRepoStub
   )
 
   return {
     sut,
     decrypterStub,
+    getUserByTokenRepoStub
   }
 }
 
@@ -36,5 +60,25 @@ describe('DbGetUserByYoken UseCase', () => {
     await sut.getByToken('token', 'role')
 
     expect(decryptSpy).toHaveBeenCalledWith('token')
+  })
+  
+  test('Should return null if decrypter returns null', async () => {
+    const { sut, decrypterStub } = makeSUT()
+    jest.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(
+      new Promise(resolve => resolve(null))
+    )
+    
+    const user = await sut.getByToken('token', 'role')
+
+    expect(user).toBeNull()
+  })
+
+  test('Should return null if decrypter returns null', async () => {
+    const { sut, getUserByTokenRepoStub } = makeSUT()
+    const getUserByTokenSpy = jest.spyOn(getUserByTokenRepoStub, 'getByToken')
+    
+    await sut.getByToken('token', 'role')
+
+    expect(getUserByTokenSpy).toHaveBeenCalledWith('token', 'role')
   })
 })
