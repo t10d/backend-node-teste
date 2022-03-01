@@ -4,7 +4,7 @@ import { UpdateAccessTokenRepo } from "../../../data/interfaces/db/user/updateAc
 import { UserModel } from "../../../domain/models"
 import { AddUserModel } from "../../../domain/useCases"
 import { GetUserByToken } from "../../../domain/useCases/getUserByToken"
-import { FirestoreHelper } from "../firestore/helpers/firestoreHelper"
+import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class UserFirestoreRepo implements AddUserRepo, GetUserByEmailRepo, UpdateAccessTokenRepo, GetUserByToken {
   async add (userData: AddUserModel): Promise<UserModel> {

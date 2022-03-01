@@ -4,7 +4,7 @@ import { GetBudgetByIdRepo } from "../../../data/interfaces/db/budget/getBudgetB
 import { BudgetModel, ExpenseModel } from "../../../domain/models"
 import { AddBudgetModel } from "../../../domain/useCases"
 import budgetRoutes from "../../../main/routes/budget.routes"
-import { FirestoreHelper } from "./helpers/firestoreHelper"
+import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, DeleteBudgetByIdRepo {
   async add (budgetData: AddBudgetModel): Promise<BudgetModel> {

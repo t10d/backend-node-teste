@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { expressAdapter } from "../adapters/expressAdapter"
-import { expressMiddlewareAdapter } from "../adapters/expressMiddlewareAdapter copy"
+import { expressMiddlewareAdapter } from "../adapters/expressMiddlewareAdapter"
 import { makeAddBudgetController } from "../factories/budget/makeAddBudgetController"
 import { makeDeleteBudgetController } from "../factories/budget/makeDeleteBudgetController"
 import { makeAuthMiddleware } from "../factories/middlewares/makeAuthMiddleware"

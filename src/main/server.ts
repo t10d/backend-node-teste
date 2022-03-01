@@ -1,4 +1,4 @@
-import { FirestoreHelper } from "../../src/infra/db/firestore/helpers/firestoreHelper"
+import { FirestoreHelper } from "../infra/helpers/firestoreHelper"
 import env from "./config/env"
 
 FirestoreHelper.connect()

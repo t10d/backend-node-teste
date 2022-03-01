@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { FirestoreHelper } from '../../../src/infra/db/firestore/helpers/firestoreHelper'
+import { FirestoreHelper } from '../../../src/infra/helpers/firestoreHelper'
 import { UserFirestoreRepo } from '../../../src/infra/db/firestore/userFirestoreRepo'
 import app from '../../../src/main/config/app'
 import { hash } from 'bcrypt'

@@ -1,6 +1,6 @@
 import { AddBudgetModel } from "../../../../src/domain/useCases"
 import { BudgetFirestoreRepo } from "../../../../src/infra/db/firestore/budgetFirestoreRepo"
-import { FirestoreHelper } from "../../../../src/infra/db/firestore/helpers/firestoreHelper"
+import { FirestoreHelper } from "../../../../src/infra/helpers/firestoreHelper"
 
 interface SUTTypes {
   sut: BudgetFirestoreRepo

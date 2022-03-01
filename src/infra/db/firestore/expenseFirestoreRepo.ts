@@ -3,7 +3,7 @@ import { GetExpenseByIdRepo } from "../../../data/interfaces/db/expense/getExpen
 import { AddExpenseRepo } from "../../../data/useCases/expense/interfaces"
 import { ExpenseModel } from "../../../domain/models"
 import { AddExpenseModel } from "../../../domain/useCases"
-import { FirestoreHelper } from "./helpers/firestoreHelper"
+import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo, DeleteExpenseByIdRepo {
   async add (expenseData: AddExpenseModel): Promise<ExpenseModel> {

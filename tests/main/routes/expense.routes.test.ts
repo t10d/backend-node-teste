@@ -1,4 +1,4 @@
-import { FirestoreHelper } from "../../../src/infra/db/firestore/helpers/firestoreHelper"
+import { FirestoreHelper } from "../../../src/infra/helpers/firestoreHelper"
 import request from 'supertest'
 import app from "../../../src/main/config/app"
 import { AddBudgetModel } from "../../../src/domain/useCases"

@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 
-const firebaseKey = require('../../../../../keys/auth-api-342301-firebase-adminsdk-y8u6y-857a7a96b2.json')
+const firebaseKey = require('../../../keys/auth-api-342301-firebase-adminsdk-y8u6y-857a7a96b2.json')
 
 export const FirestoreHelper = {
   db: null as admin.firestore.Firestore,
@@ -13,6 +13,10 @@ export const FirestoreHelper = {
     }
     
     this.db = admin.firestore()
+  },
+
+  getAuth (): any {
+    return admin.auth()
   },
 
   getCollection (name: string): FirebaseFirestore.CollectionReference {

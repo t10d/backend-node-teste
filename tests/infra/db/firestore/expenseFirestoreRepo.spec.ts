@@ -1,7 +1,7 @@
 import { AddBudgetModel, AddExpenseModel } from "../../../../src/domain/useCases"
 import { BudgetFirestoreRepo } from "../../../../src/infra/db/firestore/budgetFirestoreRepo"
 import { ExpenseFirestoreRepo } from "../../../../src/infra/db/firestore/expenseFirestoreRepo"
-import { FirestoreHelper } from "../../../../src/infra/db/firestore/helpers/firestoreHelper"
+import { FirestoreHelper } from "../../../../src/infra/helpers/firestoreHelper"
 
 interface SUTTypes {
   sut: ExpenseFirestoreRepo
