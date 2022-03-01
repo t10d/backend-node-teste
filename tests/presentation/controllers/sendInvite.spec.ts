@@ -1,7 +1,7 @@
 import { InviteModel } from "../../../src/domain/models/inviteModel"
 import { AddInvite, AddInviteModel } from "../../../src/domain/useCases/addInvite"
 import { AddInviteController } from "../../../src/presentation/controllers/invite/addInviteController"
-import { MissingParamError, ServerError } from "../../../src/presentation/errors"
+import { MissingParamError, ServerError, UserNotFoundError } from "../../../src/presentation/errors"
 import { badRequest, ok, serverError } from "../../../src/presentation/helpers/httpHelpers"
 import { HttpRequest } from "../../../src/presentation/interfaces"
 import { Validation } from "../../../src/presentation/interfaces/validation"
@@ -83,6 +83,17 @@ describe('Invite Controller', () => {
       delete fakeInviteModel.id
 
       expect(addSpy).toHaveBeenCalledWith(fakeInviteModel)
+    })
+
+    test('Should return 400 if AddInvite returns null', async () => {
+      const { sut, addInviteStub } = makeSUT()
+  
+      jest.spyOn(addInviteStub, 'add').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+  
+      const httpRequest = makeFakeRequest(date)
+      const httpResponse = await sut.handle(httpRequest)
+  
+      expect(httpResponse).toEqual(badRequest(new UserNotFoundError()))
     })
 
     test('Should return 500 if AddInvite throw an error', async () => {
