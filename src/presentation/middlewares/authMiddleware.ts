@@ -24,6 +24,5 @@ export class AuthMiddleware implements Middleware {
     } catch (error) {
       return serverError(error)
     }
-    
   }
 }

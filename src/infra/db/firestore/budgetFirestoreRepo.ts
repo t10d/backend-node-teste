@@ -3,7 +3,6 @@ import { DeleteBudgetByIdRepo } from "../../../data/interfaces/db/budget/deleteB
 import { GetBudgetByIdRepo } from "../../../data/interfaces/db/budget/getBudgetById"
 import { BudgetModel, ExpenseModel } from "../../../domain/models"
 import { AddBudgetModel } from "../../../domain/useCases"
-import budgetRoutes from "../../../main/routes/budget.routes"
 import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, DeleteBudgetByIdRepo {
@@ -31,6 +30,7 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
         name: budget.name,
         totalRealized: budget.totalRealized,
         totalProjected: budget.totalProjected,
+        userID: budget.userID,
         expenses: expenses
       }
     }

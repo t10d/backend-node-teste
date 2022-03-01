@@ -29,7 +29,8 @@ const makeAddExpense = (budgetId: string): AddExpenseModel => ({
 const makeAddBudget = (): AddBudgetModel => ({
   name: 'budget_name',
   totalRealized: 42,
-  totalProjected: 420.42
+  totalProjected: 420.42,
+  userID: 'user_id'
 })
 
 let mockBudget = null

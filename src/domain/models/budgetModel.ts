@@ -6,4 +6,5 @@ export interface BudgetModel {
   totalRealized: number
   totalProjected: number
   expenses?: ExpenseModel[]
+  userID: string
 }

@@ -120,8 +120,6 @@ describe('DbAddUser UseCase', () => {
 
     const user = await sut.add(makeFakeUserData())
 
-    console.log(user)
-
     expect(user).toEqual(makeFakeUser())
   })
 

@@ -10,7 +10,8 @@ const makeFakeRequest = (): HttpRequest => ({
   body: {
     name: 'budget_name',
     totalRealized: 42,
-    totalProjected: 420
+    totalProjected: 420,
+    userID: 'user_id'
   }
 })
 
@@ -18,7 +19,8 @@ const makeBudgetModel = (): BudgetModel => ({
   id: 'id',
   name: 'budget_name',
   totalRealized: 42,
-  totalProjected: 420
+  totalProjected: 420,
+  userID: 'user_id'
 })
 
 const makeAddBudgetStub = (): AddBudget => {

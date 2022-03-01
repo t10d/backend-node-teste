@@ -18,7 +18,8 @@ const makeExpense = (budgetId: string): any => ({
 const makeAddBudget = (): AddBudgetModel => ({
   name: 'budget_name',
   totalRealized: 42,
-  totalProjected: 420.42
+  totalProjected: 420.42,
+  userID: 'user_id'
 })
 
 describe('POST /expense', () => {
