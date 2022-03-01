@@ -1,4 +1,4 @@
-export default {
+{
   "openapi": "3.0.0",
   "info": {
     "title": "Budget API Documentation",
@@ -11,16 +11,11 @@ export default {
       "description": "Main Production Server"
     }
   ],
-  "tags": [
-    { "name": "Authentication" },
-    { "name": "Budget" },
-    { "name": "Expense" },
-  ],
   "paths": {
-    "/signup": {
+    "/060/api/signup": {
       "post": {
         "tags": [
-          "Authentication"
+          "General"
         ],
         "summary": "SignUp",
         "requestBody": {
@@ -48,10 +43,10 @@ export default {
         }
       }
     },
-    "/auth": {
+    "/060/api/auth": {
       "post": {
         "tags": [
-          "Authentication"
+          "General"
         ],
         "summary": "Auth",
         "requestBody": {
@@ -77,10 +72,10 @@ export default {
         }
       }
     },
-    "/budget": {
+    "/060/api/budget": {
       "post": {
         "tags": [
-          "Budget"
+          "General"
         ],
         "summary": "Add Budget",
         "requestBody": {
@@ -117,10 +112,10 @@ export default {
         }
       }
     },
-    "/budget/budget_id": {
+    "/060/api/budget/budget_id": {
       "delete": {
         "tags": [
-          "Budget"
+          "General"
         ],
         "summary": "Delete Budget",
         "responses": {
@@ -133,10 +128,10 @@ export default {
         }
       }
     },
-    "/expense": {
+    "/060/api/expense": {
       "post": {
         "tags": [
-          "Expense"
+          "General"
         ],
         "summary": "Add Expense",
         "requestBody": {
