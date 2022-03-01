@@ -11,7 +11,10 @@ export class DbGetUserByToken implements GetUserByToken {
   async getByToken(accessToken: string, role?: string): Promise<UserModel> {
     const decryptedToken = await this.decrypter.decrypt(accessToken)
     if (decryptedToken) {
-      await this.getUserByTokenRepo.getByToken(accessToken, role)
+      const user = await this.getUserByTokenRepo.getByToken(accessToken, role)
+      if (user) {
+        return user
+      }
     }
     return null
   }
