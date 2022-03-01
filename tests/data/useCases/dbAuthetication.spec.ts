@@ -1,9 +1,9 @@
 import { UserModel } from "../../../src/domain/models"
-import { GetUserByEmailRepo } from "../../../src/data/interfaces/db/auth/getUserByEmailRepo"
+import { GetUserByEmailRepo } from "../../../src/data/interfaces/db/user/getUserByEmailRepo"
 import { DbAuthentication } from "../../../src/data/useCases/authentication/dbAuthentication"
 import { HashComparer } from "../../../src/data/interfaces/security/hashComparer"
 import { TokenGenerator } from "../../../src/data/interfaces/security/tokenGenerator"
-import { UpdateAccessTokenRepo } from "../../../src/data/interfaces/db/auth/updateAcessTokenRepo"
+import { UpdateAccessTokenRepo } from "../../../src/data/interfaces/db/user/updateAcessTokenRepo"
 import { Encrypter } from "../../../src/data/interfaces/security/Encrypter"
 
 const makeFakeUser = (): UserModel => ({

@@ -1,5 +1,5 @@
-import { AddUserRepo } from "../../../src/data/interfaces/db/auth/addUserRepo"
-import { GetUserByEmailRepo } from "../../../src/data/interfaces/db/auth/getUserByEmailRepo"
+import { AddUserRepo } from "../../../src/data/interfaces/db/user/addUserRepo"
+import { GetUserByEmailRepo } from "../../../src/data/interfaces/db/user/getUserByEmailRepo"
 import { Hasher } from "../../../src/data/interfaces/security/hasher"
 import { DbAddUser } from "../../../src/data/useCases/addUser/dbAddUser"
 import { UserModel } from "../../../src/domain/models"
