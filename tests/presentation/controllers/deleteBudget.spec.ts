@@ -47,53 +47,55 @@ const makeSUT = (): SUTTypes => {
   }
 }
 
-describe('Budget Controller', () => {
-  test('Should call DeleteBudget with correct values', async () => {
-    const { sut, deleteBudgetStub } = makeSUT()
+describe('DeleteBudget Controller', () => {
+  describe('delete', () => {
+    test('Should call DeleteBudget with correct values', async () => {
+      const { sut, deleteBudgetStub } = makeSUT()
 
-    const deleteSpy = jest.spyOn(deleteBudgetStub, 'deleteById')
-    const httpRequest = makeFakeRequest()
+      const deleteSpy = jest.spyOn(deleteBudgetStub, 'deleteById')
+      const httpRequest = makeFakeRequest()
 
-    await sut.handle(httpRequest)
+      await sut.handle(httpRequest)
 
-    expect(deleteSpy).toHaveBeenCalledWith('budget_id')
-  })
-
-  test('Should call Validation with correct values', async () => {
-    const { sut, validationStub } = makeSUT()
-
-    const validateSpy = jest.spyOn(validationStub, 'validate')
-    const httpRequest = makeFakeRequest()
-
-    await sut.handle(httpRequest)
-
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.params)
-  })
-
-  test('Should return 400 with validation fails', async () => {
-    const { sut, validationStub } = makeSUT()
-
-    jest.spyOn(validationStub, 'validate')
-      .mockReturnValueOnce(new MissingParamError('any_param'))
-    const httpRequest = makeFakeRequest()
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_param')))
-  })
-
-  test('Should return 500 if delete user throw an error', async () => {
-    const { sut, deleteBudgetStub } = makeSUT()
-
-    jest.spyOn(deleteBudgetStub, 'deleteById').mockImplementationOnce(async () => {
-      return new Promise((resolve, reject) => reject(new Error()))
+      expect(deleteSpy).toHaveBeenCalledWith('budget_id')
     })
 
-    const httpRequest = makeFakeRequest()
-    const httpResponse = await sut.handle(httpRequest)
-
-    expect(httpResponse).toEqual(serverError(new ServerError('Something went really wrong')))
+    test('Should return 500 if delete throw an error', async () => {
+      const { sut, deleteBudgetStub } = makeSUT()
+  
+      jest.spyOn(deleteBudgetStub, 'deleteById').mockImplementationOnce(async () => {
+        return new Promise((resolve, reject) => reject(new Error()))
+      })
+  
+      const httpRequest = makeFakeRequest()
+      const httpResponse = await sut.handle(httpRequest)
+  
+      expect(httpResponse).toEqual(serverError(new ServerError('Something went really wrong')))
+    })
   })
+  describe('validation', () => {
+    test('Should call Validation with correct values', async () => {
+      const { sut, validationStub } = makeSUT()
 
+      const validateSpy = jest.spyOn(validationStub, 'validate')
+      const httpRequest = makeFakeRequest()
+
+      await sut.handle(httpRequest)
+
+      expect(validateSpy).toHaveBeenCalledWith(httpRequest.params)
+    })
+
+    test('Should return 400 with validation fails', async () => {
+      const { sut, validationStub } = makeSUT()
+
+      jest.spyOn(validationStub, 'validate')
+        .mockReturnValueOnce(new MissingParamError('any_param'))
+      const httpRequest = makeFakeRequest()
+      const httpResponse = await sut.handle(httpRequest)
+
+      expect(httpResponse).toEqual(badRequest(new MissingParamError('any_param')))
+    })
+  })
   test('Should return 200 if all right', async () => {
     const { sut } = makeSUT()
 
