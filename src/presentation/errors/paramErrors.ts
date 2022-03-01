@@ -18,3 +18,10 @@ export class EmailInUseError extends Error {
     this.name = 'EmailInUseError'
   }
 }
+
+export class UserNotFoundError extends Error {
+  constructor () {
+    super('User to invited not found')
+    this.name = 'UserNotFoundError'
+  }
+}

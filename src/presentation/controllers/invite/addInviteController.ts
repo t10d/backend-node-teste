@@ -1,4 +1,5 @@
 import { AddInvite } from "../../../domain/useCases/addInvite"
+import { UserNotFoundError } from "../../errors"
 import { badRequest, ok, serverError } from "../../helpers/httpHelpers"
 import { Controller, HttpRequest, HttpResponse, Validation } from "./interfaces"
 
@@ -21,6 +22,10 @@ export class AddInviteController implements Controller {
       const invite = await this.addInvite.add({
         description, userId, to, date, budgetId
       })
+
+      if (!invite) {
+        return badRequest(new UserNotFoundError())
+      }
 
       return ok(invite)
     } catch (error) {
