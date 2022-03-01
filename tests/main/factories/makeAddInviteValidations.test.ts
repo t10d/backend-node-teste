@@ -10,7 +10,7 @@ describe('InviteValidation Factory', () => {
     makeAddInviteValidation()
     const validations: Validation[] = []
 
-    for (const field of ['description', 'to', 'date', 'inviteId']) {
+    for (const field of ['description', 'to', 'date', 'budgetId']) {
       validations.push(new RequiredFieldValidation(field))
     }
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
