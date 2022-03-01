@@ -57,6 +57,11 @@ export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo,
   async getByBudget(id: string): Promise<ExpenseModel[]> {
     const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
     const budget = (await budgetDoc.get()).data()
-    return (budget && budget.expenses) ? budget.expenses.map(id => this.getById(id)) : []
+    if (budget && budget.expenses) {
+      const expensesPromise = budget.expenses.map(
+        (async (expense: FirebaseFirestore.DocumentReference) => (await expense.get()).data()))
+      return await Promise.all(expensesPromise)
+    }
+    return []
   }
 }
