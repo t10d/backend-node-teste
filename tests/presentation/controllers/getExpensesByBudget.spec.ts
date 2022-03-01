@@ -24,7 +24,7 @@ const makeExpenseModel = (): ExpenseModel => ({
 
 const makeGetExpensesByBudgetStub = (): GetExpensesByBudget => {
   class GetExpensesByBudgetStub implements GetExpensesByBudget {
-    async get (id: string): Promise<ExpenseModel[]> {
+    async getByBudget (id: string): Promise<ExpenseModel[]> {
       return new Promise(resolve => resolve([makeExpenseModel()]))
     }
   }
@@ -63,7 +63,7 @@ describe('GetExpensesByBudget Controller', () => {
     test('Should call GetExpensesByBudget with correct values', async () => {
       const { sut, getExpensesByBudgetStub } = makeSUT()
 
-      const deleteSpy = jest.spyOn(getExpensesByBudgetStub, 'get')
+      const deleteSpy = jest.spyOn(getExpensesByBudgetStub, 'getByBudget')
       const httpRequest = makeFakeRequest()
 
       await sut.handle(httpRequest)
@@ -74,7 +74,7 @@ describe('GetExpensesByBudget Controller', () => {
     test('Should return 500 if get throw an error', async () => {
       const { sut, getExpensesByBudgetStub } = makeSUT()
   
-      jest.spyOn(getExpensesByBudgetStub, 'get').mockImplementationOnce(async () => {
+      jest.spyOn(getExpensesByBudgetStub, 'getByBudget').mockImplementationOnce(async () => {
         return new Promise((resolve, reject) => reject(new Error()))
       })
   
