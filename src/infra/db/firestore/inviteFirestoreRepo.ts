@@ -5,11 +5,15 @@ import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class InviteFirestoreRepo implements AddInviteRepo {
   async add (inviteData: AddInviteModel): Promise<InviteModel> {
-    const invite = FirestoreHelper.getCollection('invites').doc()
-    const inviteObject = { id: invite.id, ...inviteData }
+    const user = FirestoreHelper.getCollection('users').doc(inviteData.to).get()
+    if ((await user).exists) {
+      const invite = FirestoreHelper.getCollection('invites').doc()
+      const inviteObject = { id: invite.id, ...inviteData }
 
-    await invite.set(inviteObject)
-    
-    return new Promise(resolve => resolve(inviteObject))
+      await invite.set(inviteObject)
+      
+      return new Promise(resolve => resolve(inviteObject))
+    }
+    return null
   }
 }
