@@ -1,11 +1,12 @@
 import { DeleteExpenseByIdRepo } from "../../../data/interfaces/db/expense/deleteExpenseByIdRepo"
 import { GetExpenseByIdRepo } from "../../../data/interfaces/db/expense/getExpenseByIdRepo"
+import { GetExpensesByBudgetRepo } from "../../../data/interfaces/db/expense/getExpensesByBudgetRepo"
 import { AddExpenseRepo } from "../../../data/useCases/expense/interfaces"
 import { ExpenseModel } from "../../../domain/models"
 import { AddExpenseModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
-export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo, DeleteExpenseByIdRepo {
+export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo, DeleteExpenseByIdRepo, GetExpensesByBudgetRepo {
   async add (expenseData: AddExpenseModel): Promise<ExpenseModel> {
     const budgetCol = FirestoreHelper.getCollection('budgets')
     const budgetDoc = budgetCol.doc(expenseData.budgetId)
@@ -51,5 +52,11 @@ export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo,
       return expenseDoc.id
     }
     return null
+  }
+
+  async getByBudget(id: string): Promise<ExpenseModel[]> {
+    const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
+    const budget = (await budgetDoc.get()).data()
+    return (budget && budget.expenses) ? budget.expenses.map(id => this.getById(id)) : []
   }
 }
