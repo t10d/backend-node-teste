@@ -2,7 +2,7 @@ import { InviteModel } from "../models/inviteModel"
 
 export interface AddInviteModel {
   description?: string,
-  from: string,
+  from?: string,
   to: string,
   date: Date,
   budgetId: string
