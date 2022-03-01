@@ -1,7 +1,7 @@
 export interface InviteModel {
   id: string
   description?: string,
-  from?: string,
+  userId: string,
   to: string,
   date: Date,
   budgetId: string

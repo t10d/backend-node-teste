@@ -16,10 +16,10 @@ export class AddInviteController implements Controller {
         return badRequest(error)
       }
 
-      const { description, from, to, date, budgetId } = httpRequest.body
+      const { description, userId, to, date, budgetId } = httpRequest.body
 
       const invite = await this.addInvite.add({
-        description, from, to, date, budgetId
+        description, userId, to, date, budgetId
       })
 
       return ok(invite)

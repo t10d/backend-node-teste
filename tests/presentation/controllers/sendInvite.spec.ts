@@ -9,7 +9,7 @@ import { Validation } from "../../../src/presentation/interfaces/validation"
 const makeFakeRequest = (date: Date): HttpRequest => ({
   body: {
     description: 'invite_desc',
-    from: 'from_user_id',
+    userId: 'from_user_id',
     to: 'to_user_id',
     date: date,
     budgetId: 'budget_id'
@@ -19,7 +19,7 @@ const makeFakeRequest = (date: Date): HttpRequest => ({
 const makeInviteModel = (date: Date): InviteModel => ({
   id: 'id',
   description: 'invite_desc',
-  from: 'from_user_id',
+  userId: 'from_user_id',
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id'
