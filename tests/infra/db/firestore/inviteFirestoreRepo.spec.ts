@@ -15,7 +15,7 @@ const makeSUT = (): SUTTypes => {
 
 const makeAddInvite = (date: Date): AddInviteModel => ({
   description: 'invite_desc',
-  from: 'from_user_id',
+  userId: 'from_user_id',
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id'
@@ -24,12 +24,24 @@ const makeAddInvite = (date: Date): AddInviteModel => ({
 const date = new Date()
 
 describe('Invite Repository', () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     FirestoreHelper.connect()
+
+    const userDoc = FirestoreHelper.db.collection('users').doc('to_user_id')
+    await userDoc.set({
+      id: 'to_user_id',
+      name: 'user_name',
+      email: 'user_email',
+      password: 'user_password'
+    })
   })
  
   beforeEach(async () => {
     await FirestoreHelper.deleteAll('invites')
+  })
+
+  afterAll(async () => {
+    await FirestoreHelper.deleteAll('users')
   })
 
   describe('add', () => {
@@ -41,10 +53,20 @@ describe('Invite Repository', () => {
       expect(invite).toBeTruthy()
       expect(invite.id).toBeTruthy()
       expect(invite.description).toBe('invite_desc')
-      expect(invite.from).toBe('from_user_id')
+      expect(invite.userId).toBe('from_user_id')
       expect(invite.to).toBe('to_user_id')
       expect(invite.date).toBe(date)
       expect(invite.budgetId).toBe('budget_id')
+    })
+
+    test('Should return null if to_user_id not found', async () => {
+      const { sut } = makeSUT()
+
+      await FirestoreHelper.getCollection('users').doc('to_user_id').delete()
+
+      const invite = await sut.add(makeAddInvite(date))
+
+      expect(invite).toBeNull()
     })
   })
 })
