@@ -1,4 +1,4 @@
-import { AddBudgetRepo } from "../../../src/data/interfaces/db/addBudgetRepo"
+import { AddBudgetRepo } from "../../../src/data/interfaces/db/budget/addBudgetRepo"
 import { DbAddBudget } from "../../../src/data/useCases/budget/dbAddBudget"
 import { BudgetModel } from "../../../src/domain/models/budgetModel"
 import { AddBudgetModel } from "../../../src/domain/useCases/addBudget"
@@ -13,7 +13,8 @@ const makeFakeBudget = (): BudgetModel => ({
   id: 'id',
   name: 'budget_name',
   totalRealized: 42,
-  totalProjected: 420
+  totalProjected: 420,
+  userID: 'user_id'
 })
 
 const makeAddBudgetRepoStub = (): AddBudgetRepo => {

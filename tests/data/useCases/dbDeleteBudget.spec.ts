@@ -1,4 +1,4 @@
-import { DeleteBudgetByIdRepo } from "../../../src/data/interfaces/db/deleteBudgetById"
+import { DeleteBudgetByIdRepo } from "../../../src/data/interfaces/db/budget/deleteBudgetByIdRepo"
 import { DbDeleteBudget } from "../../../src/data/useCases/budget/dbDeleteBudget"
 
 const makeFakeBudgetData = (): any => ('budget_id')
