@@ -1,6 +1,6 @@
 version: "3"
 
-service: 
+services: 
   app:
     container_name: api
     build: .
