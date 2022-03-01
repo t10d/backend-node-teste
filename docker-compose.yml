@@ -1,0 +1,13 @@
+version: "3"
+
+service: 
+  app:
+    container_name: api
+    build: .
+    image: nodejs-ts-api
+    command: npm start
+    volumes:
+      - ./dist:/app/dist
+      - ./keys:/app/keys
+    ports:
+      - '6060:6060'
