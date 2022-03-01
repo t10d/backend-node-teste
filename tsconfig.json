@@ -3,7 +3,8 @@
     "outDir": "dist",
     "module": "commonjs",
     "target": "es2020",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "rootDirs": ["src", "tests"]
   },
   "include": ["src", "tests"],
   "exclude": []
