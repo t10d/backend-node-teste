@@ -1,3 +1,4 @@
+import { verify } from 'crypto'
 import jwt from 'jsonwebtoken'
 import { JWTAdapter } from '../../../src/infra/security/jwtAdapter'
 
@@ -15,6 +16,10 @@ const makeSUT = (): SUTTypes => {
 jest.mock('jsonwebtoken', () => ({
   async sign (): Promise<string> {
     return new Promise(resolve => resolve('token'))
+  },
+
+  async verify (): Promise<string> {
+    return new Promise(resolve => resolve('value'))
   }
 }))
 
@@ -45,7 +50,36 @@ describe('JWT Adapter', () => {
   
       const promise = sut.encrypt('id')
   
-      expect(promise).rejects.toThrow()
+      await expect(promise).rejects.toThrow()
+    })
+  })
+  describe('verify', () => {
+    test('Should call verify with correct values', async () => {
+      const { sut } = makeSUT()
+  
+      const signSpy = jest.spyOn(jwt, 'verify')
+      await sut.decrypt('token')
+  
+      expect(signSpy).toHaveBeenCalledWith('token', 'secret')
+    })
+  
+    test('Should return a token on verify success', async () => {
+      const { sut } = makeSUT()
+  
+      const value = await sut.decrypt('token')
+  
+      expect(value).toBe('value')
+    })
+  
+    test('Should throw if verify throws', async () => {
+      const { sut } = makeSUT()
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(() => {
+        throw new Error()
+      })
+  
+      const promise = sut.decrypt('token')
+  
+      await expect(promise).rejects.toThrow()
     })
   })
 })
