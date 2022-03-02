@@ -1,6 +1,6 @@
+import { AddUserModel } from "../../../../src/domain/useCases"
 import { UserFirestoreRepo } from "../../../../src/infra/db/firestore/userFirestoreRepo"
 import { FirestoreHelper } from "../../../../src/infra/helpers/firestoreHelper"
-import { AddUserModel } from "../../../../src/domain/useCases"
 
 interface SUTTypes {
   sut: UserFirestoreRepo
