@@ -75,7 +75,7 @@ describe('Auth Middleware', () => {
 
     const httpReponse = await sut.handle(makeFakeRequest())
 
-    expect(httpReponse).toEqual(ok({ userID: 'id' }))
+    expect(httpReponse).toEqual(ok({ userId: 'id' }))
   })
 
   test('Should return 500 if GetUserByToken throw an error', async () => {

@@ -19,7 +19,7 @@ const makeAddBudget = (): AddBudgetModel => ({
   name: 'budget_name',
   totalRealized: 42,
   totalProjected: 420.42,
-  userID: 'user_id'
+  userId: 'user_id'
 })
 
 describe('POST /expense', () => {
@@ -34,8 +34,8 @@ describe('POST /expense', () => {
   })
   
   afterAll(async () => {
-    // await FirestoreHelper.deleteAll('expenses')
-    // await FirestoreHelper.deleteCollection('budgets', 100)
+    await FirestoreHelper.deleteAll('expenses')
+    await FirestoreHelper.deleteCollection('budgets', 100)
   })
 
   test('Should return 200 and an expense on add success', async () => {

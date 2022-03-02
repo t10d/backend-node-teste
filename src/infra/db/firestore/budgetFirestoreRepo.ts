@@ -33,15 +33,15 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
   }
 
   async deleteById(id: string): Promise<string> {
-    const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
-    const budget = (await budgetDoc.get()).data()
-    if (budget) {
-      // TODO: test for this
-      if (budget.expenses) {
-        for (const expense of budget.expenses) await expense.delete()
+    const budgetRef = FirestoreHelper.getCollection('budgets').doc(id)
+    const budgetSnap = (await budgetRef.get())
+    if (budgetSnap.exists) {
+      const expenseColRef = await budgetSnap.ref.collection('expenses').listDocuments()
+      if (expenseColRef) {
+        for (const expense of expenseColRef) await expense.delete()
       }
-      await budgetDoc.delete()
-      return budgetDoc.id
+      await budgetRef.delete()
+      return budgetRef.id
     }
     return null
   }

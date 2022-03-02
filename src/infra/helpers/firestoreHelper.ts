@@ -15,10 +15,6 @@ export const FirestoreHelper = {
     this.db = admin.firestore()
   },
 
-  getAuth (): any {
-    return admin.auth()
-  },
-
   getCollection (name: string): FirebaseFirestore.CollectionReference {
     if (!this.db) {
       this.connect()

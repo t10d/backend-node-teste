@@ -5,8 +5,8 @@ import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class InviteFirestoreRepo implements AddInviteRepo {
   async add (inviteData: AddInviteModel): Promise<InviteModel> {
-    const user = await FirestoreHelper.getCollection('users').doc(inviteData.to).get()
-    if (user.exists) {
+    const usersnap = await FirestoreHelper.getCollection('users').doc(inviteData.to).get()
+    if (usersnap.exists) {
       const invite = FirestoreHelper.getCollection('invites').doc()
       const inviteObject = { id: invite.id, ...inviteData }
 

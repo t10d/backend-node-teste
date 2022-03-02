@@ -5,7 +5,7 @@ import { AddInviteModel } from "../../../src/domain/useCases/addInvite"
 
 const makeFakeInviteData = (date: Date): AddInviteModel => ({
   description: 'invite_desc',
-  from: 'from_user_id',
+  userId: 'from_user_id',
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id'
@@ -14,7 +14,7 @@ const makeFakeInviteData = (date: Date): AddInviteModel => ({
 const makeFakeInvite = (date: Date): InviteModel => ({
   id: 'id',
   description: 'invite_desc',
-  from: 'from_user_id',
+  userId: 'from_user_id',
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id'

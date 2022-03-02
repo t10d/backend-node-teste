@@ -56,7 +56,6 @@ describe('Expense Repository', () => {
     test('Should return an expense on getById success', async () => {
       const { sut, budgetSut } = makeSUT()
       
-      // const budgetAdded = await budgetSut.add(makeAddBudget())
       const expenseAdded = await sut.add(makeAddExpense(budgetAdded.id))
       const expense = await sut.getById(expenseAdded.id, budgetAdded.id)
 
@@ -132,7 +131,6 @@ describe('Expense Repository', () => {
     test('Should return an expense on add success', async () => {
       const { sut, budgetSut } = makeSUT()
 
-      // const budgetAdded = await budgetSut.add(makeAddBudget())
       const expense = await sut.add(makeAddExpense(budgetAdded.id))
 
       expect(expense).toBeTruthy()
@@ -144,14 +142,14 @@ describe('Expense Repository', () => {
       expect(expense.budgetId).toBe(budgetAdded.id)
     })
 
-    // test('Should return null if not found a budget', async () => {
-    //   const { sut, budgetSut } = makeSUT()
+    test('Should return null if not found a budget', async () => {
+      const { sut, budgetSut } = makeSUT()
       
-    //   // const budgetAdded = await budgetSut.add(makeAddBudget())
-    //   await FirestoreHelper.deleteCollection('budgets', 100)
-    //   const expense = await sut.add(makeAddExpense(budgetAdded.id))
+      // const budgetAdded = await budgetSut.add(makeAddBudget())
+      await FirestoreHelper.deleteCollection('budgets', 100)
+      const expense = await sut.add(makeAddExpense(budgetAdded.id))
   
-    //   expect(expense).toBeNull()
-    // })
+      expect(expense).toBeNull()
+    })
   })
 })

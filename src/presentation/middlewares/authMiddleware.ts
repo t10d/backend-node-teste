@@ -17,7 +17,7 @@ export class AuthMiddleware implements Middleware {
       if (accessToken) {
         const user = await this.getUserByToken.getByToken(accessToken, this.role)
         if (user) {
-          return ok({ userID: user.id })
+          return ok({ userId: user.id })
         }
       }
       return forbidden(new MissingAuthTokenError())
