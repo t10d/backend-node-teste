@@ -10,16 +10,16 @@ export class GetExpensesByBudgetController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.params)
+      const error = this.validation.validate(httpRequest.query)
 
       if (error) {
         return badRequest(error)
       }
-
-      const { id } = httpRequest.params
+      
+      const { budgetId } = httpRequest.query
       const { userId } = httpRequest.body
 
-      const expenses = await this.getExpensesByBudget.getByBudget(id, userId)
+      const expenses = await this.getExpensesByBudget.getByBudget(budgetId, userId)
 
       return ok(expenses)
     } catch (error) {
