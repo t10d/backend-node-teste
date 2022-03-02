@@ -102,7 +102,7 @@ describe('Expense Controller', () => {
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_param')))
   })
 
-  test('Should return 500 if add user throw an error', async () => {
+  test('Should return 500 if add throw an error', async () => {
     const { sut, addExpenseStub } = makeSUT()
 
     jest.spyOn(addExpenseStub, 'add').mockImplementationOnce(async () => {
