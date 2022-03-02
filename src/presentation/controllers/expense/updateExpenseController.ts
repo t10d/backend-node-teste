@@ -10,13 +10,21 @@ export class UpdateExpenseController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const request = { 
+        id: httpRequest.params.id as string,
+        name: httpRequest.body.name as string, 
+        category: httpRequest.body.category as string, 
+        realized: httpRequest.body.realized as number, 
+        projected: httpRequest.body.projected as number, 
+        type: httpRequest.body.type as string,
+        budgetId: httpRequest.body.budgetId as string
+      }
+
+      const error = this.validation.validate(request)
 
       if (error) {
         return badRequest(error)
       }
-
-      const request = httpRequest.body
 
       // remove undefined values from request
       for (const key in request) {
