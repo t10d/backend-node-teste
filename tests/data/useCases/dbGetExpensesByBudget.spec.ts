@@ -1,5 +1,5 @@
 import { GetExpensesByBudgetRepo } from "../../../src/data/interfaces/db/expense/getExpensesByBudgetRepo"
-import { DbGetExpensesByBudget } from "../../../src/data/useCases/expense/dbGetExpenseByBudget"
+import { DbGetExpensesByBudget } from "../../../src/data/useCases/expense/dbGetExpensesByBudget"
 import { ExpenseModel } from "../../../src/domain/models"
 
 const makeFakeExpense = (): ExpenseModel => ({
