@@ -17,8 +17,9 @@ export class GetExpensesByBudgetController implements Controller {
       }
 
       const { id } = httpRequest.params
+      const { userId } = httpRequest.body
 
-      const expenses = await this.getExpensesByBudget.getByBudget(id)
+      const expenses = await this.getExpensesByBudget.getByBudget(id, userId)
 
       return ok(expenses)
     } catch (error) {

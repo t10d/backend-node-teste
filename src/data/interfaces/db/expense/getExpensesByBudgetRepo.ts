@@ -1,5 +1,5 @@
 import { ExpenseModel } from "../../../../domain/models";
 
 export interface GetExpensesByBudgetRepo {
-  getByBudget (id: string): Promise<ExpenseModel[]> 
+  getByBudget (id: string, userId: string): Promise<ExpenseModel[]> 
 }

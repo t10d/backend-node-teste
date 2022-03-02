@@ -102,7 +102,7 @@ describe('Expense Repository', () => {
     test('Should return an empty array of expenses on getByBudget failure', async () => {
       const { sut } = makeSUT()
   
-      const expenses = await sut.getByBudget('no_exists_id')
+      const expenses = await sut.getByBudget('no_exists_id', 'user_id')
   
       expect(expenses).toEqual([])
     })
@@ -112,7 +112,7 @@ describe('Expense Repository', () => {
       
       const expense = await sut.add(makeAddExpense(budgetAdded.id))
 
-      const expenses = await sut.getByBudget(budgetAdded.id)
+      const expenses = await sut.getByBudget(budgetAdded.id, 'user_id')
 
       expect(expenses).toContainEqual({ ...makeAddExpense(budgetAdded.id), id: expense.id })
     })
