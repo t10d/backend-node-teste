@@ -1,4 +1,4 @@
-import { AddBudgetModel, AddExpenseModel } from "../../../../src/domain/useCases"
+import { AddBudgetModel, AddExpenseModel, UpdateExpenseModel } from "../../../../src/domain/useCases"
 import { BudgetFirestoreRepo } from "../../../../src/infra/db/firestore/budgetFirestoreRepo"
 import { ExpenseFirestoreRepo } from "../../../../src/infra/db/firestore/expenseFirestoreRepo"
 import { FirestoreHelper } from "../../../../src/infra/helpers/firestoreHelper"
@@ -27,7 +27,17 @@ const makeAddExpense = (budgetId: string): AddExpenseModel => ({
   budgetId: budgetId
 })
 
-const makeAddBudget = (): AddBudgetModel => ({
+const makeUpdateExpense = (id: string, budgetId: string): UpdateExpenseModel => ({
+  id: id,
+  name: 'expense_name',
+  category: 'food',
+  realized: 420,
+  projected: 500,
+  type: 'variable',
+  budgetId: budgetId
+})
+
+const makeFakeBudget = (): AddBudgetModel => ({
   name: 'budget_name',
   totalRealized: 42,
   totalProjected: 420.42,
@@ -44,7 +54,7 @@ describe('Expense Repository', () => {
     await FirestoreHelper.deleteCollection('expenses', 100)
     await FirestoreHelper.deleteCollection('budgets', 100)
 
-    budgetAdded = await budgetSut.add(makeAddBudget())
+    budgetAdded = await budgetSut.add(makeFakeBudget())
   })
  
   afterAll(async () => {
@@ -119,6 +129,18 @@ describe('Expense Repository', () => {
   })
 
   describe('add', () => {
+    beforeAll(async () => {
+      const { budgetSut } = makeSUT()
+  
+      budgetAdded = await budgetSut.add(makeFakeBudget())
+    })
+
+    afterAll(async () => {
+      const { budgetSut } = makeSUT()
+  
+      budgetSut.deleteById(budgetAdded.id)
+    })
+
     test('ExpenseFirestoreRepo.add should add expense as sub collection of a budget', async () => {
       const { sut, budgetSut } = makeSUT()
 
@@ -145,9 +167,55 @@ describe('Expense Repository', () => {
     test('Should return null if not found a budget', async () => {
       const { sut, budgetSut } = makeSUT()
       
-      // const budgetAdded = await budgetSut.add(makeAddBudget())
       await FirestoreHelper.deleteCollection('budgets', 100)
       const expense = await sut.add(makeAddExpense(budgetAdded.id))
+  
+      expect(expense).toBeNull()
+    })
+  })
+  describe('update', () => {
+    beforeAll(async () => {
+      const { budgetSut } = makeSUT()
+  
+      budgetAdded = await budgetSut.add(makeFakeBudget())
+    })
+
+    afterAll(async () => {
+      const { budgetSut } = makeSUT()
+  
+      budgetSut.deleteById(budgetAdded.id)
+    })
+
+    test('Should return an updated expense on success', async () => {
+      const { sut, budgetSut } = makeSUT()
+
+      const expenseAdded = await sut.add(makeAddExpense(budgetAdded.id))
+      const expense = await sut.update(makeUpdateExpense(expenseAdded.id, budgetAdded.id))
+
+      expect(expense).toBeTruthy()
+      expect(expense.id).toBeTruthy()
+      expect(expense.name).toBe('expense_name')
+      expect(expense.realized).toBe(420)
+      expect(expense.projected).toBe(500)
+      expect(expense.type).toBe('variable')
+      expect(expense.budgetId).toBe(budgetAdded.id)
+    })
+
+    test('Should return null if not found a expense', async () => {
+      const { sut, budgetSut } = makeSUT()
+      
+      await FirestoreHelper.deleteCollection(`budget/${budgetAdded.id}/expenses`, 100)
+      const expense = await sut.update(makeUpdateExpense('no_exists_id', budgetAdded.id))
+  
+      expect(expense).toBeNull()
+    })
+    
+    // SHOULD BE LAST TEST
+    test('Should return null if not found a budget', async () => {
+      const { sut, budgetSut } = makeSUT()
+      
+      await FirestoreHelper.deleteCollection('budgets', 100)
+      const expense = await sut.update(makeUpdateExpense('any_id', budgetAdded.id))
   
       expect(expense).toBeNull()
     })
