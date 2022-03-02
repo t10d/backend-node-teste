@@ -7,8 +7,10 @@ import { HttpRequest } from "../../../src/presentation/interfaces"
 import { Validation } from "../../../src/presentation/interfaces/validation"
 
 const makeFakeRequest = (): HttpRequest => ({
-  body: {
+  params: {
     id: 'id',
+  },
+  body: {
     name: 'expense_name',
     category: 'food',
     realized: 420,
@@ -76,9 +78,7 @@ describe('Expense Controller', () => {
 
       await sut.handle(httpRequest)
 
-      const fakeExpenseModel = makeExpenseModel()
-
-      expect(updateSpy).toHaveBeenCalledWith(fakeExpenseModel)
+      expect(updateSpy).toHaveBeenCalledWith({ ...httpRequest.params, ...httpRequest.body })
     })
 
     test('Should handle undefined values', async () => {
@@ -90,11 +90,12 @@ describe('Expense Controller', () => {
       // iterate over model and make any unrequired values undefined
       const tempExpenseModel = { ...fakeExpenseModel }
       for (const key in tempExpenseModel) {
-        const httpRequest = { body: tempExpenseModel }
+        if (!['id', 'budgetId'].includes(key)) delete tempExpenseModel[key]
+
+        const httpRequest = { params: { id: 'id' }, body: tempExpenseModel }
 
         await sut.handle(httpRequest)
-      
-        if (!['id', 'budgetId'].includes(key)) tempExpenseModel[key] = undefined
+        
         expect(updateSpy).toHaveBeenCalledWith(tempExpenseModel)
         tempExpenseModel[key] = fakeExpenseModel[key]
       }
@@ -122,7 +123,7 @@ describe('Expense Controller', () => {
 
       await sut.handle(httpRequest)
 
-      expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+      expect(validateSpy).toHaveBeenCalledWith({ ...httpRequest.params, ...httpRequest.body })
     })
 
     test('Should return 400 with validation fails', async () => {
