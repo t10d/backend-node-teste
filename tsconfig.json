@@ -6,6 +6,6 @@
     "esModuleInterop": true,
     "rootDirs": ["src", "tests"]
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": []
 }
