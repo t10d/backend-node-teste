@@ -8,27 +8,20 @@ import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo, DeleteExpenseByIdRepo, GetExpensesByBudgetRepo {
   async add (expenseData: AddExpenseModel): Promise<ExpenseModel> {
-    const budgetCol = FirestoreHelper.getCollection('budgets')
-    const budgetDoc = budgetCol.doc(expenseData.budgetId)
-    const budgetData = await budgetDoc.get()
+    const budgetRef = FirestoreHelper.getCollection('budgets').doc(expenseData.budgetId)
 
-    if (budgetData.exists) {
-      const expenseRef = FirestoreHelper.getCollection('expenses').doc()
+    if ((await budgetRef.get()).exists) {
+      const expenseRef = budgetRef.collection('expenses').doc()
       const expenseObject = { id: expenseRef.id, ...expenseData }
       await expenseRef.set(expenseObject)
-      const budgetExpenses = budgetData.data().expenses || []
-
-      budgetDoc.update({
-        expenses: [ ...budgetExpenses, expenseRef ]
-      })
       
       return new Promise(resolve => resolve(expenseObject))
     }
     return null
   }
 
-  async getById(id: string): Promise<ExpenseModel> {
-    const expenseDoc = FirestoreHelper.getCollection('expenses').doc(id)
+  async getById(id: string, budgetId: string): Promise<ExpenseModel> {
+    const expenseDoc = FirestoreHelper.getCollection(`budgets/${budgetId}/expenses`).doc(id)
     const expense = (await expenseDoc.get()).data()
     if (expense) {
       return {
@@ -44,23 +37,25 @@ export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo,
     return null
   }
 
-  async deleteById(id: string): Promise<string> {
-    const expenseDoc = FirestoreHelper.getCollection('expenses').doc(id)
-    const expense = (await expenseDoc.get()).data()
+  async deleteById(id: string, budgetId: string): Promise<string> {
+    const expenseRef = FirestoreHelper.getCollection(`budgets/${budgetId}/expenses`).doc(id)
+    const expense = (await expenseRef.get()).data()
+
     if (expense) {
-      await expenseDoc.delete()
-      return expenseDoc.id
+      await expenseRef.delete()
+      return expenseRef.id
     }
     return null
   }
 
   async getByBudget(id: string): Promise<ExpenseModel[]> {
-    const budgetDoc = FirestoreHelper.getCollection('budgets').doc(id)
-    const budget = (await budgetDoc.get()).data()
-    if (budget && budget.expenses) {
-      const expensesPromise = budget.expenses.map(
-        (async (expense: FirebaseFirestore.DocumentReference) => (await expense.get()).data()))
-      return await Promise.all(expensesPromise)
+    const expenseColRef = await FirestoreHelper.getCollection(`budgets/${id}/expenses`).listDocuments()
+
+    if (expenseColRef) {
+      const expensesPromise = expenseColRef.map(
+        (async (expense: FirebaseFirestore.DocumentReference) => (await expense.get()).data())
+      )
+      return await Promise.all(expensesPromise) as ExpenseModel[]
     }
     return []
   }
