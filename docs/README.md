@@ -1,5 +1,6 @@
 # NodeJS Budget Manager API
 ### API para gerenciamento e controle de gastos mensais.
+A API foi criada seguindo os principios de TDD, SOLID o máximo possível, Clean Architeture e Clean Code o máximo possível, a idéia era manter todo o código desacoplado afim de facilitar manutenção e prover legibilidade e coesão do código. 
 
 ---
 ## 🤔 Problema
@@ -15,11 +16,10 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 ---
 
 ## 🔎 Casos de Uso
-
 - ✅ Autenticação e acesso à plataforma.
 - ✅ Criação de orçamento mensal.
 - ✅ Registro de gastos.
-- ⬜ Visualização de gastos.
+- ✅ Visualização de gastos.
 - ⬜ Atualização de gasto.
 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
@@ -34,11 +34,12 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
 
 ---
-
 ## ✅ Extras Task List
 
 - ✅ Documentação em Swagger.
 - ✅ Docker.
+## 👁️ Cobertura de Testes
+A descrição da cobertura de testes está disponível em [TESTS](TESTS.md)
 
 ## 🧱 Tecnologias utilizadas
 
@@ -46,5 +47,22 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 - Firestore para persistência de dados.
 - Testes automatizados com Jest.
 - Arquitetura REST.
+- Swagger Documentation.
+- Docker e docker-compose.
+- Husky para lint-staged.
 
 ## 💻 Setup de Desenvolvimento
+Para setup de desenvolvimento basta fazer seguir os passos a seguir:
+1. Clone do repositório.
+2. Executar `npm install`
+3. Copiar a chave do Firestore para ./keys
+4. Executar `npm run dev`
+
+## 🔍 Testes
+- Testes de unidade com `npm run test:unit`
+- Testes de integração com `npm run test:integration`
+- Para gerar o coverage execute `npm run test:coverage`
+
+## 🚀 Build de Produção (docker)
+1. Execute `npm run build`
+2. Execute `npm run up`

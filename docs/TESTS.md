@@ -1,0 +1,168 @@
+- Controllers
+  - AuthController
+    - Garantir que o retorno seja 500 caso a autenticação estoure um erro.
+    - Garantir que o método Authentication.auth seja chamado com os parâmetros corretos.
+    - Garantir que o retorno seja de 401 caso o usuário não seja encontrado.
+    - Garantir que o retorno 200 se sucesso.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+  - SignUp/Login
+    - Garantir que o retorno seja 500 caso a autenticação estoure um erro.
+    - Garantir que o método de AddUser.add seja chamado com os parâmetros corretos.
+    - Garantir que o retorno seja de 403 caso o AddUser retorno nulo.
+    - Garantir que o retorno 200 se sucesso.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe. 
+    - Garantir que o método Authentication.auth seja chamado com os parâmetros corretos.
+    - Garantir que o retorno seja 500 caso Authentication.auth estoure um erro.
+  - AddBudget
+    - Garantir que AddBudget.add seja chamado com os valores corretos.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+    - Garantir que o retorno seja 500 caso AddBudget.add estoure um erro.
+    - Garantir que o retorno 200 se sucesso.
+  - DeleteBudget
+    - Garantir que DeleteBudget.deleteById seja chamado com os valores corretos.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+    - Garantir que o retorno seja 500 caso DeleteBudget.deleteById estoure um erro.
+    - Garantir que o retorno 200 se sucesso.
+  - AddExpense
+    - Garantir que AddExpense.add seja chamado com os valores corretos.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+    - Garantir que o retorno seja 500 caso AddExpense.add estoure um erro.
+    - Garantir que o retorno 200 se sucesso.
+  - GetExpensesByBudget
+    - Garantir que GetExpensesByBudget.getByBudget seja chamado com os valores corretos.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+    - Garantir que o retorno seja 500 caso GetExpensesByBudget.getByBudget estoure um erro.
+    - Garantir que o retorno 200 se sucesso.
+  - SendInvite
+    - Garantir que AddInvite.add seja chamado com os valores corretos.
+    - Garantir que o retorno seja 400 caso AddInvite.add retorne nulo.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+    - Garantir que o retorno seja 500 caso AddInvite.add estoure um erro.
+    - Garantir que o retorno 200 se sucesso.
+- Validations
+  - EmailValidation
+    - Garantir que o Validation estoure um erro caso o Validator estoure.
+    - Garantir que o Validator seja chamado com o email correto.
+- Middlewares
+  - AuthMiddleware
+    - Garantir que o retorno seja 403 se o parametro x-access-token não exista na headers.
+    - Garantir que o GetUserByToken seja chamado com os valores corretos.
+    - Garantir que o retorno seja 403 se GetUserByToken retornar nulo.
+    - Garantir que o retorno seja 200 se GetUserByToken retornar um usuario.
+    - Garantir que o retorno seja 500 caso GetUserByToken.getByToken estoure um erro.
+  - ContentType
+    - Garantir que o conteudo seja retornado em JSON.
+  - ContentType
+    - Garantir que o conteúdo chegue em JSON.
+  - Cors
+    - Garantir que esteja habilitado.
+- Casos de Uso
+  - AddBudget
+    - Garantir que o método add seja chamado com os valores corretos.
+    - Garantir que estoure um erro caso o add estoure.
+    - Garantir que seja retornado um budget.
+  - DeleteBudget
+    - Garantir que o método deleteById seja chamado com os valores corretos.
+    - Garantir que estoure um erro caso o deleteById estoure.
+    - Garantir que seja retornado um void quando sucesso.
+  - AddExpense
+    - Garantir que o método add seja chamado com os valores corretos.
+    - Garantir que estoure um erro caso o add estoure.
+    - Garantir que seja retornado uma expense.
+  - GetExpensesByBudget
+    - Garantir que o método getByBudget seja chamado com os valores corretos.
+    - Garantir que estoure um erro caso o getByBudget estoure.
+    - Garantir que seja retornado uma lista de expenses.
+  - AddUser
+    - Garantir que o método add seja chamado com os valores corretos.
+    - Garantir que estoure um erro caso o add estoure.
+    - Garantir que seja retornado um usuario.
+    - Garantir a integração com o Hasher.
+    - Garantir que estoure um erro caso o Hasher estoure.
+    - Garantir que irá retornar nulo caso o getUserByEmail retorne nulo.
+    - Garantir que o getUserByEmail será chamado com os valores corretos.
+  - Authentication
+    - Garantir que o getUserByEmail será chamado com o email correto.
+    - Garantir que irá estourar erro caso o getUserByEmail estoure.
+    - Garantir que irá retornar nulo caso o getUserByEmail retorne nulo.
+    - Garantir que irá chamar o HashComparer com as senhas corretas.
+    - Garantir que irá estourar erro caso o HashComparer estoure.
+    - Garantir que irá retornar nulo caso o HashComparer retorne nulo.
+    - Garantir que irá chamar o TokenGenerator com o id correto.
+    - Garantir que irá estourar erro caso o TokenGenerator estoure.
+    - Garantir que irá retornar um accessToken caso o TokenGenerator em sucesso.
+    - Garantir que irá chamar o UpdateAccessTokenRepo com os valores corretos.
+    - Garantir que irá estourar erro caso o UpdateAccessTokenRepo estoure.
+  - GetUserByToken
+    - Garantir que o Decrypter será chamado com os valores corretos.
+    - Garantir que irá estourar erro caso o Decrypter estoure.
+    - Garantir que irá retornar nulo caso o Decrypter retorne nulo.
+    - Garantir que o getUserByToken será chamado com os valores corretos.
+    - Garantir que irá estourar erro caso o getUserByToken estoure.
+    - Garantir que irá retornar nulo caso o getUserByToken retorne nulo.
+    - Garantir que retorne um usuário no sucesso.
+- Repositorios
+  - BudgetFirestoreRepo
+    - Garantir que irá retornar um budget com o método add.
+    - Garantir que irá retornar um budget com o método getById.
+    - Garantir que irá retornar nulo no getById quando não existir.
+    - Garantir que irá retornar um id no método deleteById.
+    - Garantir que irá retornar nulo no deleteById quando não existir.
+  - ExpenseFirestoreRepo
+    - Garantir que irá retornar um expense com o metodo getById.
+    - Garantir que irá retornar nulo getById não encontrar nada.
+    - Garantir que irá retornar um id correto  no método deleteById.
+    - Garantir que irá retornar nulo quando deleteById não encontrar nada.
+    - Garantir que o método getByBudget retorne um array de expenses.
+    - Garantir que o método getByBudget retorne um array de expenses vazio quando não encontrar.
+    - Garantir que o método add vai inserir a expense como subcoleção do seu budget.
+    - Garantir que o método add vai retornar uma expense.
+    - Garantir que o método add vai retornar nulo se não encontrar expense.
+  - FiresoreHelper
+    - Garantir que irá se conectar a sessão caso o getCollection seja chamado sem ser conectado.
+  - InviteFirestoreRepo
+    - Garantir que irá retornar um invite com o método add.
+    - Garantir que irá retornar nulo caso o id do "to_user" não seja encontrado.
+  - UserFirestoreRepo
+    - Garantir que retorne um usuário no método add.
+    - Garantir que retorne um usuário no método getByEmail.
+    - Garantir que retorne nulo quando falhar.
+    - Garantir que retorne um accessToken quando chamar updateAccessToken.
+    - Garantir que um usuário seka retornado com getByToken metodo (sem role)
+    - Garantir que um usuário seka retornado com getByToken metodo (com role)
+    - Garantir que o método getByToken retornará um usuário.
+    - Garantir que o método getByToken reorne nulo se falhar.
+- Security
+  - BcryptAdapter
+    - Garantir que o hash seja chamado com os valores corretos.
+    - Garantir que o hash retorne um hash.
+    - Garantir que estoure um erro caso o hash estoure.
+    - Garantir que o compare seja chamado com os valores corretos.
+    - Garantir que o compare retorne um true.
+    - Garantir que o compare retorne um false se falhar.
+    - Garantir que estoure um erro caso o compare estoure. 
+  - JWTAdapter
+    - Garantir que o sign seja chamado com os valores corretos.
+    - Garantir que o sign retorne um token.
+    - Garantir que estoure um erro caso o sign estoure. 
+    - Garantir que o verify seja chamado com os valores corretos.
+    - Garantir que o verify retorne u valor correto.
+    - Garantir que estoure um erro caso o verify estoure. 
+- Validations
+  - Garantir que todos os controllers chamem as validaçoes corretas.
+- EmailValidatorAdapter
+  - Garantir que o isEmail seja chamado com os valores corretos.
+  - Garantir que o isEmail retorne um true se o email tiver correto.
+  - Garantir que estoure um erro caso o isEmail estoure. 
+- LogControllerDecorator
+  - Garantir que o métopdo handle seja chamado.
+  - Garantir que o retorno seja o mesmo do Controller.
+- Routes
+  - Garantir que todas as rotas sejam chamadas corretamente.
