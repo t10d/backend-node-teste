@@ -50,7 +50,7 @@ A descrição da cobertura de testes está disponível em [TESTS](TESTS.md)
 - Testes automatizados com Jest.
 - Arquitetura REST.
 - Swagger Documentation.
-- Docker e docker-compose.
+- Docker.
 - Husky para lint-staged.
 
 ## 💻 Setup de Desenvolvimento
@@ -66,6 +66,5 @@ Para setup de desenvolvimento basta fazer seguir os passos a seguir:
 - Para gerar o coverage execute `npm run test:coverage`
 
 ## 🚀 Build de Produção (docker)
-1. Execute `npm run build`
-2. Execute `npm run up`
+Execute `npm run up`
 
