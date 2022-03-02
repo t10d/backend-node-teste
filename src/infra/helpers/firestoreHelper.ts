@@ -15,6 +15,12 @@ export const FirestoreHelper = {
     this.db = admin.firestore()
   },
 
+  async disconnect (): Promise<void> {
+    if (this.db) {
+      this.db.terminate()
+    }
+  },
+
   getCollection (name: string): FirebaseFirestore.CollectionReference {
     if (!this.db) {
       this.connect()
