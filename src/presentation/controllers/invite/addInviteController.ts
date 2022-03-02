@@ -14,7 +14,6 @@ export class AddInviteController implements Controller {
       const error = this.validation.validate(httpRequest.body)
 
       if (error) {
-        console.error('ENTROU NO VALIDATION')
         return badRequest(error)
       }
 
@@ -25,7 +24,6 @@ export class AddInviteController implements Controller {
       })
 
       if (!invite) {
-        console.error('ENTROU NO INVITE')
         return badRequest(new UserNotFoundError())
       }
 
