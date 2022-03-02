@@ -7,7 +7,6 @@ import { sign } from "jsonwebtoken"
 
 const makeInvite = (date: Date): AddInviteModel => ({
   description: 'invite_desc',
-  from: 'from_user_id',
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id'
@@ -32,7 +31,7 @@ describe('Invite Routes', () => {
       FirestoreHelper.connect()
     })
     
-    beforeEach(async () => {
+    afterAll(async () => {
       await FirestoreHelper.deleteAll('invites')
     })
 
@@ -47,6 +46,7 @@ describe('Invite Routes', () => {
 
     describe('with accessToken', () => {
       beforeAll(async () => {
+        await FirestoreHelper.deleteAll('users')
         const userDoc = FirestoreHelper.getCollection('users').doc()
         accessToken = sign({ id: userDoc.id }, env.jwtSecret)
         const userObject = { 
@@ -56,6 +56,12 @@ describe('Invite Routes', () => {
           accessToken: accessToken
         }
         await userDoc.set(userObject)
+
+        await FirestoreHelper.getCollection('users').doc('to_user_id').set({
+          name: 'name',
+          email: 'email@email.com',
+          password: 'hashed_password'
+        })
       })
 
       test('Should return 200 and an invite on add success', async () => {
@@ -69,7 +75,6 @@ describe('Invite Routes', () => {
       test('Should return 400 if missing params or incorrect params', async () => {
           const fakeInvite = makeInvite(date)
           delete fakeInvite.description
-          delete fakeInvite.from
 
           for (const key in makeInvite(date)) {
             const newFakeInvite = Object.assign({}, fakeInvite)
