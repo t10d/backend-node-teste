@@ -41,6 +41,8 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 ## 👁️ Cobertura de Testes
 A descrição da cobertura de testes está disponível em [TESTS](TESTS.md)
 
+## 🗂️ Estrutura de Pastas
+![](folder_structure.png)
 ## 🧱 Tecnologias utilizadas
 
 - Node.js com Typescript.
@@ -66,3 +68,4 @@ Para setup de desenvolvimento basta fazer seguir os passos a seguir:
 ## 🚀 Build de Produção (docker)
 1. Execute `npm run build`
 2. Execute `npm run up`
+
