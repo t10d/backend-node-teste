@@ -1,7 +1,12 @@
 import { Router } from "express"
 import { expressAdapter } from "../adapters/expressAdapter"
+import { expressMiddlewareAdapter } from "../adapters/expressMiddlewareAdapter"
 import { makeAddExpenseController } from "../factories/expense/makeAddExpenseController"
+import { makeGetExpensesByBudgetController } from "../factories/expense/makeGetExpensesByBudgetController"
+import { makeAuthMiddleware } from "../factories/middlewares/makeAuthMiddleware"
 
 export default (router: Router): void => {
-  router.post('/expense', expressAdapter(makeAddExpenseController()))
+  const userAuth = expressMiddlewareAdapter(makeAuthMiddleware('user'))
+  router.post('/expense', userAuth, expressAdapter(makeAddExpenseController()))
+  router.get('/expenses', userAuth, expressAdapter(makeGetExpensesByBudgetController()))
 }
