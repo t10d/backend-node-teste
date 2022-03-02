@@ -62,7 +62,7 @@ const makeSUT = (): SUTTypes => {
 }
 
 describe('Budget Controller', () => {
-  test('Should call AddBudget with correct values', async () => {
+  test('Should call AddBudget.add with correct values', async () => {
     const { sut, addBudgetStub } = makeSUT()
 
     const addSpy = jest.spyOn(addBudgetStub, 'add')
@@ -98,7 +98,7 @@ describe('Budget Controller', () => {
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_param')))
   })
 
-  test('Should return 500 if add user throw an error', async () => {
+  test('Should return 500 if AddBudget.add throw an error', async () => {
     const { sut, addBudgetStub } = makeSUT()
 
     jest.spyOn(addBudgetStub, 'add').mockImplementationOnce(async () => {

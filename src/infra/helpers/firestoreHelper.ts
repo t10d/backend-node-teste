@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 
-const firebaseKey = require('../../../keys/auth-api-342301-firebase-adminsdk-y8u6y-857a7a96b2.json')
+const firebaseKey = require('../../../keys/YOUR_JSON_KEY.json')
 
 export const FirestoreHelper = {
   db: null as admin.firestore.Firestore,
