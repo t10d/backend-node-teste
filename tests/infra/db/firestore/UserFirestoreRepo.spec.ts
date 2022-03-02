@@ -57,6 +57,7 @@ describe('User Repository', () => {
     test('Should return null on getByEmail failure', async () => {
       const { sut } = makeSUT()
 
+      await FirestoreHelper.deleteAll('users')
       const user = await sut.getByEmail('email@email.com')
 
       expect(user).toBeNull()

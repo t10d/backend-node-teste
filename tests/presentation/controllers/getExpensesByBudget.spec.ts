@@ -7,8 +7,11 @@ import { HttpRequest } from "../../../src/presentation/interfaces"
 import { Validation } from "../../../src/presentation/interfaces/validation"
 
 const makeFakeRequest = (): HttpRequest => ({
-  params: {
-    id: 'budget_id'
+  query: {
+    budgetId: 'budget_id'
+  },
+  body: {
+    userId: 'user_id'
   }
 })
 
@@ -68,7 +71,7 @@ describe('GetExpensesByBudget Controller', () => {
 
       await sut.handle(httpRequest)
 
-      expect(deleteSpy).toHaveBeenCalledWith('budget_id')
+      expect(deleteSpy).toHaveBeenCalledWith('budget_id', 'user_id')
     })
 
     test('Should return 500 if get throw an error', async () => {
@@ -93,7 +96,7 @@ describe('GetExpensesByBudget Controller', () => {
 
       await sut.handle(httpRequest)
 
-      expect(validateSpy).toHaveBeenCalledWith(httpRequest.params)
+      expect(validateSpy).toHaveBeenCalledWith(httpRequest.query)
     })
 
     test('Should return 400 with validation fails', async () => {
