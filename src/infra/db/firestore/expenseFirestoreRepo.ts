@@ -1,12 +1,12 @@
 import { DeleteExpenseByIdRepo } from "../../../data/interfaces/db/expense/deleteExpenseByIdRepo"
 import { GetExpenseByIdRepo } from "../../../data/interfaces/db/expense/getExpenseByIdRepo"
 import { GetExpensesByBudgetRepo } from "../../../data/interfaces/db/expense/getExpensesByBudgetRepo"
-import { AddExpenseRepo } from "../../../data/useCases/expense/interfaces"
+import { AddExpenseRepo, UpdateExpenseRepo } from "../../../data/useCases/expense/interfaces"
 import { ExpenseModel } from "../../../domain/models"
-import { AddExpenseModel } from "../../../domain/useCases"
+import { AddExpenseModel, UpdateExpenseModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
-export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo, DeleteExpenseByIdRepo, GetExpensesByBudgetRepo {
+export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo, DeleteExpenseByIdRepo, GetExpensesByBudgetRepo, UpdateExpenseRepo {
   async add (expenseData: AddExpenseModel): Promise<ExpenseModel> {
     const budgetRef = FirestoreHelper.getCollection('budgets').doc(expenseData.budgetId)
 
@@ -20,21 +20,26 @@ export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo,
     return null
   }
 
+  async update(expenseData: UpdateExpenseModel): Promise<ExpenseModel> {
+    const budgetRef = FirestoreHelper.getCollection('budgets').doc(expenseData.budgetId)
+
+    if ((await budgetRef.get()).exists) {
+      const expenseObject = { id: expenseData.id, ...expenseData }
+      const expenseRef = budgetRef.collection('expenses').doc(expenseData.id)
+
+      if (!(await expenseRef.get()).exists) return null
+      
+      await expenseRef.update(expenseObject)
+      
+      return new Promise(resolve => resolve(expenseObject as ExpenseModel))
+    }
+    return null
+  }
+
   async getById(id: string, budgetId: string): Promise<ExpenseModel> {
     const expenseDoc = FirestoreHelper.getCollection(`budgets/${budgetId}/expenses`).doc(id)
     const expense = (await expenseDoc.get()).data()
-    if (expense) {
-      return {
-        id: expense.id,
-        name: expense.name,
-        category: expense.category,
-        realized: expense.realized,
-        projected: expense.projected,
-        type: expense.type,
-        budgetId: expense.budgetId
-      }
-    }
-    return null
+    return expense as ExpenseModel || null
   }
 
   async deleteById(id: string, budgetId: string): Promise<string> {
