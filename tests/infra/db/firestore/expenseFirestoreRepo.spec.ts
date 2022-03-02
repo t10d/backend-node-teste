@@ -11,6 +11,7 @@ interface SUTTypes {
 const makeSUT = (): SUTTypes => {
   const sut = new ExpenseFirestoreRepo()
   const budgetSut = new BudgetFirestoreRepo()
+
   return {
     sut,
     budgetSut
@@ -30,98 +31,127 @@ const makeAddBudget = (): AddBudgetModel => ({
   name: 'budget_name',
   totalRealized: 42,
   totalProjected: 420.42,
-  userID: 'user_id'
+  userId: 'user_id'
 })
 
-let mockBudget = null
+let budgetAdded = null
 
 describe('Expense Repository', () => {
   beforeAll(async () => {
     const { budgetSut } = makeSUT()
 
     FirestoreHelper.connect()
-    await FirestoreHelper.deleteAll('expenses')
-    await FirestoreHelper.deleteAll('budgets')
-    
-    mockBudget = (await budgetSut.add(makeAddBudget()))
+    await FirestoreHelper.deleteCollection('expenses', 100)
+    await FirestoreHelper.deleteCollection('budgets', 100)
+
+    budgetAdded = await budgetSut.add(makeAddBudget())
   })
  
   afterAll(async () => {
-    await FirestoreHelper.deleteAll('expenses')
-    await FirestoreHelper.deleteAll('budgets')
-  })
-
-  test('ExpenseFirestoreRepo.add should add expense as sub collection os budget', async () => {
-    const { sut, budgetSut } = makeSUT()
-
-    const expense = await sut.add(makeAddExpense(mockBudget.id))
-    const budget = await budgetSut.getById(expense.budgetId)
-
-    expect(budget.expenses).toContainEqual(expense)
-  })
-
-  test('Should return an expense on add success', async () => {
-    const { sut } = makeSUT()
-
-    const expense = await sut.add(makeAddExpense(mockBudget.id))
-
-    expect(expense).toBeTruthy()
-    expect(expense.id).toBeTruthy()
-    expect(expense.name).toBe('expense_name')
-    expect(expense.realized).toBe(420)
-    expect(expense.projected).toBe(500)
-    expect(expense.type).toBe('variable')
-    expect(expense.budgetId).toBe(mockBudget.id)
-  })
-
-  test('Should return an expense on getById success', async () => {
-    const { sut } = makeSUT()
-    
-    const expenseAdded = await sut.add(makeAddExpense(mockBudget.id))
-    const expense = await sut.getById(expenseAdded.id)
-
-    expect(expense).toBeTruthy()
-    expect(expense.id).toBeTruthy()
-    expect(expense.name).toBe('expense_name')
-    expect(expense.realized).toBe(420)
-    expect(expense.projected).toBe(500)
-    expect(expense.type).toBe('variable')
-    expect(expense.budgetId).toBe(mockBudget.id)
-  })
-
-  test('Should return null on getById failure', async () => {
-    const { sut } = makeSUT()
-
-    const expense = await sut.getById('any_not_found_id')
-
-    expect(expense).toBeNull()
-  })
-
-  test('Should deleteById an expense successfully and return id', async () => {
-    const { sut } = makeSUT()
-    
-    const expenseAdded = await sut.add(makeAddExpense(mockBudget.id))
-    const expenseDeletedId = await sut.deleteById(expenseAdded.id)
-    const expense = await sut.getById(expenseDeletedId)
-
-    expect(expenseAdded.id).toEqual(expenseDeletedId)
-    expect(expense).toBeFalsy()
-  })
-
-  test('Should return null on deleteById failure', async () => {
-    const { sut } = makeSUT()
-
-    const expense = await sut.deleteById('no_exists_id')
-
-    expect(expense).toBeNull()
-  })
-
-  test('Should return null if not found a budget', async () => {
-    const { sut } = makeSUT()
-
+    await FirestoreHelper.deleteCollection('expenses', 100)
     await FirestoreHelper.deleteCollection('budgets', 100)
-    const expense = await sut.add(makeAddExpense(mockBudget.id))
+  })
 
-    expect(expense).toBeNull()
+  describe('getById', () => {
+    test('Should return an expense on getById success', async () => {
+      const { sut, budgetSut } = makeSUT()
+      
+      // const budgetAdded = await budgetSut.add(makeAddBudget())
+      const expenseAdded = await sut.add(makeAddExpense(budgetAdded.id))
+      const expense = await sut.getById(expenseAdded.id, budgetAdded.id)
+
+      expect(expense).toBeTruthy()
+      expect(expense.id).toBeTruthy()
+      expect(expense.name).toBe('expense_name')
+      expect(expense.realized).toBe(420)
+      expect(expense.projected).toBe(500)
+      expect(expense.type).toBe('variable')
+      expect(expense.budgetId).toBe(budgetAdded.id)
+    })
+
+    test('Should return null on getById failure', async () => {
+      const { sut } = makeSUT()
+
+      const expense = await sut.getById('no_exists_id', 'any_budget_id')
+
+      expect(expense).toBeNull()
+    })
+  })
+
+  describe('deleteById', () => {
+    test('Should deleteById an expense successfully and return id', async () => {
+      const { sut, budgetSut } = makeSUT()
+      
+      const expenseAdded = await sut.add(makeAddExpense(budgetAdded.id))
+      const expenseDeletedId = await sut.deleteById(expenseAdded.id, budgetAdded.id)
+      const expense = await sut.getById(expenseDeletedId, budgetAdded.id)
+
+      expect(expenseAdded.id).toEqual(expenseDeletedId)
+      expect(expense).toBeFalsy()
+    })
+
+    test('Should return null on deleteById failure', async () => {
+      const { sut } = makeSUT()
+
+      const expense = await sut.deleteById('no_exists_id', 'any_budget_id')
+
+      expect(expense).toBeNull()
+    })
+  })
+
+  describe('getByBudget', () => {
+    test('Should return an empty array of expenses on getByBudget failure', async () => {
+      const { sut } = makeSUT()
+  
+      const expenses = await sut.getByBudget('no_exists_id')
+  
+      expect(expenses).toEqual([])
+    })
+
+    test('Should return an correct array of expenses on getByBudget success', async () => {
+      const { sut, budgetSut } = makeSUT()
+      
+      const expense = await sut.add(makeAddExpense(budgetAdded.id))
+
+      const expenses = await sut.getByBudget(budgetAdded.id)
+
+      expect(expenses).toContainEqual({ ...makeAddExpense(budgetAdded.id), id: expense.id })
+    })
+  })
+
+  describe('add', () => {
+    test('ExpenseFirestoreRepo.add should add expense as sub collection of a budget', async () => {
+      const { sut, budgetSut } = makeSUT()
+
+      const expense = await sut.add(makeAddExpense(budgetAdded.id))
+      const budget = await budgetSut.getById(expense.budgetId)
+
+      expect(budget.expenses).toContainEqual(expense)
+    })
+
+    test('Should return an expense on add success', async () => {
+      const { sut, budgetSut } = makeSUT()
+
+      // const budgetAdded = await budgetSut.add(makeAddBudget())
+      const expense = await sut.add(makeAddExpense(budgetAdded.id))
+
+      expect(expense).toBeTruthy()
+      expect(expense.id).toBeTruthy()
+      expect(expense.name).toBe('expense_name')
+      expect(expense.realized).toBe(420)
+      expect(expense.projected).toBe(500)
+      expect(expense.type).toBe('variable')
+      expect(expense.budgetId).toBe(budgetAdded.id)
+    })
+
+    // test('Should return null if not found a budget', async () => {
+    //   const { sut, budgetSut } = makeSUT()
+      
+    //   // const budgetAdded = await budgetSut.add(makeAddBudget())
+    //   await FirestoreHelper.deleteCollection('budgets', 100)
+    //   const expense = await sut.add(makeAddExpense(budgetAdded.id))
+  
+    //   expect(expense).toBeNull()
+    // })
   })
 })
