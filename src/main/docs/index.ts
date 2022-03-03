@@ -2,13 +2,17 @@ export default {
   "openapi": "3.0.0",
   "info": {
     "title": "NodeJS Budget Manager API",
-    "contact": {},
+    "contact": {
+      
+    },
     "version": "1.0"
   },
   "servers": [
     {
-      "url": "http://localhost:6060/api",
-      "variables": {}
+      "url": "https://localhost:6060/api",
+      "variables": {
+        
+      }
     }
   ],
   "paths": {
@@ -19,7 +23,9 @@ export default {
         ],
         "summary": "SignUp",
         "operationId": "SignUp",
-        "parameters": [],
+        "parameters": [
+          
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -38,9 +44,11 @@ export default {
           "required": true
         },
         "responses": {
-          "default": {
-            "description": "",
-            "headers": {},
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -54,7 +62,9 @@ export default {
           },
           "400": {
             "description": "Bad Request",
-            "headers": {},
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -62,6 +72,22 @@ export default {
                 },
                 "example": {
                   "error": "Invalid param: password"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError1"
+                },
+                "example": {
+                  "error": "Internal Server Error"
                 }
               }
             }
@@ -86,7 +112,7 @@ export default {
             "style": "simple",
             "schema": {
               "type": "string",
-              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImlTb1VQdnBuYTVUNXRpbmRYaExnIiwiaWF0IjoxNjQ2MTk0ODg0fQ.Uxe-sNzxTmS4iMACfaK-8t_ZBMcGjg2TyoDffde14Os"
+              "example": "<ACCESS_TOKEN>"
             }
           }
         ],
@@ -106,9 +132,11 @@ export default {
           "required": true
         },
         "responses": {
-          "default": {
-            "description": "",
-            "headers": {},
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -116,6 +144,38 @@ export default {
                 },
                 "example": {
                   "accessToken": "ACCESS_TOKEN"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthMissingParam1"
+                },
+                "example": {
+                  "error": "Missing param: password"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError1"
+                },
+                "example": {
+                  "error": "Internal Server Error"
                 }
               }
             }
@@ -131,7 +191,20 @@ export default {
         ],
         "summary": "Add Budget",
         "operationId": "AddBudget",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "<ACCESS_TOKEN>"
+            }
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -149,9 +222,20 @@ export default {
           "required": true
         },
         "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
+            "content": {
+              
+            }
+          },
           "400": {
             "description": "Bad Request",
-            "headers": {},
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -163,13 +247,15 @@ export default {
               }
             }
           },
-          "default": {
-            "description": "",
-            "headers": {},
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddBudgetServerError"
+                  "$ref": "#/components/schemas/AddBudgetServerError1"
                 },
                 "example": {
                   "error": "Internal error"
@@ -181,18 +267,43 @@ export default {
         "deprecated": false
       }
     },
-    "/budget/budget_id": {
+    "/budget/{id}": {
       "delete": {
         "tags": [
           "Budget"
         ],
         "summary": "Delete Budget",
         "operationId": "DeleteBudget",
-        "parameters": [],
-        "responses": {
-          "default": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
             "description": "",
-            "headers": {},
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "null"
+            }
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "<ACCESS_TOKEN>"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -200,6 +311,38 @@ export default {
                 },
                 "example": {
                   "id": "budget_id"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBudgetNotFound1"
+                },
+                "example": {
+                  "error": "Resource not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBudgetServerError1"
+                },
+                "example": {
+                  "error": "Internal error"
                 }
               }
             }
@@ -215,7 +358,19 @@ export default {
         ],
         "summary": "Add Expense",
         "operationId": "AddExpense",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "<ACCESS_TOKEN>"
+            }
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -236,9 +391,11 @@ export default {
           "required": true
         },
         "responses": {
-          "default": {
-            "description": "",
-            "headers": {},
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -252,6 +409,38 @@ export default {
                   "projected": 420,
                   "type": "type",
                   "budgetId": "budget_id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddExpenseMissingParam1"
+                },
+                "example": {
+                  "error": "Missing param: projected"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddExpenseServerError1"
+                },
+                "example": {
+                  "error": "Internal error"
                 }
               }
             }
@@ -293,9 +482,11 @@ export default {
           }
         ],
         "responses": {
-          "default": {
-            "description": "",
-            "headers": {},
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -327,6 +518,276 @@ export default {
                     "budgetId": "budget_id"
                   }
                 ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExpensesbyBudgetMissinsParam1"
+                },
+                "example": {
+                  "error": "Missing param: budgetId"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExpensesbyBudgetServerError1"
+                },
+                "example": {
+                  "error": "Internal error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/expense/{id}": {
+      "put": {
+        "tags": [
+          "Expense"
+        ],
+        "summary": "Update Expense",
+        "operationId": "UpdateExpense",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "null"
+            }
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "<ACCESS_TOKEN>"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExpenseRequest"
+              },
+              "example": {
+                "name": "expense_name",
+                "category": "food",
+                "realized": 420,
+                "projected": 500,
+                "type": "variable",
+                "budgetId": "budget_id"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateExpenseOk"
+                },
+                "example": {
+                  "name": "expense_name",
+                  "category": "food",
+                  "realized": 420,
+                  "projected": 500,
+                  "type": "variable",
+                  "budgetId": "budget_id"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateExpenseNotFound1"
+                },
+                "example": {
+                  "error": "Resource not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateExpenseServerError1"
+                },
+                "example": {
+                  "error": "Internal error"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/invite": {
+      "post": {
+        "tags": [
+          "Invite"
+        ],
+        "summary": "Send Invite",
+        "operationId": "SendInvite",
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "<ACCESS_TOKEN>"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendInviteRequest"
+              },
+              "example": {
+                "description": "invite_desc",
+                "to": "to_user_id",
+                "date": "date",
+                "budgetId": "budget_id"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpInvalidParam1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpInvalidParam1"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/invite/{id}": {
+      "delete": {
+        "tags": [
+          "Invite"
+        ],
+        "summary": "Delete Invite",
+        "operationId": "DeleteInvite",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "null"
+            }
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "<ACCESS_TOKEN>"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpInvalidParam1"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpInvalidParam1"
+                }
               }
             }
           }
@@ -412,8 +873,8 @@ export default {
           "error": "Missing param: name"
         }
       },
-      "SignUpServerError": {
-        "title": "SignUpServerError",
+      "ServerError1": {
+        "title": "ServerError1",
         "required": [
           "error"
         ],
@@ -424,7 +885,7 @@ export default {
           }
         },
         "example": {
-          "error": "Internal error"
+          "error": "Internal Server Error"
         }
       },
       "AuthRequest": {
@@ -462,8 +923,8 @@ export default {
           "accessToken": "ACCESS_TOKEN"
         }
       },
-      "AuthMissingParam": {
-        "title": "AuthMissingParam",
+      "AuthMissingParam1": {
+        "title": "AuthMissingParam1",
         "required": [
           "error"
         ],
@@ -475,21 +936,6 @@ export default {
         },
         "example": {
           "error": "Missing param: password"
-        }
-      },
-      "AuthServerError": {
-        "title": "AuthServerError",
-        "required": [
-          "error"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string"
-          }
-        },
-        "example": {
-          "error": "Internal error"
         }
       },
       "AddBudgetRequest": {
@@ -534,8 +980,8 @@ export default {
           "error": "Missing param: totalRealized"
         }
       },
-      "AddBudgetServerError": {
-        "title": "AddBudgetServerError",
+      "AddBudgetServerError1": {
+        "title": "AddBudgetServerError1",
         "required": [
           "error"
         ],
@@ -564,8 +1010,8 @@ export default {
           "id": "budget_id"
         }
       },
-      "DeleteBudgetNotFound": {
-        "title": "DeleteBudgetNotFound",
+      "DeleteBudgetNotFound1": {
+        "title": "DeleteBudgetNotFound1",
         "required": [
           "error"
         ],
@@ -579,8 +1025,8 @@ export default {
           "error": "Resource not found"
         }
       },
-      "DeleteBudgetServerError": {
-        "title": "DeleteBudgetServerError",
+      "DeleteBudgetServerError1": {
+        "title": "DeleteBudgetServerError1",
         "required": [
           "error"
         ],
@@ -683,8 +1129,8 @@ export default {
           "budgetId": "budget_id"
         }
       },
-      "AddExpenseMissingParam": {
-        "title": "AddExpenseMissingParam",
+      "AddExpenseMissingParam1": {
+        "title": "AddExpenseMissingParam1",
         "required": [
           "error"
         ],
@@ -698,8 +1144,8 @@ export default {
           "error": "Missing param: projected"
         }
       },
-      "AddExpenseServerError": {
-        "title": "AddExpenseServerError",
+      "AddExpenseServerError1": {
+        "title": "AddExpenseServerError1",
         "required": [
           "error"
         ],
@@ -760,8 +1206,8 @@ export default {
           "budgetId": "budget_id"
         }
       },
-      "GetExpensesbyBudgetMissinsParam": {
-        "title": "GetExpensesbyBudgetMissinsParam",
+      "GetExpensesbyBudgetMissinsParam1": {
+        "title": "GetExpensesbyBudgetMissinsParam1",
         "required": [
           "error"
         ],
@@ -775,8 +1221,8 @@ export default {
           "error": "Missing param: budgetId"
         }
       },
-      "GetExpensesbyBudgetServerError": {
-        "title": "GetExpensesbyBudgetServerError",
+      "GetExpensesbyBudgetServerError1": {
+        "title": "GetExpensesbyBudgetServerError1",
         "required": [
           "error"
         ],
@@ -788,6 +1234,150 @@ export default {
         },
         "example": {
           "error": "Internal error"
+        }
+      },
+      "UpdateExpenseRequest": {
+        "title": "UpdateExpenseRequest",
+        "required": [
+          "name",
+          "category",
+          "realized",
+          "projected",
+          "type",
+          "budgetId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "realized": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "budgetId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "expense_name",
+          "category": "food",
+          "realized": 420,
+          "projected": 500,
+          "type": "variable",
+          "budgetId": "budget_id"
+        }
+      },
+      "UpdateExpenseOk": {
+        "title": "UpdateExpenseOk",
+        "required": [
+          "name",
+          "category",
+          "realized",
+          "projected",
+          "type",
+          "budgetId"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "realized": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "projected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "budgetId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "expense_name",
+          "category": "food",
+          "realized": 420,
+          "projected": 500,
+          "type": "variable",
+          "budgetId": "budget_id"
+        }
+      },
+      "UpdateExpenseNotFound1": {
+        "title": "UpdateExpenseNotFound1",
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "error": "Resource not found"
+        }
+      },
+      "UpdateExpenseServerError1": {
+        "title": "UpdateExpenseServerError1",
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "error": "Internal error"
+        }
+      },
+      "SendInviteRequest": {
+        "title": "SendInviteRequest",
+        "required": [
+          "description",
+          "to",
+          "date",
+          "budgetId"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "budgetId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "description": "invite_desc",
+          "to": "to_user_id",
+          "date": "date",
+          "budgetId": "budget_id"
         }
       }
     }
@@ -801,6 +1391,9 @@ export default {
     },
     {
       "name": "Expense"
+    },
+    {
+      "name": "Invite"
     }
   ]
 }
