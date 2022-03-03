@@ -11,7 +11,7 @@ export class DeleteInviteController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.params)
-
+      
       if (error) {
         return badRequest(error)
       }
@@ -20,7 +20,7 @@ export class DeleteInviteController implements Controller {
 
       await this.deleteInvite.delete(id)
 
-      return ok(true)
+      return ok({ message: 'Invite deleted succesfully' })
     } catch (error) {
       return serverError(error)
     }
