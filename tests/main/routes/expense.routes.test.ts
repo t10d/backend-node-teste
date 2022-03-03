@@ -96,6 +96,54 @@ describe('Expense Routes', () => {
     })
   })
 
+  describe('PUT /expense/:id', () => {
+    describe('without accessToken', () => {
+      test('Should return 403 without accessToken', async () => {
+        await request(app)
+          .put('/api/expense/fake-id')
+          .send(makeExpense(mockBudget.id))
+          .expect(403)
+      })
+    })
+
+    describe('with accessToken', () => {
+      beforeAll(async () => {
+        await FirestoreHelper.deleteAll('users')
+        const userDoc = FirestoreHelper.getCollection('users').doc()
+        accessToken = sign({ id: userDoc.id }, env.jwtSecret)
+        const userObject = { 
+          id: userDoc.id, 
+          ...makeAddUser(), 
+          role: 'user',
+          accessToken: accessToken
+        }
+        await userDoc.set(userObject)
+        await FirestoreHelper.getCollection('expenses').doc('fake-id').set(makeExpense(mockBudget.id))
+      })
+
+      test('Should return 200 and an expense on add success', async () => {
+        await request(app)
+          .put('/api/expense/fake-id')
+          .set('x-access-token', accessToken)
+          .send(makeExpense(mockBudget.id))
+          .expect(200)
+      })
+    
+      test('Should return 400 if missing params or incorrect params', async () => {
+        const fakeExpense = makeExpense(mockBudget.id)
+        
+        delete fakeExpense['budgetId']
+
+        console.log(fakeExpense)
+        await request(app)
+          .put('/api/expense/fake-id')
+          .set('x-access-token', accessToken)
+          .send(fakeExpense)
+          .expect(400)
+      })
+    })
+  })
+
   // describe('GET /expenses', () => {
   //   describe('without accessToken', () => {
   //     test('Should return 403 without accessToken', async () => {
