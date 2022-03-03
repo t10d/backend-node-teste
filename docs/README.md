@@ -20,7 +20,7 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 - ✅ Criação de orçamento mensal.
 - ✅ Registro de gastos.
 - ✅ Visualização de gastos.
-- ⬜ Atualização de gasto.
+- ✅ Atualização de gasto.
 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
 
