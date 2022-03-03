@@ -22,7 +22,8 @@ const makeInviteModel = (date: Date): InviteModel => ({
   userId: 'from_user_id',
   to: 'to_user_id',
   date: date,
-  budgetId: 'budget_id'
+  budgetId: 'budget_id',
+  approved: false
 })
 
 let date = new Date()
@@ -79,10 +80,7 @@ describe('Invite Controller', () => {
 
       await sut.handle(httpRequest)
 
-      const fakeInviteModel = makeInviteModel(date)
-      delete fakeInviteModel.id
-
-      expect(addSpy).toHaveBeenCalledWith(fakeInviteModel)
+      expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
     })
 
     test('Should return 400 if AddInvite returns null', async () => {

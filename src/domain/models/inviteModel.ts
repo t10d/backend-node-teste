@@ -4,5 +4,6 @@ export interface InviteModel {
   userId?: string,
   to: string,
   date: Date,
-  budgetId: string
+  budgetId: string,
+  approved: boolean,
 }
