@@ -18,7 +18,7 @@ const makeFakeInvite = (date: Date): InviteModel => ({
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id',
-  approved: false
+  status: 'pending'
 })
 
 const date = new Date()

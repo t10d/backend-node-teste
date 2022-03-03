@@ -9,7 +9,7 @@ export class InviteFirestoreRepo implements AddInviteRepo, DeleteInvite {
     const usersnap = await FirestoreHelper.getCollection('users').doc(inviteData.to).get()
     if (usersnap.exists) {
       const invite = FirestoreHelper.getCollection('invites').doc()
-      const inviteObject = { id: invite.id, approved: false, ...inviteData }
+      const inviteObject = { id: invite.id, status: 'pending', ...inviteData }
 
       await invite.set(inviteObject)
       

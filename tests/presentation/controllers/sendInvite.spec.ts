@@ -23,7 +23,7 @@ const makeInviteModel = (date: Date): InviteModel => ({
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id',
-  approved: false
+  status: 'pending'
 })
 
 let date = new Date()

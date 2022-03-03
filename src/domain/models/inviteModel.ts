@@ -5,5 +5,5 @@ export interface InviteModel {
   to: string,
   date: Date,
   budgetId: string,
-  approved: boolean,
+  status: string,
 }
