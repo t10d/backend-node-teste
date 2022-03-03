@@ -25,7 +25,7 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
 
 - ✅ Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
-- ⬜ Cancelar um convite.
+- ✅ Cancelar um convite.
 - ⬜ Aprovar uma solicitação de convite.
 - ⬜ Rejeitar um solicitação de convite.
 - ⬜ Visualizar convites recebidos.

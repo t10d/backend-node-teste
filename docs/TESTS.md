@@ -46,6 +46,12 @@
     - Garantir que o retorno seja de 400 caso a validação falhe.
     - Garantir que o retorno seja 500 caso AddInvite.add estoure um erro.
     - Garantir que o retorno 200 se sucesso.
+  - DeleteInvite
+    - Garantir que metodo delete seja chamado com os valores corretos.
+    - Garantir que o retorno seja 500 caso delete estoure um erro.
+    - Garantir que o Validation seja chamado com os valores corretos.
+    - Garantir que o retorno seja de 400 caso a validação falhe.
+    - Garantir que o retorno 200 se sucesso.
 - Validations
   - EmailValidation
     - Garantir que o Validation estoure um erro caso o Validator estoure.
