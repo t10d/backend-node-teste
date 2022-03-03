@@ -21,7 +21,7 @@ let accessToken = null
 
 describe('Budget Routes', () => {
   afterAll(async () => {
-    await FirestoreHelper.deleteAll('users')
+    await FirestoreHelper.deleteCollection('users', 100)
   })
 
   describe('POST /budget', () => {
@@ -30,7 +30,7 @@ describe('Budget Routes', () => {
     })
     
     beforeEach(async () => {
-      await FirestoreHelper.deleteAll('budgets')
+      await FirestoreHelper.deleteCollection('budgets', 100)
     })
 
     describe('without accessToken', () => {
@@ -86,7 +86,7 @@ describe('Budget Routes', () => {
     })
     
     beforeEach(async () => {
-      await FirestoreHelper.deleteAll('budgets')
+      await FirestoreHelper.deleteCollection('budgets', 100)
     })
 
     describe('without accessToken', () => {

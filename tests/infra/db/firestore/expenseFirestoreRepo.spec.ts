@@ -51,14 +51,12 @@ describe('Expense Repository', () => {
     const { budgetSut } = makeSUT()
 
     FirestoreHelper.connect()
-    await FirestoreHelper.deleteCollection('expenses', 100)
     await FirestoreHelper.deleteCollection('budgets', 100)
 
     budgetAdded = await budgetSut.add(makeFakeBudget())
   })
  
   afterAll(async () => {
-    await FirestoreHelper.deleteCollection('expenses', 100)
     await FirestoreHelper.deleteCollection('budgets', 100)
   })
 

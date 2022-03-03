@@ -37,11 +37,11 @@ describe('Invite Repository', () => {
   })
  
   beforeEach(async () => {
-    await FirestoreHelper.deleteAll('invites')
+    await FirestoreHelper.deleteCollection('invites', 100)
   })
 
   afterAll(async () => {
-    await FirestoreHelper.deleteAll('users')
+    await FirestoreHelper.deleteCollection('users', 100)
   })
 
   describe('add', () => {

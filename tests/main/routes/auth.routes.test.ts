@@ -10,7 +10,7 @@ describe('POST /signup', () => {
   })
   
   beforeEach(async () => {
-    await FirestoreHelper.deleteAll('users')
+    await FirestoreHelper.deleteCollection('users', 100)
   })
 
   test('Should return 200 and an user on signup success', async () => {
@@ -68,7 +68,7 @@ describe('POST /auth', () => {
   })
   
   beforeEach(async () => {
-    await FirestoreHelper.deleteAll('users')
+    await FirestoreHelper.deleteCollection('users', 100)
   })
 
   test('Should return 200 and an user on login success', async () => {

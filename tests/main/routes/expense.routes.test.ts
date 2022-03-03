@@ -44,7 +44,7 @@ describe('Expense Routes', () => {
   
   afterAll(async () => {
     await FirestoreHelper.deleteCollection('budgets', 100)
-    await FirestoreHelper.deleteAll('users')
+    await FirestoreHelper.deleteCollection('users', 100)
   })
 
   describe('POST /expense', () => {
@@ -59,7 +59,7 @@ describe('Expense Routes', () => {
 
     describe('with accessToken', () => {
       beforeAll(async () => {
-        await FirestoreHelper.deleteAll('users')
+        await FirestoreHelper.deleteCollection('users', 100)
         const userDoc = FirestoreHelper.getCollection('users').doc()
         accessToken = sign({ id: userDoc.id }, env.jwtSecret)
         const userObject = { 
@@ -108,7 +108,7 @@ describe('Expense Routes', () => {
 
     describe('with accessToken', () => {
       beforeAll(async () => {
-        await FirestoreHelper.deleteAll('users')
+        await FirestoreHelper.deleteCollection('users', 100)
         const userDoc = FirestoreHelper.getCollection('users').doc()
         accessToken = sign({ id: userDoc.id }, env.jwtSecret)
         const userObject = { 
@@ -118,7 +118,7 @@ describe('Expense Routes', () => {
           accessToken: accessToken
         }
         await userDoc.set(userObject)
-        await FirestoreHelper.getCollection('expenses').doc('fake-id').set(makeExpense(mockBudget.id))
+        await FirestoreHelper.getCollection(`budgets/${mockBudget.id}/expenses`).doc('fake-id').set(makeExpense(mockBudget.id))
       })
 
       test('Should return 200 and an expense on add success', async () => {
@@ -156,7 +156,7 @@ describe('Expense Routes', () => {
 
   //   describe('with accessToken', () => {
   //     beforeAll(async () => {
-  //       await FirestoreHelper.deleteAll('users')
+  //       await FirestoreHelper.deleteCollection('users', 100)
   //       const userDoc = FirestoreHelper.getCollection('users').doc()
   //       accessToken = sign({ id: userDoc.id }, env.jwtSecret)
   //       const userObject = { 

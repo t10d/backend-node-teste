@@ -26,7 +26,7 @@ describe('Budget Repository', () => {
   })
  
   beforeEach(async () => {
-    await FirestoreHelper.deleteAll('budgets')
+    await FirestoreHelper.deleteCollection('budgets', 100)
   })
   describe('add', () => {
     test('Should return a budget on add success', async () => {

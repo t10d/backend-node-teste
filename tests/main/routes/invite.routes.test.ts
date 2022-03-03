@@ -23,7 +23,7 @@ const date = new Date()
 
 describe('Invite Routes', () => {
   afterAll(async () => {
-    await FirestoreHelper.deleteAll('users')
+    await FirestoreHelper.deleteCollection('users', 100)
   })
 
   describe('POST /invite', () => {
@@ -32,7 +32,7 @@ describe('Invite Routes', () => {
     })
     
     afterAll(async () => {
-      await FirestoreHelper.deleteAll('invites')
+      await FirestoreHelper.deleteCollection('invites', 100)
     })
 
     describe('without accessToken', () => {
@@ -46,7 +46,7 @@ describe('Invite Routes', () => {
 
     describe('with accessToken', () => {
       beforeAll(async () => {
-        await FirestoreHelper.deleteAll('users')
+        await FirestoreHelper.deleteCollection('users', 100)
         const userDoc = FirestoreHelper.getCollection('users').doc()
         accessToken = sign({ id: userDoc.id }, env.jwtSecret)
         const userObject = { 
@@ -92,7 +92,7 @@ describe('Invite Routes', () => {
     })
     
     afterAll(async () => {
-      await FirestoreHelper.deleteAll('invites')
+      await FirestoreHelper.deleteCollection('invites', 100)
     })
 
     describe('without accessToken', () => {
@@ -106,7 +106,7 @@ describe('Invite Routes', () => {
 
     describe('with accessToken', () => {
       beforeAll(async () => {
-        await FirestoreHelper.deleteAll('users')
+        await FirestoreHelper.deleteCollection('users', 100)
         const userDoc = FirestoreHelper.getCollection('users').doc()
         accessToken = sign({ id: userDoc.id }, env.jwtSecret)
         const userObject = { 
