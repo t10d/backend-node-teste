@@ -69,4 +69,25 @@ describe('Invite Repository', () => {
       expect(invite).toBeNull()
     })
   })
+
+  describe('delete', () => {
+    test('Should return null on delete success', async () => {
+      const { sut } = makeSUT()
+
+      FirestoreHelper.db.collection('invites').doc('invite_id').set(makeAddInvite(date))
+      const invite = await sut.delete('invite_id')
+
+      expect(invite).toBeNull()
+    })
+
+    test('Should return null if not found', async () => {
+      const { sut } = makeSUT()
+
+      await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
+
+      const invite = await sut.delete('invite_id')
+
+      expect(invite).toBeNull()
+    })
+  })
 })
