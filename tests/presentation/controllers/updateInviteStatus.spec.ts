@@ -102,11 +102,11 @@ describe('Invite Controller', () => {
 
       const httpRequestAccepted = makeFakeRequest('accepted')
       await sut.handle(httpRequestAccepted)
-      expect(validateSpy).toHaveBeenCalledWith({ ...httpRequestAccepted.params, ...httpRequestAccepted.body })
+      expect(validateSpy).toHaveBeenCalledWith({ ...httpRequestAccepted.params, status: httpRequestAccepted.body.status })
 
       const httpRequestRejected = makeFakeRequest('rejected')
       await sut.handle(httpRequestRejected)
-      expect(validateSpy).toHaveBeenCalledWith({ ...httpRequestRejected.params, ...httpRequestRejected.body })
+      expect(validateSpy).toHaveBeenCalledWith({ ...httpRequestRejected.params, status: httpRequestRejected.body.status })
     })
 
     test('Should return 400 with validation fails', async () => {

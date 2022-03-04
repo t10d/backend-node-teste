@@ -13,7 +13,7 @@ export class UpdateInviteStatusController implements Controller {
       const { id } = httpRequest.params
       const { status, userId } = httpRequest.body
 
-      const error = this.validation.validate({ id, status, userId })
+      const error = this.validation.validate({ id, status })
       
       if (error) {
         return badRequest(error)
