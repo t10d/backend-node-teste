@@ -9,4 +9,5 @@ export default (router: Router): void => {
   const userAuth = expressMiddlewareAdapter(makeAuthMiddleware('user'))
   router.post('/invite', userAuth, expressAdapter(makeAddInviteController()))
   router.delete('/invite/:id', userAuth, expressAdapter(makeDeleteInviteController()))
+  router.patch('/invite_status/:id', userAuth, expressAdapter(makeDeleteInviteController()))
 }
