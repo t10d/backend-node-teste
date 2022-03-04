@@ -7,5 +7,5 @@ export interface UpdateInviteStatusModel {
 }
 
 export interface UpdateInviteStatus {
-  updateStatus (object: UpdateInviteStatusModel): Promise<InviteModel>
+  updateStatus (inviteData: UpdateInviteStatusModel): Promise<boolean>
 }

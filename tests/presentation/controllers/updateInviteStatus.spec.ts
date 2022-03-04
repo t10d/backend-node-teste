@@ -31,10 +31,8 @@ const date = new Date()
 
 const makeUpdateInviteStatusStub = (): UpdateInviteStatus => {
   class UpdateInviteStatusStub implements UpdateInviteStatus {
-    async updateStatus (object: UpdateInviteStatusModel): Promise<InviteModel> {
-      const fakeInvite = makeInviteModel(date, object.status)
-
-      return new Promise(resolve => resolve(fakeInvite))
+    async updateStatus (object: UpdateInviteStatusModel): Promise<boolean> {
+      return new Promise(resolve => resolve(true))
     }
   }
   return new UpdateInviteStatusStub()
@@ -79,7 +77,7 @@ describe('Invite Controller', () => {
       expect(updateSpy).toHaveBeenCalledWith({ ...httpRequestAccepted.params, ...httpRequestAccepted.body })
 
       const httpRequestRejected = makeFakeRequest('rejected')
-      await sut.handle(httpRequestRejected)
+      await sut.handle(httpRequestRejected) 
       expect(updateSpy).toHaveBeenCalledWith({ ...httpRequestRejected.params, ...httpRequestRejected.body })
     })
 
