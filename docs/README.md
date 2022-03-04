@@ -26,8 +26,8 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 
 - ✅ Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
 - ✅ Cancelar um convite.*
-- ⬜ Aprovar uma solicitação de convite.
-- ⬜ Rejeitar um solicitação de convite.
+- ✅ Aprovar uma solicitação de convite.
+- ✅ Rejeitar um solicitação de convite.
 - ⬜ Visualizar convites recebidos.
 - ⬜ Visualizar convites enviados.
 
