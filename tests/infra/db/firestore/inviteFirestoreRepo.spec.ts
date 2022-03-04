@@ -1,4 +1,5 @@
 import { AddInviteModel } from "../../../../src/domain/useCases"
+import { UpdateInviteStatusModel } from "../../../../src/domain/useCases/updateInviteStatus"
 import { InviteFirestoreRepo } from "../../../../src/infra/db/firestore/inviteFirestoreRepo"
 import { FirestoreHelper } from "../../../../src/infra/helpers/firestoreHelper"
 
@@ -19,6 +20,12 @@ const makeAddInvite = (date: Date): AddInviteModel => ({
   to: 'to_user_id',
   date: date,
   budgetId: 'budget_id'
+})
+
+const makeFakeInviteData = (): UpdateInviteStatusModel => ({
+  id: 'invite_id',
+  status: 'any_status',
+  userId: 'to_user_id',
 })
 
 const date = new Date()
@@ -86,6 +93,37 @@ describe('Invite Repository', () => {
       await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
 
       const invite = await sut.delete('invite_id')
+
+      expect(invite).toBeNull()
+    })
+  })
+
+  describe('updateStatus', () => {
+    test('Should return a true on updateStatus success', async () => {
+      const { sut } = makeSUT()
+
+      FirestoreHelper.db.collection('invites').doc('invite_id').set(makeAddInvite(date))
+      const invite = await sut.updateStatus(makeFakeInviteData())
+
+      expect(invite).toEqual(true)
+    })
+
+    test('Should return null if not found', async () => {
+      const { sut } = makeSUT()
+
+      await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
+
+      const invite = await sut.updateStatus(makeFakeInviteData())
+
+      expect(invite).toBeNull()
+    })
+
+    test('Should return null if to_user_id not found', async () => {
+      const { sut } = makeSUT()
+
+      await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
+      await FirestoreHelper.getCollection('users').doc('to_user_id').delete()
+      const invite = await sut.updateStatus(makeFakeInviteData())
 
       expect(invite).toBeNull()
     })
