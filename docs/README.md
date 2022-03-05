@@ -16,20 +16,22 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 ---
 
 ## 🔎 Casos de Uso
-- ✅ Autenticação e acesso à plataforma.
-- ✅ Criação de orçamento mensal.
-- ✅ Registro de gastos.
-- ✅ Visualização de gastos.
-- ✅ Atualização de gasto.
+(Legenda: ✅ Criado, 📝 Documentado. ⬜ Pendente)
+- ✅ 📝 Autenticação e acesso à plataforma.
+- ✅ 📝 Criação de orçamento mensal.
+- ✅ 📝 Registro de gastos.
+- ✅ 📝 Visualização de gastos.
+- ✅ 📝 Atualização de gasto.
+- ⬜ ⬜ Visualizar gastos compartilhados.
 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
 
-- ✅ Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
-- ✅ Cancelar um convite.*
-- ✅ Aprovar uma solicitação de convite.
-- ✅ Rejeitar um solicitação de convite.
-- ⬜ Visualizar convites recebidos.
-- ⬜ Visualizar convites enviados.
+- ✅ 📝 Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
+- ✅ ⬜ Cancelar um convite.
+- ✅ 📝 Aprovar uma solicitação de convite.
+- ✅ 📝 Rejeitar um solicitação de convite.
+- ⬜ ⬜ Visualizar convites recebidos.
+- ⬜ ⬜ Visualizar convites enviados.
 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
 
