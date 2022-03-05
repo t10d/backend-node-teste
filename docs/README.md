@@ -22,7 +22,6 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 - ✅ 📝 Registro de gastos.
 - ✅ 📝 Visualização de gastos.
 - ✅ 📝 Atualização de gasto.
-- ⬜ ⬜ Visualizar gastos compartilhados.
 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
 
@@ -34,6 +33,11 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 - ✅ ⬜ Visualizar convites enviados.
 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
+
+Implementações futuras e obrigatórias
+- ⬜ ⬜ Visualizar gastos compartilhados com o usuário.
+- ⬜ ⬜ Intejar validador de identidade para não permitir alterações em documentos que o usário não possui acesso.
+- ⬜ ⬜ Fazer autenticação nativa do Firebase.
 
 ---
 ## ✅ Extras Task List
