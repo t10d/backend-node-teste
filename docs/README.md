@@ -32,7 +32,7 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 - ✅ 📝 Visualizar convites recebidos.
 - ✅ 📝 Visualizar convites enviados.
 
-**Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
+**Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal. (NÃO IMPLEMENTADO)
 
 ---
 ## ✅ Extras Task List
