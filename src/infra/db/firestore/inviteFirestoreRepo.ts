@@ -47,9 +47,7 @@ export class InviteFirestoreRepo implements AddInviteRepo, DeleteInviteRepo, Upd
 
     if (!inviteRef.empty) {
       const invites = inviteRef.docs.map((ref: FirebaseFirestore.QueryDocumentSnapshot) => { 
-        const inviteData = ref.data()
-        inviteData.date = inviteData.date.toDate()
-        return { id: ref.id, ...inviteData } 
+        return ref.data() 
       })
       
       return invites as InviteModel[]

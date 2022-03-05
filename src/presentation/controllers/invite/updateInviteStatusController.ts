@@ -21,7 +21,7 @@ export class UpdateInviteStatusController implements Controller {
 
       await this.updateInviteStatus.updateStatus({ id, status, userId })
 
-      return ok({ message: 'Invite status updated succesfully' })
+      return ok()
     } catch (error) {
       return serverError(error)
     }

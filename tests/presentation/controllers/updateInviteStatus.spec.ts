@@ -126,6 +126,6 @@ describe('Invite Controller', () => {
     const httpRequest = makeFakeRequest('anything')
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse).toEqual(ok({ message: 'Invite status updated succesfully' }))
+    expect(httpResponse).toEqual(ok())
   })
 })
