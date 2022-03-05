@@ -147,7 +147,7 @@ describe('Invite Routes', () => {
     })
 
     describe('without accessToken', () => {
-      test('Should return 403 and an invite status update without accessToken', async () => {
+      test('Should return 403 in update without accessToken', async () => {
         await request(app)
           .patch('/api/invite_status/invite_id')
           .send()
@@ -186,6 +186,57 @@ describe('Invite Routes', () => {
           .set('x-access-token', accessToken)
           .send()
           .expect(404)
+      })
+    })
+  })
+
+  describe('GET /invites', () => {
+    beforeAll(() => {
+      FirestoreHelper.connect()
+    })
+    
+    afterAll(async () => {
+      await FirestoreHelper.deleteCollection('invites', 100)
+    })
+
+    describe('without accessToken', () => {
+      test('Should return 403 in get without accessToken', async () => {
+        await request(app)
+          .get('/api/invites')
+          .expect(403)
+      })
+    })
+
+    describe('with accessToken', () => {
+      beforeAll(async () => {
+        await FirestoreHelper.deleteCollection('users', 100)
+        const userDoc = FirestoreHelper.getCollection('users').doc()
+        accessToken = sign({ id: userDoc.id }, env.jwtSecret)
+        const userObject = { 
+          id: userDoc.id, 
+          ...makeAddUser(), 
+          role: 'user',
+          accessToken: accessToken
+        }
+        await userDoc.set(userObject)
+        await FirestoreHelper.getCollection('invites').doc('invite_id').set(makeInvite(date))
+      })
+
+      test('Should return 200 on get success without a query', async () => {
+        await request(app)
+          .get('/api/invites')
+          .set('x-access-token', accessToken)
+          .expect(200)
+      })
+
+      test('Should return 200 on get success with query', async () => {
+        await request(app)
+          .get('/api/invites')
+          .set('x-access-token', accessToken)
+          .query({
+            toMe: true
+          })
+          .expect(200)
       })
     })
   })
