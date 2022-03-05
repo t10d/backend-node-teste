@@ -1,3 +1,4 @@
+import { InviteModel } from "../../../../src/domain/models"
 import { AddInviteModel } from "../../../../src/domain/useCases"
 import { UpdateInviteStatusModel } from "../../../../src/domain/useCases/updateInviteStatus"
 import { InviteFirestoreRepo } from "../../../../src/infra/db/firestore/inviteFirestoreRepo"
@@ -22,10 +23,20 @@ const makeAddInvite = (date: Date): AddInviteModel => ({
   budgetId: 'budget_id'
 })
 
-const makeFakeInviteData = (): UpdateInviteStatusModel => ({
+const makeFakeUpdateInviteData = (): UpdateInviteStatusModel => ({
   id: 'invite_id',
   status: 'any_status',
   userId: 'to_user_id',
+})
+
+const makeFakeInviteData = (date): InviteModel => ({
+  id: 'invite_id',
+  description: 'invite_desc',
+  userId: 'from_user_id',
+  to: 'to_user_id',
+  date: date,
+  budgetId: 'budget_id',
+  status: 'any_status'
 })
 
 const date = new Date()
@@ -103,7 +114,7 @@ describe('Invite Repository', () => {
       const { sut } = makeSUT()
 
       FirestoreHelper.db.collection('invites').doc('invite_id').set(makeAddInvite(date))
-      const invite = await sut.updateStatus(makeFakeInviteData())
+      const invite = await sut.updateStatus(makeFakeUpdateInviteData())
 
       expect(invite).toEqual(true)
     })
@@ -113,7 +124,7 @@ describe('Invite Repository', () => {
 
       await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
 
-      const invite = await sut.updateStatus(makeFakeInviteData())
+      const invite = await sut.updateStatus(makeFakeUpdateInviteData())
 
       expect(invite).toBeNull()
     })
@@ -123,9 +134,35 @@ describe('Invite Repository', () => {
 
       await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
       await FirestoreHelper.getCollection('users').doc('to_user_id').delete()
-      const invite = await sut.updateStatus(makeFakeInviteData())
+      const invite = await sut.updateStatus(makeFakeUpdateInviteData())
 
       expect(invite).toBeNull()
+    })
+  })
+
+  describe('getAll', () => {
+    test('Should return a a list of invites on getAll success', async () => {
+      const { sut } = makeSUT()
+
+      FirestoreHelper.db.collection('invites').doc('invite_id').set({ ...makeAddInvite(date), status: 'any_status' })
+
+      const sendedInvites = await sut.getAll('from_user_id')
+      expect(sendedInvites).toContainEqual(makeFakeInviteData(date))
+
+      const receivedInvites = await sut.getAll('to_user_id', true)
+      expect(receivedInvites).toContainEqual(makeFakeInviteData(date))
+    })
+
+    test('Should return an empty array if not found', async () => {
+      const { sut } = makeSUT()
+
+      await FirestoreHelper.getCollection('invites').doc('invite_id').delete()
+
+      const sendedInvites = await sut.getAll('from_user_id')
+      expect(sendedInvites).toEqual([])
+
+      const receivedInvites = await sut.getAll('to_user_id', true)
+      expect(receivedInvites).toEqual([])
     })
   })
 })
