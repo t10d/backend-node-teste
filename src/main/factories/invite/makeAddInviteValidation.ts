@@ -4,7 +4,7 @@ import { Validation } from "../../../presentation/interfaces/validation"
 
 export const makeAddInviteValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  for (const field of ['description', 'to', 'date', 'budgetId']) {
+  for (const field of ['description', 'to', 'budgetId']) {
     validations.push(new RequiredFieldValidation(field))
   }
   return new ValidationComposite(validations)
