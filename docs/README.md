@@ -34,34 +34,46 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
 
-Implementações futuras
-- ⬜ ⬜ Visualizar gastos compartilhados com o usuário.
-- ⬜ ⬜ Intejar validador de identidade para não permitir alterações em documentos que o usário não possui acesso.
-- ⬜ ⬜ Fazer autenticação nativa do Firebase.
-
 ---
 ## ✅ Extras Task List
 
 - ✅ Documentação em Swagger.
 - ✅ Docker.
+
+---
+## ✔️ Implementações futuras
+- ⬜ ⬜ Visualizar gastos compartilhados com o usuário.
+- ⬜ ⬜ Intejar validador de identidade para não permitir alterações em documentos que o usário não possui acesso.
+- ⬜ ⬜ Fazer autenticação nativa do Firebase.
+- ⬜ ⬜ Otimizar testes de integração
+  
+---
+## 👁️ Cobertura de Testes
+**98.76%** Statements `481/487` | **95.08%** Branches `58/61` | **99.21%** Functions `126/127` | **99.11%** Lines `446/450` <p>
+Test Suites *(passed/total)* **53**/53 | Tests *(passed/total)* **220**/220
+
+---
 ## 🗂️ Estrutura de Pastas
 ![](folder_structure.png)
+
+---
 ## 🧱 Tecnologias utilizadas
 
 - Node.js com Typescript.
-- Firestore para persistência de dados.
+- Firestore.
 - Testes automatizados com Jest.
 - Arquitetura REST.
-- Swagger Documentation.
+- Swagger.
 - Docker.
-- Husky para lint-staged.
-
+- Husky para pre-commit e pre-push scripts.
+---
 ## 💻 Setup de Desenvolvimento
 Para setup de desenvolvimento basta fazer seguir os passos a seguir:
 1. Clone do repositório.
 2. Executar `npm install`
-3. Copiar a chave do Firestore para ./keys
-4. Executar `npm run dev`
+3. Caso deseje usar o Husky execute `npx husky install`
+4. Copiar a chave do Firestore para ./keys
+5. Executar `npm run dev`
 
 ## 🔍 Testes
 - Testes de unidade com `npm run test:unit`
