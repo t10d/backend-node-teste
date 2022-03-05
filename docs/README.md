@@ -16,7 +16,7 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 ---
 
 ## 🔎 Casos de Uso
-(Legenda: ✅ Criado, 📝 Documentado. ⬜ Pendente)
+(Legenda: ✅ Criado, 📝 Documentado, ⬜ Pendente)
 - ✅ 📝 Autenticação e acesso à plataforma.
 - ✅ 📝 Criação de orçamento mensal.
 - ✅ 📝 Registro de gastos.
@@ -26,15 +26,15 @@ Para ajudar Sérgio a desenvolver seu projeto, ele precisa que você elabore um 
 Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o seu progresso com outros usuários e para isso precisará dos seguintes recursos:
 
 - ✅ 📝 Enviar convite de acompanhamento para usuários já cadastrados na plataforma.
-- ✅ ⬜ Cancelar um convite.
+- ✅ 📝 Cancelar um convite.
 - ✅ 📝 Aprovar uma solicitação de convite.
 - ✅ 📝 Rejeitar um solicitação de convite.
-- ✅ ⬜ Visualizar convites recebidos.
-- ✅ ⬜ Visualizar convites enviados.
+- ✅ 📝 Visualizar convites recebidos.
+- ✅ 📝 Visualizar convites enviados.
 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
 
-Implementações futuras e obrigatórias
+Implementações futuras
 - ⬜ ⬜ Visualizar gastos compartilhados com o usuário.
 - ⬜ ⬜ Intejar validador de identidade para não permitir alterações em documentos que o usário não possui acesso.
 - ⬜ ⬜ Fazer autenticação nativa do Firebase.
@@ -44,9 +44,6 @@ Implementações futuras e obrigatórias
 
 - ✅ Documentação em Swagger.
 - ✅ Docker.
-## 👁️ Cobertura de Testes
-A descrição da cobertura de testes está disponível em [TESTS](TESTS.md)
-
 ## 🗂️ Estrutura de Pastas
 ![](folder_structure.png)
 ## 🧱 Tecnologias utilizadas
