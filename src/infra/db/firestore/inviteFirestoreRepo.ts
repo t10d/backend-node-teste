@@ -5,8 +5,9 @@ import { AddInviteModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../../helpers/firestoreHelper"
 import { DeleteInviteRepo } from "../../../data/interfaces/db/invite/deleteInviteRepo"
 import { UpdateInviteStatusModel } from "../../../domain/useCases/updateInviteStatus"
+import { GetInvites } from "../../../domain/useCases/GetInvites"
 
-export class InviteFirestoreRepo implements AddInviteRepo, DeleteInviteRepo, UpdateInviteStatusRepo {
+export class InviteFirestoreRepo implements AddInviteRepo, DeleteInviteRepo, UpdateInviteStatusRepo, GetInvites {
   async add (inviteData: AddInviteModel): Promise<InviteModel> {
     const usersnap = await FirestoreHelper.getCollection('users').doc(inviteData.to).get()
     if (usersnap.exists) {
@@ -39,5 +40,21 @@ export class InviteFirestoreRepo implements AddInviteRepo, DeleteInviteRepo, Upd
     }
     
     return null
+  }
+
+  async getAll(userId: string, toMe?: boolean): Promise<InviteModel[]> {
+    const inviteRef = await FirestoreHelper.getCollection('invites').where(toMe ? 'to' : 'userId', '==', userId).get()
+
+    if (!inviteRef.empty) {
+      const invites = inviteRef.docs.map((ref: FirebaseFirestore.QueryDocumentSnapshot) => { 
+        const inviteData = ref.data()
+        inviteData.date = inviteData.date.toDate()
+        return { id: ref.id, ...inviteData } 
+      })
+      
+      return invites as InviteModel[]
+    }
+
+    return []
   }
 }
