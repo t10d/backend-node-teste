@@ -20,18 +20,22 @@ export class UpdateExpenseController implements Controller {
         budgetId: httpRequest.body.budgetId as string
       }
 
+      // remove undefined values from request
+      for (const key in request) {
+        if (!request[key]) delete request[key]
+      }
+
       const error = this.validation.validate(request)
 
       if (error) {
         return badRequest(error)
       }
 
-      // remove undefined values from request
-      for (const key in request) {
-        if (!request[key]) delete request[key]
-      }
-
       const expense = await this.updateExpense.update(request)
+
+      if (!expense) {
+        return badRequest(new Error("Budget/Expense not found"))
+      }
 
       return ok(expense)
     } catch (error) {
