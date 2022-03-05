@@ -67,7 +67,7 @@ Test Suites *(passed/total)* **53**/53 | Tests *(passed/total)* **220**/220
 - Docker.
 - Husky para pre-commit e pre-push scripts.
 ---
-## 💻 Setup de Desenvolvimento
+## 💻 Executando e Desenvolvendo
 Para setup de desenvolvimento basta fazer seguir os passos a seguir:
 1. Clone do repositório.
 2. Executar `npm install`
@@ -75,11 +75,16 @@ Para setup de desenvolvimento basta fazer seguir os passos a seguir:
 4. Copiar a chave do Firestore para ./keys
 5. Executar `npm run dev`
 
-## 🔍 Testes
-- Testes de unidade com `npm run test:unit`
-- Testes de integração com `npm run test:integration`
-- Para gerar o coverage execute `npm run test:coverage`
+---
 
 ## 🚀 Build de Produção (docker)
 Execute `npm run up`
+
+---
+## 🔍 Testes
+- Testes de unidade com `npm run test:unit`
+- Testes de integração com `npm run test:integration`
+- Para executar o coverage execute `npm run test:coverage`
+
+
 
