@@ -20,7 +20,7 @@ export class AddInviteController implements Controller {
       const { description, userId, to, budgetId } = httpRequest.body
 
       const invite = await this.addInvite.add({
-        description, userId, to, date: new Date(), budgetId
+        description, userId, to, budgetId
       })
 
       if (!invite) {

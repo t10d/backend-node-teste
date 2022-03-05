@@ -4,8 +4,8 @@ export interface AddInviteModel {
   description?: string,
   userId?: string,
   to: string,
-  date: Date,
-  budgetId: string
+  budgetId: string,
+  date?: Date
 }
 
 export interface AddInvite {

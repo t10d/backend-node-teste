@@ -11,7 +11,6 @@ const makeFakeRequest = (date: Date): HttpRequest => ({
     description: 'invite_desc',
     userId: 'from_user_id',
     to: 'to_user_id',
-    date: date,
     budgetId: 'budget_id'
   }
 })
@@ -26,7 +25,7 @@ const makeInviteModel = (date: Date): InviteModel => ({
   status: 'pending'
 })
 
-let date = new Date()
+const date = new Date()
 
 const makeAddInviteStub = (): AddInvite => {
   class AddInviteStub implements AddInvite {
@@ -67,10 +66,6 @@ const makeSUT = (): SUTTypes => {
 }
 
 describe('Invite Controller', () => {
-  beforeAll(() => {
-    date = new Date()
-  })
-
   describe('AddInvite', () => {
     test('Should call AddInvite with correct values', async () => {
       const { sut, addInviteStub } = makeSUT()
