@@ -15,12 +15,12 @@ const makeSUT = (): SUTTypes => {
   }
 }
 
-const makeAddInvite = (date: Date): AddInviteModel => ({
+const makeAddInvite = (date): AddInviteModel => ({
   description: 'invite_desc',
   userId: 'from_user_id',
   to: 'to_user_id',
-  date: date,
-  budgetId: 'budget_id'
+  budgetId: 'budget_id',
+  date: date
 })
 
 const makeFakeUpdateInviteData = (): UpdateInviteStatusModel => ({
@@ -144,7 +144,7 @@ describe('Invite Repository', () => {
     test('Should return a a list of invites on getAll success', async () => {
       const { sut } = makeSUT()
 
-      FirestoreHelper.db.collection('invites').doc('invite_id').set({ ...makeAddInvite(date), status: 'any_status' })
+      await FirestoreHelper.db.collection('invites').doc('invite_id').set({ id: 'invite_id',...makeAddInvite(date), status: 'any_status' })
 
       const sendedInvites = await sut.getAll('from_user_id')
       expect(sendedInvites).toContainEqual(makeFakeInviteData(date))

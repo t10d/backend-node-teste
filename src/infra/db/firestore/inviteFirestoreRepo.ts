@@ -12,7 +12,7 @@ export class InviteFirestoreRepo implements AddInviteRepo, DeleteInviteRepo, Upd
     const usersnap = await FirestoreHelper.getCollection('users').doc(inviteData.to).get()
     if (usersnap.exists) {
       const invite = FirestoreHelper.getCollection('invites').doc()
-      const inviteObject = { id: invite.id, status: 'pending', ...inviteData }
+      const inviteObject = { id: invite.id, status: 'pending', date: new Date(), ...inviteData }
 
       await invite.set(inviteObject)
       
@@ -47,7 +47,8 @@ export class InviteFirestoreRepo implements AddInviteRepo, DeleteInviteRepo, Upd
 
     if (!inviteRef.empty) {
       const invites = inviteRef.docs.map((ref: FirebaseFirestore.QueryDocumentSnapshot) => { 
-        return ref.data() 
+        const newDate = ref.get('date').toDate()
+        return { id: ref.id, ...ref.data(), date: newDate } 
       })
       
       return invites as InviteModel[]
