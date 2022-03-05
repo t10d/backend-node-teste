@@ -6,6 +6,10 @@ import { AddBudgetModel } from "../../../domain/useCases"
 import { FirestoreHelper } from "../../helpers/firestoreHelper"
 
 export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, DeleteBudgetByIdRepo {
+  constructor(
+    private readonly inviteFirestoreRepo?: any
+  ) {}
+
   async add (budgetData: AddBudgetModel): Promise<BudgetModel> {
     const budget = FirestoreHelper.getCollection('budgets').doc()
     const budgetObject = { id: budget.id, ...budgetData }
@@ -15,7 +19,7 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
     return new Promise(resolve => resolve(budgetObject))
   }
 
-  async getById(id: string): Promise<BudgetModel> {
+  async getById (id: string): Promise<BudgetModel> {
     const budgetRef = FirestoreHelper.getCollection('budgets').doc(id)
     const budgetSnap = (await budgetRef.get())
     if (budgetSnap.exists) {
@@ -32,7 +36,18 @@ export class BudgetFirestoreRepo implements AddBudgetRepo, GetBudgetByIdRepo, De
     return null
   }
 
-  async deleteById(id: string): Promise<string> {
+  // TODO: FUTURE IMPLEMENTATION
+  // async getShared (userId: string): Promise<BudgetModel[]> {
+  //   const invites = this.inviteFirestoreRepo.getById (userId)
+  //   if (invites) {
+  //     const budgets: BudgetModel[] = invites.map(
+  //       (async (invite: any) => await this.getById (invite.budgetId))
+  //     )
+  //     return await Promise.all(budgets)
+  //   }
+  // }
+
+  async deleteById (id: string): Promise<string> {
     const budgetRef = FirestoreHelper.getCollection('budgets').doc(id)
     const budgetSnap = (await budgetRef.get())
     if (budgetSnap.exists) {
