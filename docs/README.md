@@ -30,8 +30,8 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 - ✅ ⬜ Cancelar um convite.
 - ✅ 📝 Aprovar uma solicitação de convite.
 - ✅ 📝 Rejeitar um solicitação de convite.
-- ⬜ ⬜ Visualizar convites recebidos.
-- ⬜ ⬜ Visualizar convites enviados.
+- ✅ ⬜ Visualizar convites recebidos.
+- ✅ ⬜ Visualizar convites enviados.
 
 **Obs.:** Um convidado deve **apenas poder <u>visualizar</u>** o progresso do orçamento mensal.
 
