@@ -32,12 +32,12 @@ export class UserFirestoreRepo implements AddUserRepo, GetUserByEmailRepo, Updat
   }
 
   async getByToken(token: string, role?: string): Promise<UserModel> {
-    const usersCol = FirestoreHelper.getCollection('users')
-    usersCol.where('accessToken', '==', token)
+    let usersQuery: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>
+    usersQuery = FirestoreHelper.getCollection('users').where('accessToken', '==', token)
     if (role) {
-      usersCol.where('role', '==', role)
+      usersQuery = usersQuery.where('role', '==', role)
     }
-    const usersSnapshot = await usersCol.get()
+    const usersSnapshot = await usersQuery.get()
     if (!usersSnapshot.empty) {
       const userDoc = usersSnapshot.docs[0].data()
       return {
