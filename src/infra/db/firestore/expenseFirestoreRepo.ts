@@ -27,7 +27,7 @@ export class ExpenseFirestoreRepo implements AddExpenseRepo, GetExpenseByIdRepo,
       const expenseRef = budgetRef.collection('expenses').doc(expenseData.id)
       const firestoreExpenseData = (await expenseRef.get()).data()
       
-      if (!expenseData) return null
+      if (!firestoreExpenseData) return null
       
       await expenseRef.update(expenseData)
       
