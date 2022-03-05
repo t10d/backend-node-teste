@@ -3,6 +3,7 @@ import { expressAdapter } from "../adapters/expressAdapter"
 import { expressMiddlewareAdapter } from "../adapters/expressMiddlewareAdapter"
 import { makeAddInviteController } from "../factories/invite/makeAddInviteController"
 import { makeDeleteInviteController } from "../factories/invite/makeDeleteInviteController"
+import { makeGetInvitesController } from "../factories/invite/makeGetInvitesController"
 import { makeAuthMiddleware } from "../factories/middlewares/makeAuthMiddleware"
 
 export default (router: Router): void => {
@@ -10,4 +11,5 @@ export default (router: Router): void => {
   router.post('/invite', userAuth, expressAdapter(makeAddInviteController()))
   router.delete('/invite/:id', userAuth, expressAdapter(makeDeleteInviteController()))
   router.patch('/invite_status/:id', userAuth, expressAdapter(makeDeleteInviteController()))
+  router.get('/invites', userAuth, expressAdapter(makeGetInvitesController()))
 }
