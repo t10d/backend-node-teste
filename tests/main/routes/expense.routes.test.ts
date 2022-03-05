@@ -134,7 +134,6 @@ describe('Expense Routes', () => {
         
         delete fakeExpense['budgetId']
 
-        console.log(fakeExpense)
         await request(app)
           .put('/api/expense/fake-id')
           .set('x-access-token', accessToken)
