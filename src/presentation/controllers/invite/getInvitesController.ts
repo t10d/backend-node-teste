@@ -10,13 +10,14 @@ export class GetInvitesController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { userId } = httpRequest.body
-      const toMe = httpRequest.query ? httpRequest.query.toMe : undefined
+
+      const toMeString = httpRequest.query ? httpRequest.query.toMe : false
+      const toMe = (toMeString === 'true')
 
       const invites = await this.getInvites.getAll(userId, toMe)
 
       return ok(invites)
     } catch (error) {
-      console.error(error)
       return serverError(error)
     }
   }

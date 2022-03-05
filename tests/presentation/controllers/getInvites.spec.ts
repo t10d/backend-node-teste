@@ -16,7 +16,7 @@ const makeFakeReceivedRequest = (): HttpRequest => ({
     userId: 'user_id',
   },
   query: {
-    toMe: true
+    toMe: 'true'
   }
 })
 
@@ -65,7 +65,7 @@ describe('GetInvites Controller', () => {
 
       const httpSendedRequest = makeFakeSendedRequest()
       await sut.handle(httpSendedRequest)
-      expect(getAll).toHaveBeenCalledWith('user_id', undefined)
+      expect(getAll).toHaveBeenCalledWith('user_id', false)
 
       const httpReceivedRequest = makeFakeReceivedRequest()
       await sut.handle(httpReceivedRequest)
