@@ -39,7 +39,7 @@ describe('Identity Validation', () => {
 
   test('Should throw if validateIdentity throws', () => {
     const { sut, identityValidationRepo } = makeSut()
-    console.log(sut)
+
     jest.spyOn(identityValidationRepo, 'validateIdentity').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
