@@ -20,7 +20,7 @@ export class DeleteBudgetController implements Controller {
 
       await this.deleteBudget.deleteById(id)
 
-      return ok(true)
+      return ok()
     } catch (error) {
       return serverError(error)
     }

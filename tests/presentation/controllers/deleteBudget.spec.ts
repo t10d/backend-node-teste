@@ -102,6 +102,6 @@ describe('DeleteBudget Controller', () => {
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
 
-    expect(httpResponse).toEqual(ok(true))
+    expect(httpResponse).toEqual(ok())
   })
 })
