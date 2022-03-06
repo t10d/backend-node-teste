@@ -42,10 +42,16 @@ Para conseguir seguir o seu orçamento de gastos Sérgio poderá compartilhar o 
 
 ---
 ## ✔️ Implementações futuras
+- ⬜ ⬜ Deletar gastos criados.
 - ⬜ ⬜ Visualizar gastos compartilhados com o usuário.
-- ⬜ ⬜ Intejar validador de identidade para não permitir alterações em documentos que o usário não possui acesso.
+- ⬜ ⬜ Integrar validador para não permitir alterações em documentos que não pertence ao usuário.
+- ⬜ ⬜ Atualizar total do orçamento automaticamente.
 - ⬜ ⬜ Fazer autenticação nativa do Firebase.
-- ⬜ ⬜ Otimizar testes de integração
+- ⬜ ⬜ Otimizar testes de integração do Firebase.
+- ⬜ ⬜ Atualizar e retornar o token na header em todas as requisições que precisam de autenticação.
+- ⬜ ⬜ Adicionar expiresIn no token.
+- ⬜ ⬜ Criar recursos administrativos.
+
   
 ---
 ## 👁️ Cobertura de Testes
