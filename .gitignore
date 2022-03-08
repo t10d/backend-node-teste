@@ -1,0 +1,13 @@
+# config
+.vscode
+keys
+.env
+
+# node
+node_modules
+
+# tests
+coverage
+
+# build
+dist
